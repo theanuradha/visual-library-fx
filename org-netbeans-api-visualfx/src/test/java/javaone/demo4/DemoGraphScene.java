@@ -36,44 +36,44 @@ import org.netbeans.api.visual.widget.Widget;
  */
 public class DemoGraphScene extends GraphScene.StringGraph {
 
-    private static final Border BORDER_4 = BorderFactory.createLineBorder (4);
+	private static final Border BORDER_4 = BorderFactory.createLineBorder(4);
 
-    private LayerWidget mainLayer;
-    private LayerWidget connectionLayer;
+	private LayerWidget mainLayer;
+	private LayerWidget connectionLayer;
 
-    private WidgetAction moveAction = ActionFactory.createMoveAction ();
+	private WidgetAction moveAction = ActionFactory.createMoveAction();
 
-    public DemoGraphScene() {
-        mainLayer = new LayerWidget (this);
-        addChild(mainLayer);
+	public DemoGraphScene() {
+		mainLayer = new LayerWidget(this);
+		addChild(mainLayer);
 
-        connectionLayer = new LayerWidget (this);
-        addChild(connectionLayer);
-    }
+		connectionLayer = new LayerWidget(this);
+		addChild(connectionLayer);
+	}
 
-    protected Widget attachNodeWidget (String node) {
-        LabelWidget label = new LabelWidget (this, node);
-        label.setBorder (BORDER_4);
-        label.getActions ().addAction (moveAction);
-        mainLayer.addChild (label);
-        return label;
-    }
+	protected Widget attachNodeWidget(String node) {
+		LabelWidget label = new LabelWidget(this, node);
+		label.setBorder(BORDER_4);
+		label.getActions().addAction(moveAction);
+		mainLayer.addChild(label);
+		return label;
+	}
 
-    protected Widget attachEdgeWidget (String edge) {
-        ConnectionWidget connection = new ConnectionWidget (this);
-        connection.setTargetAnchorShape (AnchorShape.TRIANGLE_FILLED);
-        connectionLayer.addChild (connection);
-        return connection;
-    }
+	protected Widget attachEdgeWidget(String edge) {
+		ConnectionWidget connection = new ConnectionWidget(this);
+		connection.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
+		connectionLayer.addChild(connection);
+		return connection;
+	}
 
-    protected void attachEdgeSourceAnchor (String edge, String oldSourceNode, String sourceNode) {
-        Widget w = sourceNode != null ? findWidget (sourceNode) : null;
-        ((ConnectionWidget) findWidget (edge)).setSourceAnchor (AnchorFactory.createRectangularAnchor (w));
-    }
+	protected void attachEdgeSourceAnchor(String edge, String oldSourceNode, String sourceNode) {
+		Widget w = sourceNode != null ? findWidget(sourceNode) : null;
+		((ConnectionWidget) findWidget(edge)).setSourceAnchor(AnchorFactory.createRectangularAnchor(w));
+	}
 
-    protected void attachEdgeTargetAnchor (String edge, String oldTargetNode, String targetNode) {
-        Widget w = targetNode != null ? findWidget (targetNode) : null;
-        ((ConnectionWidget) findWidget (edge)).setTargetAnchor (AnchorFactory.createRectangularAnchor (w));
-    }
+	protected void attachEdgeTargetAnchor(String edge, String oldTargetNode, String targetNode) {
+		Widget w = targetNode != null ? findWidget(targetNode) : null;
+		((ConnectionWidget) findWidget(edge)).setTargetAnchor(AnchorFactory.createRectangularAnchor(w));
+	}
 
 }

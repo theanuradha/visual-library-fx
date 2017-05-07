@@ -27,8 +27,8 @@ import org.netbeans.api.visual.vmd.VMDGraphScene;
  */
 public class VMDColorSchemeTest {
 
-    public static void main (String[] args) {
-        VMDTest.runScene (new VMDGraphScene (VMDFactory.getNetBeans60Scheme ()));
-    }
+	public static void main(String[] args) {
+		VMDTest.runScene(new VMDGraphScene(VMDFactory.getNetBeans60Scheme()));
+	}
 
 }

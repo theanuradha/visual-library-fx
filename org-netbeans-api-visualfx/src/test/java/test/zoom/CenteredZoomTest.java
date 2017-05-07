@@ -18,29 +18,30 @@
  */
 package test.zoom;
 
-import test.general.StringGraphScene;
-import test.SceneSupport;
+import java.awt.Point;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.widget.Widget;
 
-import java.awt.*;
+import test.SceneSupport;
+import test.general.StringGraphScene;
 
 /**
  * @author David Kaspar
  */
 public class CenteredZoomTest {
 
-    public static void main (String[] args) {
-        StringGraphScene scene = new StringGraphScene ();
-        scene.getActions ().addAction (ActionFactory.createCenteredZoomAction (1.1));
-        scene.getActions ().addAction (ActionFactory.createPanAction ());
-        for (int a = 0; a < 100; a ++) {
-            Widget widget = scene.addNode (Integer.toString (a));
-            int y = (int) (Math.random () * 2000);
-            int x = (int) (Math.random () * 2000);
-            widget.setPreferredLocation (new Point (x, y));
-        }
-        SceneSupport.show (scene);
-    }
+	public static void main(String[] args) {
+		StringGraphScene scene = new StringGraphScene();
+		scene.getActions().addAction(ActionFactory.createCenteredZoomAction(1.1));
+		scene.getActions().addAction(ActionFactory.createPanAction());
+		for (int a = 0; a < 100; a++) {
+			Widget widget = scene.addNode(Integer.toString(a));
+			int y = (int) (Math.random() * 2000);
+			int x = (int) (Math.random() * 2000);
+			widget.setPreferredLocation(new Point(x, y));
+		}
+		SceneSupport.show(scene);
+	}
 
 }

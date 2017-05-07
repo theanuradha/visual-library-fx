@@ -18,6 +18,8 @@
  */
 package test.devolve;
 
+import java.awt.Image;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.graph.GraphScene;
@@ -27,81 +29,80 @@ import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
 import org.netbeans.api.visual.widget.general.IconNodeWidget;
 import org.openide.util.Utilities;
-import test.SceneSupport;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
 import javafx.scene.input.MouseButton;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class DevolveTest extends GraphScene.StringGraph {
 
-    private static final Image IMAGE = Utilities.loadImage ("test/resources/displayable_64.png"); // NOI18N
+	private static final Image IMAGE = Utilities.loadImage("test/resources/displayable_64.png"); // NOI18N
 
-    private LayerWidget mainLayer;
-    private SceneLayout devolveLayout;
-    private DevolveTest.MyAction action = new DevolveTest.MyAction ();
-    private WidgetAction moveAction = ActionFactory.createMoveAction ();
+	private LayerWidget mainLayer;
+	private SceneLayout devolveLayout;
+	private DevolveTest.MyAction action = new DevolveTest.MyAction();
+	private WidgetAction moveAction = ActionFactory.createMoveAction();
 
-    public DevolveTest () {
-        LayerWidget backgroundLayer = new LayerWidget (this);
-        addChild (backgroundLayer);
+	public DevolveTest() {
+		LayerWidget backgroundLayer = new LayerWidget(this);
+		addChild(backgroundLayer);
 
-        addChild (mainLayer = new LayerWidget (this));
+		addChild(mainLayer = new LayerWidget(this));
 
-        devolveLayout = LayoutFactory.createDevolveWidgetLayout (mainLayer, LayoutFactory.createHorizontalFlowLayout (), true);
+		devolveLayout = LayoutFactory.createDevolveWidgetLayout(mainLayer, LayoutFactory.createHorizontalFlowLayout(),
+				true);
 
-        getActions ().addAction (ActionFactory.createZoomAction ());
-        getActions ().addAction (ActionFactory.createPanAction ());
-        getActions ().addAction (action);
-        getActions ().addAction (ActionFactory.createRectangularSelectAction (this, backgroundLayer));
-    }
+		getActions().addAction(ActionFactory.createZoomAction());
+		getActions().addAction(ActionFactory.createPanAction());
+		getActions().addAction(action);
+		getActions().addAction(ActionFactory.createRectangularSelectAction(this, backgroundLayer));
+	}
 
-    protected Widget attachNodeWidget (String node) {
-        IconNodeWidget widget = new IconNodeWidget (this);
-        widget.setImage (IMAGE);
-        widget.setLabel (node);
-        mainLayer.addChild (widget);
+	protected Widget attachNodeWidget(String node) {
+		IconNodeWidget widget = new IconNodeWidget(this);
+		widget.setImage(IMAGE);
+		widget.setLabel(node);
+		mainLayer.addChild(widget);
 
-        widget.getActions ().addAction (createSelectAction ());
-        widget.getActions ().addAction (createObjectHoverAction ());
-        widget.getActions ().addAction (moveAction);
+		widget.getActions().addAction(createSelectAction());
+		widget.getActions().addAction(createObjectHoverAction());
+		widget.getActions().addAction(moveAction);
 
-        return widget;
-    }
+		return widget;
+	}
 
-    protected Widget attachEdgeWidget (String edge) {
-        return null;
-    }
+	protected Widget attachEdgeWidget(String edge) {
+		return null;
+	}
 
-    protected void attachEdgeSourceAnchor (String edge, String oldSourceNode, String sourceNode) {
-    }
+	protected void attachEdgeSourceAnchor(String edge, String oldSourceNode, String sourceNode) {
+	}
 
-    protected void attachEdgeTargetAnchor (String edge, String oldTargetNode, String targetNode) {
-    }
+	protected void attachEdgeTargetAnchor(String edge, String oldTargetNode, String targetNode) {
+	}
 
-    public class MyAction extends WidgetAction.Adapter {
+	public class MyAction extends WidgetAction.Adapter {
 
-        public State mouseClicked (Widget widget, WidgetMouseEvent event) {
-            if (event.getButton () != MouseButton.PRIMARY) {
-                devolveLayout.invokeLayout ();
-                return State.CONSUMED;
-            }
-            return State.REJECTED;
-        }
+		public State mouseClicked(Widget widget, WidgetMouseEvent event) {
+			if (event.getButton() != MouseButton.PRIMARY) {
+				devolveLayout.invokeLayout();
+				return State.CONSUMED;
+			}
+			return State.REJECTED;
+		}
 
-    }
+	}
 
-    public static void main (String[] args) {
-        DevolveTest scene = new DevolveTest ();
-        scene.addNode ("form [Form]");
-        scene.addNode ("list [List]");
-        scene.addNode ("canvas [Canvas]");
-        scene.addNode ("alert [Alert]");
-        scene.devolveLayout.invokeLayout ();
-        SceneSupport.show (scene);
-    }
+	public static void main(String[] args) {
+		DevolveTest scene = new DevolveTest();
+		scene.addNode("form [Form]");
+		scene.addNode("list [List]");
+		scene.addNode("canvas [Canvas]");
+		scene.addNode("alert [Alert]");
+		scene.devolveLayout.invokeLayout();
+		SceneSupport.show(scene);
+	}
 
 }

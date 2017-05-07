@@ -18,62 +18,67 @@
  */
 package test.sceneresize;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Rectangle;
+
+import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.anchor.AnchorFactory;
 import org.netbeans.api.visual.anchor.AnchorShape;
 import org.netbeans.api.visual.border.BorderFactory;
+import org.netbeans.api.visual.router.RouterFactory;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
-import org.netbeans.api.visual.router.RouterFactory;
-import org.netbeans.api.visual.action.ActionFactory;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class LimitedSceneTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
-        scene.setMaximumBounds (new Rectangle (0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE));
-        scene.getActions ().addAction (ActionFactory.createZoomAction ());
-        scene.getActions ().addAction (ActionFactory.createPanAction ());
+	public static void main(String[] args) {
+		Scene scene = new Scene();
+		scene.setMaximumBounds(new Rectangle(0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE));
+		scene.getActions().addAction(ActionFactory.createZoomAction());
+		scene.getActions().addAction(ActionFactory.createPanAction());
 
-        LayerWidget mainLayer = new LayerWidget (scene);
-        scene.addChild (mainLayer);
+		LayerWidget mainLayer = new LayerWidget(scene);
+		scene.addChild(mainLayer);
 
-        LayerWidget connLayer = new LayerWidget (scene);
-        scene.addChild (connLayer);
+		LayerWidget connLayer = new LayerWidget(scene);
+		scene.addChild(connLayer);
 
-        LabelWidget source = createLabel (mainLayer, "Source - scene is limited", 50, -20, Color.GREEN);
-        LabelWidget target = createLabel (mainLayer, "Target - scene does not expand to negative values", 550, 0, Color.GREEN);
-        createLabel (mainLayer, "Line must be routed around bottom side", 250, -20, Color.RED);
+		LabelWidget source = createLabel(mainLayer, "Source - scene is limited", 50, -20, Color.GREEN);
+		LabelWidget target = createLabel(mainLayer, "Target - scene does not expand to negative values", 550, 0,
+				Color.GREEN);
+		createLabel(mainLayer, "Line must be routed around bottom side", 250, -20, Color.RED);
 
-        ConnectionWidget conn = new ConnectionWidget (scene);
-        conn.setSourceAnchor (AnchorFactory.createRectangularAnchor (source));
-        conn.setTargetAnchor (AnchorFactory.createRectangularAnchor (target));
-        conn.setSourceAnchorShape (AnchorShape.TRIANGLE_HOLLOW);
-        conn.setTargetAnchorShape (AnchorShape.TRIANGLE_HOLLOW);
-        conn.setRouter (RouterFactory.createOrthogonalSearchRouter (mainLayer, connLayer));
-        connLayer.addChild (conn);
+		ConnectionWidget conn = new ConnectionWidget(scene);
+		conn.setSourceAnchor(AnchorFactory.createRectangularAnchor(source));
+		conn.setTargetAnchor(AnchorFactory.createRectangularAnchor(target));
+		conn.setSourceAnchorShape(AnchorShape.TRIANGLE_HOLLOW);
+		conn.setTargetAnchorShape(AnchorShape.TRIANGLE_HOLLOW);
+		conn.setRouter(RouterFactory.createOrthogonalSearchRouter(mainLayer, connLayer));
+		connLayer.addChild(conn);
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
-    private static LabelWidget createLabel (LayerWidget mainLayer, String label, int x, int y, Color color) {
-        LabelWidget widget = new LabelWidget (mainLayer.getScene (), label);
-        widget.setOpaque (true);
-        widget.setBackground (color);
-        widget.setBorder (BorderFactory.createLineBorder (1));
-        widget.setVerticalAlignment (LabelWidget.VerticalAlignment.CENTER);
-        widget.setPreferredLocation (new Point (x, y));
-        widget.setMinimumSize (new Dimension (0, 100));
-        widget.getActions ().addAction (ActionFactory.createMoveAction ());
-        mainLayer.addChild (widget);
-        return widget;
-    }
+	private static LabelWidget createLabel(LayerWidget mainLayer, String label, int x, int y, Color color) {
+		LabelWidget widget = new LabelWidget(mainLayer.getScene(), label);
+		widget.setOpaque(true);
+		widget.setBackground(color);
+		widget.setBorder(BorderFactory.createLineBorder(1));
+		widget.setVerticalAlignment(LabelWidget.VerticalAlignment.CENTER);
+		widget.setPreferredLocation(new Point(x, y));
+		widget.setMinimumSize(new Dimension(0, 100));
+		widget.getActions().addAction(ActionFactory.createMoveAction());
+		mainLayer.addChild(widget);
+		return widget;
+	}
 
 }

@@ -19,35 +19,36 @@
 
 package javaone.demo4;
 
-import org.netbeans.api.visual.widget.Widget;
-import test.SceneSupport;
+import java.awt.Point;
 
-import java.awt.*;
+import org.netbeans.api.visual.widget.Widget;
+
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class GraphDemo {
 
-    public static void main (String[] args) {
-        DemoGraphScene scene = new DemoGraphScene ();
+	public static void main(String[] args) {
+		DemoGraphScene scene = new DemoGraphScene();
 
-        String helloNodeID = "Hello";
-        String worldNodeID = "World";
-        String edge = "edge";
+		String helloNodeID = "Hello";
+		String worldNodeID = "World";
+		String edge = "edge";
 
-        Widget hello = scene.addNode (helloNodeID);
-        Widget world = scene.addNode (worldNodeID);
+		Widget hello = scene.addNode(helloNodeID);
+		Widget world = scene.addNode(worldNodeID);
 
-        scene.addEdge (edge);
+		scene.addEdge(edge);
 
-        scene.setEdgeSource(edge, helloNodeID);
-        scene.setEdgeTarget(edge, worldNodeID);
+		scene.setEdgeSource(edge, helloNodeID);
+		scene.setEdgeTarget(edge, worldNodeID);
 
-        hello.setPreferredLocation (new Point (0, 0));
-        world.setPreferredLocation (new Point (400, 200));
+		hello.setPreferredLocation(new Point(0, 0));
+		world.setPreferredLocation(new Point(400, 200));
 
-        SceneSupport.show(scene);
-    }
+		SceneSupport.show(scene);
+	}
 
 }

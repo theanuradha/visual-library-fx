@@ -18,97 +18,99 @@
  */
 package test.inplace;
 
+import java.awt.Image;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.TextFieldInplaceEditor;
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.EventProcessingType;
+import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.general.IconNodeWidget;
 import org.openide.util.Utilities;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class InplaceEditorTest extends GraphScene.StringGraph {
 
-    private static final Image IMAGE = Utilities.loadImage ("test/resources/displayable_64.png"); // NOI18N
+	private static final Image IMAGE = Utilities.loadImage("test/resources/displayable_64.png"); // NOI18N
 
-    private LayerWidget mainLayer;
+	private LayerWidget mainLayer;
 
-    private WidgetAction editorAction;
-    private WidgetAction moveAction = ActionFactory.createMoveAction ();
+	private WidgetAction editorAction;
+	private WidgetAction moveAction = ActionFactory.createMoveAction();
 
-    public InplaceEditorTest () {
-        addChild (mainLayer = new LayerWidget (this));
-        setKeyEventProcessingType (EventProcessingType.FOCUSED_WIDGET_AND_ITS_CHILDREN_AND_ITS_PARENTS);
+	public InplaceEditorTest() {
+		addChild(mainLayer = new LayerWidget(this));
+		setKeyEventProcessingType(EventProcessingType.FOCUSED_WIDGET_AND_ITS_CHILDREN_AND_ITS_PARENTS);
 
-        getActions ().addAction (ActionFactory.createZoomAction ());
-        getActions ().addAction (ActionFactory.createPanAction ());
-        getActions ().addAction (ActionFactory.createCycleObjectSceneFocusAction ());
+		getActions().addAction(ActionFactory.createZoomAction());
+		getActions().addAction(ActionFactory.createPanAction());
+		getActions().addAction(ActionFactory.createCycleObjectSceneFocusAction());
 
-        editorAction = ActionFactory.createInplaceEditorAction (new LabelTextFieldEditor ());
-    }
+		editorAction = ActionFactory.createInplaceEditorAction(new LabelTextFieldEditor());
+	}
 
-    protected Widget attachNodeWidget (String node) {
-        IconNodeWidget widget = new IconNodeWidget (this);
-        widget.setImage (IMAGE);
-        widget.setLabel (node);
-        mainLayer.addChild (widget);
+	protected Widget attachNodeWidget(String node) {
+		IconNodeWidget widget = new IconNodeWidget(this);
+		widget.setImage(IMAGE);
+		widget.setLabel(node);
+		mainLayer.addChild(widget);
 
-        widget.getActions ().addAction (createSelectAction ());
-        widget.getActions ().addAction (createObjectHoverAction ());
-        widget.getActions ().addAction (moveAction);
-        widget.getLabelWidget ().getActions ().addAction (editorAction);
+		widget.getActions().addAction(createSelectAction());
+		widget.getActions().addAction(createObjectHoverAction());
+		widget.getActions().addAction(moveAction);
+		widget.getLabelWidget().getActions().addAction(editorAction);
 
-        return widget;
-    }
+		return widget;
+	}
 
-    protected Widget attachEdgeWidget (String edge) {
-        return null;
-    }
+	protected Widget attachEdgeWidget(String edge) {
+		return null;
+	}
 
-    protected void attachEdgeSourceAnchor (String edge, String oldSourceNode, String sourceNode) {
-    }
+	protected void attachEdgeSourceAnchor(String edge, String oldSourceNode, String sourceNode) {
+	}
 
-    protected void attachEdgeTargetAnchor (String edge, String oldTargetNode, String targetNode) {
-    }
+	protected void attachEdgeTargetAnchor(String edge, String oldTargetNode, String targetNode) {
+	}
 
-    private class LabelTextFieldEditor implements TextFieldInplaceEditor {
+	private class LabelTextFieldEditor implements TextFieldInplaceEditor {
 
-        public boolean isEnabled (Widget widget) {
-            return true;
-        }
+		public boolean isEnabled(Widget widget) {
+			return true;
+		}
 
-        public String getText (Widget widget) {
-            return ((LabelWidget) widget).getLabel ();
-        }
+		public String getText(Widget widget) {
+			return ((LabelWidget) widget).getLabel();
+		}
 
-        public void setText (Widget widget, String text) {
-            ((LabelWidget) widget).setLabel (text);
-        }
+		public void setText(Widget widget, String text) {
+			((LabelWidget) widget).setLabel(text);
+		}
 
-    }
+	}
 
-    public static void main (String[] args) {
-        InplaceEditorTest scene = new InplaceEditorTest ();
+	public static void main(String[] args) {
+		InplaceEditorTest scene = new InplaceEditorTest();
 
-        scene.addNode ("double");
-        scene.addNode ("click");
-        scene.addNode ("on");
-        scene.addNode ("a label");
-        scene.addNode ("to edit");
-        scene.addNode ("it");
+		scene.addNode("double");
+		scene.addNode("click");
+		scene.addNode("on");
+		scene.addNode("a label");
+		scene.addNode("to edit");
+		scene.addNode("it");
 
-        LayoutFactory.createDevolveWidgetLayout (scene.mainLayer, LayoutFactory.createHorizontalFlowLayout (), true).invokeLayout ();
+		LayoutFactory.createDevolveWidgetLayout(scene.mainLayer, LayoutFactory.createHorizontalFlowLayout(), true)
+				.invokeLayout();
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
 }

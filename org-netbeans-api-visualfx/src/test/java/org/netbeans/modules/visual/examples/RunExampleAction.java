@@ -26,28 +26,28 @@ import org.openide.util.actions.CallableSystemAction;
  */
 public final class RunExampleAction extends CallableSystemAction {
 
-    public RunExampleAction () {
-        setEnabled (true);
-    }
+	public RunExampleAction() {
+		setEnabled(true);
+	}
 
-    public void performAction() {
-        RunDialog.main(null);
-    }
+	public void performAction() {
+		RunDialog.main(null);
+	}
 
-    public String getName() {
-        return "Show &Visual Library Examples Dialog";
-    }
+	public String getName() {
+		return "Show &Visual Library Examples Dialog";
+	}
 
-    public String iconResource() {
-        return null;
-    }
+	public String iconResource() {
+		return null;
+	}
 
-    public HelpCtx getHelpCtx() {
-        return HelpCtx.DEFAULT_HELP;
-    }
+	public HelpCtx getHelpCtx() {
+		return HelpCtx.DEFAULT_HELP;
+	}
 
-    protected boolean asynchronous() {
-        return false;
-    }
+	protected boolean asynchronous() {
+		return false;
+	}
 
 }

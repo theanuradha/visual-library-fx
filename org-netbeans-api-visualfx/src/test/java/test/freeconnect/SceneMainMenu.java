@@ -19,13 +19,11 @@
 package test.freeconnect;
 
 import java.awt.Point;
+
 import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.Widget;
 
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
@@ -34,34 +32,34 @@ import javafx.scene.control.MenuItem;
  * @author alex
  */
 public class SceneMainMenu implements PopupMenuProvider {
-    
-    private static final String ADD_NEW_NODE_ACTION = "addNewNodeAction"; // NOI18N
 
-    private GraphScene.StringGraph scene;
+	private static final String ADD_NEW_NODE_ACTION = "addNewNodeAction"; // NOI18N
 
-    private ContextMenu menu;
-    private Point point;
-    
-    private int nodeCount=3;
-    
-    public SceneMainMenu(GraphScene.StringGraph scene) {
-        this.scene=scene;
-        menu = new ContextMenu();
-        MenuItem item;
-        
-        item = new MenuItem("Add New Node");
-        item.setOnAction(e->{ String hm = "Node"+(nodeCount++);
-            Widget newNode = scene.addNode(hm);
-            scene.getSceneAnimator().animatePreferredLocation(newNode,point);
-            scene.validate();});
-        menu.getItems().add(item);
-    }
-    
-    public ContextMenu getPopupMenu(Widget widget, Point point){
-        this.point=point;
-        return menu;
-    }
-    
-  
-    
+	private GraphScene.StringGraph scene;
+
+	private ContextMenu menu;
+	private Point point;
+
+	private int nodeCount = 3;
+
+	public SceneMainMenu(GraphScene.StringGraph scene) {
+		this.scene = scene;
+		menu = new ContextMenu();
+		MenuItem item;
+
+		item = new MenuItem("Add New Node");
+		item.setOnAction(e -> {
+			String hm = "Node" + (nodeCount++);
+			Widget newNode = scene.addNode(hm);
+			scene.getSceneAnimator().animatePreferredLocation(newNode, point);
+			scene.validate();
+		});
+		menu.getItems().add(item);
+	}
+
+	public ContextMenu getPopupMenu(Widget widget, Point point) {
+		this.point = point;
+		return menu;
+	}
+
 }

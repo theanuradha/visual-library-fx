@@ -43,82 +43,82 @@
  */
 package org.netbeans.modules.visual.action;
 
-import org.netbeans.api.visual.widget.Scene;
-import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.api.visual.action.WidgetAction;
+import java.awt.Point;
+import java.awt.Rectangle;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import javafx.scene.Node;
+import org.netbeans.api.visual.action.WidgetAction;
+import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.SceneNode;
+import org.netbeans.api.visual.widget.Widget;
+
+import javafx.scene.Node;
 
 /**
  * @author David Kaspar
  */
 public final class PanAction extends WidgetAction.LockedAdapter {
 
-    private Scene scene;
-    private javafx.scene.control.ScrollPane scrollPane;
-    private Point lastLocation;
+	private Scene scene;
+	private javafx.scene.control.ScrollPane scrollPane;
+	private Point lastLocation;
 
-    protected boolean isLocked () {
-        return scrollPane != null;
-    }
+	protected boolean isLocked() {
+		return scrollPane != null;
+	}
 
-    public State mousePressed (Widget widget, WidgetMouseEvent event) {
-        if (isLocked()) {
-            return State.createLocked(widget, this);
-        }
-        scene = widget.getScene();
-        if (event.getButton() == scene.getInputBindings().getPanActionButton()) {
-            scrollPane = findScrollPane (scene.getView ());
-            if (scrollPane != null) {
-                lastLocation = scene.convertSceneToView (widget.convertLocalToScene (event.getPoint ()));
-                NodeUtilities.convertPointToScreen (lastLocation, scene.getView ());
-                
-                return State.createLocked (widget, this);
-            }
-        }
-        return State.REJECTED;
-    }
+	public State mousePressed(Widget widget, WidgetMouseEvent event) {
+		if (isLocked()) {
+			return State.createLocked(widget, this);
+		}
+		scene = widget.getScene();
+		if (event.getButton() == scene.getInputBindings().getPanActionButton()) {
+			scrollPane = findScrollPane(scene.getView());
+			if (scrollPane != null) {
+				lastLocation = scene.convertSceneToView(widget.convertLocalToScene(event.getPoint()));
+				NodeUtilities.convertPointToScreen(lastLocation, scene.getView());
 
-    private javafx.scene.control.ScrollPane findScrollPane (Node component) {
-        for (;;) {
-            if (component == null)
-                return null;
-            if (component instanceof javafx.scene.control.ScrollPane)
-                return ((javafx.scene.control.ScrollPane) component);
-            Node parent = component.getParent ();
-            if (! (parent instanceof Node))
-                return null;
-            component = (Node) parent;
-        }
-    }
+				return State.createLocked(widget, this);
+			}
+		}
+		return State.REJECTED;
+	}
 
-    public State mouseReleased (Widget widget, WidgetMouseEvent event) {
-        boolean state = pan (widget, event.getPoint ());
-        if (state)
-            scrollPane = null;
-        return state ? State.createLocked (widget, this) : State.REJECTED;
-    }
+	private javafx.scene.control.ScrollPane findScrollPane(Node component) {
+		for (;;) {
+			if (component == null)
+				return null;
+			if (component instanceof javafx.scene.control.ScrollPane)
+				return ((javafx.scene.control.ScrollPane) component);
+			Node parent = component.getParent();
+			if (!(parent instanceof Node))
+				return null;
+			component = (Node) parent;
+		}
+	}
 
-    public State mouseDragged (Widget widget, WidgetMouseEvent event) {
-        return pan (widget, event.getPoint ()) ? State.createLocked (widget, this) : State.REJECTED;
-    }
+	public State mouseReleased(Widget widget, WidgetMouseEvent event) {
+		boolean state = pan(widget, event.getPoint());
+		if (state)
+			scrollPane = null;
+		return state ? State.createLocked(widget, this) : State.REJECTED;
+	}
 
-    private boolean pan (Widget widget, Point newLocation) {
-        if (scrollPane == null  ||  scene != widget.getScene ())
-            return false;
-        newLocation = scene.convertSceneToView (widget.convertLocalToScene (newLocation));
-        NodeUtilities.convertPointToScreen (newLocation, scene.getView ());
-        SceneNode view = scene.getView ();
-        Rectangle rectangle = view.getVisibleRect ();
-        rectangle.x += lastLocation.x - newLocation.x;
-        rectangle.y += lastLocation.y - newLocation.y;
-        view.scrollRectToVisible (rectangle);
-        lastLocation = newLocation;
-        return true;
-    }
+	public State mouseDragged(Widget widget, WidgetMouseEvent event) {
+		return pan(widget, event.getPoint()) ? State.createLocked(widget, this) : State.REJECTED;
+	}
+
+	private boolean pan(Widget widget, Point newLocation) {
+		if (scrollPane == null || scene != widget.getScene())
+			return false;
+		newLocation = scene.convertSceneToView(widget.convertLocalToScene(newLocation));
+		NodeUtilities.convertPointToScreen(newLocation, scene.getView());
+		SceneNode view = scene.getView();
+		Rectangle rectangle = view.getVisibleRect();
+		rectangle.x += lastLocation.x - newLocation.x;
+		rectangle.y += lastLocation.y - newLocation.y;
+		view.scrollRectToVisible(rectangle);
+		lastLocation = newLocation;
+		return true;
+	}
 
 }

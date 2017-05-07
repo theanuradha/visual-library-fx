@@ -46,6 +46,7 @@ package org.netbeans.modules.visual.graph.layout.hierarchicalsupport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import org.netbeans.modules.visual.graph.layout.hierarchicalsupport.DirectedGraph.DummyVertex;
 import org.netbeans.modules.visual.graph.layout.hierarchicalsupport.DirectedGraph.Edge;
 import org.netbeans.modules.visual.graph.layout.hierarchicalsupport.DirectedGraph.Vertex;
@@ -55,52 +56,51 @@ import org.netbeans.modules.visual.graph.layout.hierarchicalsupport.DirectedGrap
  * @author ptliu
  */
 public class VertexInsertionLayerAssigner {
-    
-    /**
-     * Creates a new instance of VertexInsertionLayerAssigner 
-     */
-    public VertexInsertionLayerAssigner() {
-    }
-    
-    /**
-     *
-     *
-     */
-    public LayeredGraph assignLayers(DirectedGraph graph) {
-        LayeredGraph layeredGraph = LayeredGraph.createGraph(graph);
-        
-        insertDummyVertices(layeredGraph);
-        
-        return layeredGraph;
-    }
-    
 
-    /**
-     *
-     *
-     */
-    private void insertDummyVertices(LayeredGraph graph) {
-        DirectedGraph originalGraph = graph.getOriginalGraph();
-        List<List<Vertex>> layers = graph.getLayers();
-        
-        for (int i = 0; i < layers.size(); i++) {
-            List<Vertex> layer = layers.get(i);
-            
-            for (Vertex v : layer) {
-                int layerIndex = v.getNumber();
-                
-                // work around concurrent modification exception
-                Collection<Edge> edges = new ArrayList<Edge>(v.getOutgoingEdges());
-                for (Edge e : edges) {
-                    Vertex nv = e.getTarget();
-                    int nvLayerIndex = nv.getNumber();
-                    
-                    if (nvLayerIndex > layerIndex+1) {
-                        Vertex dummyVertex = originalGraph.insertDummyVertex(e, DummyVertex.Type.BEND);
-                        graph.assignLayer(dummyVertex,  layerIndex+1);
-                    }
-                }
-            }
-        }
-    }   
+	/**
+	 * Creates a new instance of VertexInsertionLayerAssigner
+	 */
+	public VertexInsertionLayerAssigner() {
+	}
+
+	/**
+	 *
+	 *
+	 */
+	public LayeredGraph assignLayers(DirectedGraph graph) {
+		LayeredGraph layeredGraph = LayeredGraph.createGraph(graph);
+
+		insertDummyVertices(layeredGraph);
+
+		return layeredGraph;
+	}
+
+	/**
+	 *
+	 *
+	 */
+	private void insertDummyVertices(LayeredGraph graph) {
+		DirectedGraph originalGraph = graph.getOriginalGraph();
+		List<List<Vertex>> layers = graph.getLayers();
+
+		for (int i = 0; i < layers.size(); i++) {
+			List<Vertex> layer = layers.get(i);
+
+			for (Vertex v : layer) {
+				int layerIndex = v.getNumber();
+
+				// work around concurrent modification exception
+				Collection<Edge> edges = new ArrayList<Edge>(v.getOutgoingEdges());
+				for (Edge e : edges) {
+					Vertex nv = e.getTarget();
+					int nvLayerIndex = nv.getNumber();
+
+					if (nvLayerIndex > layerIndex + 1) {
+						Vertex dummyVertex = originalGraph.insertDummyVertex(e, DummyVertex.Type.BEND);
+						graph.assignLayer(dummyVertex, layerIndex + 1);
+					}
+				}
+			}
+		}
+	}
 }

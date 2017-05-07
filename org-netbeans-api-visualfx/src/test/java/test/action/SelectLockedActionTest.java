@@ -18,46 +18,48 @@
  */
 package test.action;
 
+import java.awt.Point;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.SelectProvider;
 import org.netbeans.api.visual.model.ObjectScene;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
-import test.SceneSupport;
 
-import javax.swing.*;
-import java.awt.*;
 import javafx.scene.control.Alert;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class SelectLockedActionTest {
 
-    public static void main (String[] args) {
-        final ObjectScene scene = new ObjectScene ();
-        LayerWidget layer = new LayerWidget (scene);
-        scene.addChild (layer);
-        scene.getActions ().addAction (ActionFactory.createSelectAction (new SelectProvider() {
+	public static void main(String[] args) {
+		final ObjectScene scene = new ObjectScene();
+		LayerWidget layer = new LayerWidget(scene);
+		scene.addChild(layer);
+		scene.getActions().addAction(ActionFactory.createSelectAction(new SelectProvider() {
 
-            public boolean isAimingAllowed (Widget widget, Point localLocation, boolean invertSelection) {
-                return true; // HINT - this has to be true for correct cooperation with another locking action (now rectangular select action)
-            }
+			public boolean isAimingAllowed(Widget widget, Point localLocation, boolean invertSelection) {
+				return true; // HINT - this has to be true for correct
+								// cooperation with another locking action (now
+								// rectangular select action)
+			}
 
-            public boolean isSelectionAllowed (Widget widget, Point localLocation, boolean invertSelection) {
-                return true;
-            }
+			public boolean isSelectionAllowed(Widget widget, Point localLocation, boolean invertSelection) {
+				return true;
+			}
 
-            public void select (Widget widget, Point localLocation, boolean invertSelection) {
-                System.out.println ("This message has to be printed each time you click on the scene");
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("info");
-                alert.setContentText("This dialog has to be shown each time you click on the scene");
-                alert.showAndWait();
-            }
-        }));
-        scene.getActions ().addAction (ActionFactory.createRectangularSelectAction (scene, layer));
-        SceneSupport.show (scene);
-    }
+			public void select(Widget widget, Point localLocation, boolean invertSelection) {
+				System.out.println("This message has to be printed each time you click on the scene");
+				Alert alert = new Alert(Alert.AlertType.INFORMATION);
+				alert.setTitle("info");
+				alert.setContentText("This dialog has to be shown each time you click on the scene");
+				alert.showAndWait();
+			}
+		}));
+		scene.getActions().addAction(ActionFactory.createRectangularSelectAction(scene, layer));
+		SceneSupport.show(scene);
+	}
 
 }

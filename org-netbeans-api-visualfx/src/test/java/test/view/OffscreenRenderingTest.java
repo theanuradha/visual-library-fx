@@ -18,47 +18,48 @@
  */
 package test.view;
 
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Scene;
-import test.SceneSupport;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * @author David Kaspar
  */
 public class OffscreenRenderingTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
+	public static void main(String[] args) {
+		Scene scene = new Scene();
 
-        LabelWidget widget = new LabelWidget (scene, "Hi");
-        widget.setVerticalAlignment (LabelWidget.VerticalAlignment.CENTER);
-        widget.setAlignment (LabelWidget.Alignment.CENTER);
-        widget.setBorder (BorderFactory.createLineBorder ());
-        widget.setPreferredSize (new Dimension (40, 40));
-        scene.addChild (widget);
+		LabelWidget widget = new LabelWidget(scene, "Hi");
+		widget.setVerticalAlignment(LabelWidget.VerticalAlignment.CENTER);
+		widget.setAlignment(LabelWidget.Alignment.CENTER);
+		widget.setBorder(BorderFactory.createLineBorder());
+		widget.setPreferredSize(new Dimension(40, 40));
+		scene.addChild(widget);
 
-        // validate the scene with a off-screen graphics
-        BufferedImage emptyImage = new BufferedImage (1, 1, BufferedImage.TYPE_4BYTE_ABGR);
-        Graphics2D emptyGraphics = emptyImage.createGraphics ();
-        scene.validate (emptyGraphics);
-        emptyGraphics.dispose ();
+		// validate the scene with a off-screen graphics
+		BufferedImage emptyImage = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D emptyGraphics = emptyImage.createGraphics();
+		scene.validate(emptyGraphics);
+		emptyGraphics.dispose();
 
-        // now the scene is calculated using the emptyGraphics, all widgets should be layout and scene has its size resolved
-        // paint the scene with a off-screen graphics
-        Rectangle viewBounds = scene.convertSceneToView (scene.getBounds ());
-        BufferedImage image = new BufferedImage (viewBounds.width, viewBounds.height, BufferedImage.TYPE_4BYTE_ABGR);
-        Graphics2D graphics = image.createGraphics ();
-        double zoomFactor = scene.getZoomFactor ();
-        graphics.scale (zoomFactor, zoomFactor);
-        scene.paint (graphics);
-        graphics.dispose ();
+		// now the scene is calculated using the emptyGraphics, all widgets
+		// should be layout and scene has its size resolved
+		// paint the scene with a off-screen graphics
+		Rectangle viewBounds = scene.convertSceneToView(scene.getBounds());
+		BufferedImage image = new BufferedImage(viewBounds.width, viewBounds.height, BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D graphics = image.createGraphics();
+		double zoomFactor = scene.getZoomFactor();
+		graphics.scale(zoomFactor, zoomFactor);
+		scene.paint(graphics);
+		graphics.dispose();
 
-       // SceneSupport.show (new JLabel (new ImageIcon (image)));
-    }
+		// SceneSupport.show (new JLabel (new ImageIcon (image)));
+	}
 
 }

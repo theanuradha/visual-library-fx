@@ -44,45 +44,46 @@
 package org.netbeans.api.visual.model;
 
 /**
- * This enum is used for specifying events in which an object scene listener is interested.
+ * This enum is used for specifying events in which an object scene listener is
+ * interested.
  *
  * @author David Kaspar
  */
 public enum ObjectSceneEventType {
 
-    /**
-     * Related to ObjectSceneListener.objectAdded method.
-     */
-    OBJECT_ADDED,
+	/**
+	 * Related to ObjectSceneListener.objectAdded method.
+	 */
+	OBJECT_ADDED,
 
-    /**
-     * Related to ObjectSceneListener.objectRemoved method.
-     */
-    OBJECT_REMOVED,
+	/**
+	 * Related to ObjectSceneListener.objectRemoved method.
+	 */
+	OBJECT_REMOVED,
 
-    /**
-     * Related to ObjectSceneListener.objectStateChanged method.
-     */
-    OBJECT_STATE_CHANGED,
+	/**
+	 * Related to ObjectSceneListener.objectStateChanged method.
+	 */
+	OBJECT_STATE_CHANGED,
 
-    /**
-     * Related to ObjectSceneListener.selectionChanged method.
-     */
-    OBJECT_SELECTION_CHANGED,
+	/**
+	 * Related to ObjectSceneListener.selectionChanged method.
+	 */
+	OBJECT_SELECTION_CHANGED,
 
-    /**
-     * Related to ObjectSceneListener.highlightingChanged method.
-     */
-    OBJECT_HIGHLIGHTING_CHANGED,
+	/**
+	 * Related to ObjectSceneListener.highlightingChanged method.
+	 */
+	OBJECT_HIGHLIGHTING_CHANGED,
 
-    /**
-     * Related to ObjectSceneListener.hoverChanged method.
-     */
-    OBJECT_HOVER_CHANGED,
+	/**
+	 * Related to ObjectSceneListener.hoverChanged method.
+	 */
+	OBJECT_HOVER_CHANGED,
 
-    /**
-     * Related to ObjectSceneListener.focusChanged method.
-     */
-    OBJECT_FOCUS_CHANGED,
+	/**
+	 * Related to ObjectSceneListener.focusChanged method.
+	 */
+	OBJECT_FOCUS_CHANGED,
 
 }

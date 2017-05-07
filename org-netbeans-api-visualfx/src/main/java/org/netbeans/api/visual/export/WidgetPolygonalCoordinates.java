@@ -43,45 +43,52 @@
 package org.netbeans.api.visual.export;
 
 import java.awt.Polygon;
+
 import org.netbeans.api.visual.widget.Widget;
 
 /**
- * The purpose of this class is to provide a framework for holding a Widget  
- * and the Polygon that encompasses it. Can be used for creating HTML image
- * maps. For the ConnectionWidgets, a Polygon is created that follows the contour
- * of the connection with a pixel buffer equal to the defined margin.
+ * The purpose of this class is to provide a framework for holding a Widget and
+ * the Polygon that encompasses it. Can be used for creating HTML image maps.
+ * For the ConnectionWidgets, a Polygon is created that follows the contour of
+ * the connection with a pixel buffer equal to the defined margin.
+ * 
  * @author krichard
  */
 public final class WidgetPolygonalCoordinates {
 
-    private final Widget widget ;
-    private final Polygon polygon ;
+	private final Widget widget;
+	private final Polygon polygon;
 
-    /**
-     * Creates an instance of a WidgetPolygonalCoordinates object.
-     * @param widget The Widget (may be a ConnectionWidget) being encompassed
-     * by the polygon.
-     * @param polygon The Polygon surrounding the respective Widget.
-     */
-    public WidgetPolygonalCoordinates (Widget widget, Polygon polygon) {
-        this.widget = widget ;
-        this.polygon = polygon ;
-    }
-    
-    /**
-     * Returns the Widget stored in this class. 
-     * @return the Widget stored in this class.
-     */
-    public Widget getWidget() {
-        return widget;
-    }
+	/**
+	 * Creates an instance of a WidgetPolygonalCoordinates object.
+	 * 
+	 * @param widget
+	 *            The Widget (may be a ConnectionWidget) being encompassed by
+	 *            the polygon.
+	 * @param polygon
+	 *            The Polygon surrounding the respective Widget.
+	 */
+	public WidgetPolygonalCoordinates(Widget widget, Polygon polygon) {
+		this.widget = widget;
+		this.polygon = polygon;
+	}
 
-    /**
-     * Returns the Polygon stored in this class. 
-     * @return the Polygon stored in this class.
-     */
-    public Polygon getPolygon() {
-        return polygon;
-    }
-    
+	/**
+	 * Returns the Widget stored in this class.
+	 * 
+	 * @return the Widget stored in this class.
+	 */
+	public Widget getWidget() {
+		return widget;
+	}
+
+	/**
+	 * Returns the Polygon stored in this class.
+	 * 
+	 * @return the Polygon stored in this class.
+	 */
+	public Polygon getPolygon() {
+		return polygon;
+	}
+
 }

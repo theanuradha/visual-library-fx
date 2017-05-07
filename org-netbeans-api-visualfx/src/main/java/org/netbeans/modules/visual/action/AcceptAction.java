@@ -48,7 +48,6 @@ import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.widget.Widget;
 
-import java.awt.dnd.DnDConstants;
 import javafx.scene.input.TransferMode;
 
 /**
@@ -56,63 +55,63 @@ import javafx.scene.input.TransferMode;
  */
 public final class AcceptAction extends WidgetAction.Adapter {
 
-    private AcceptProvider provider;
+	private AcceptProvider provider;
 
-    public AcceptAction (AcceptProvider provider) {
-        this.provider = provider;
-    }
+	public AcceptAction(AcceptProvider provider) {
+		this.provider = provider;
+	}
 
-    public State dragEnter (Widget widget, WidgetDropTargetDragEvent event) {
-        ConnectorState acceptable = provider.isAcceptable (widget, event.getPoint (), event.getTransferable ());
+	public State dragEnter(Widget widget, WidgetDropTargetDragEvent event) {
+		ConnectorState acceptable = provider.isAcceptable(widget, event.getPoint(), event.getTransferable());
 
-        if (acceptable == ConnectorState.ACCEPT) {
-            event.acceptDrag (TransferMode.COPY,TransferMode.MOVE);
-            return State.CONSUMED;
-        } else if (acceptable == ConnectorState.REJECT_AND_STOP) {
-            event.rejectDrag ();
-            return State.CONSUMED;
-        }
-        return State.REJECTED;
-    }
+		if (acceptable == ConnectorState.ACCEPT) {
+			event.acceptDrag(TransferMode.COPY, TransferMode.MOVE);
+			return State.CONSUMED;
+		} else if (acceptable == ConnectorState.REJECT_AND_STOP) {
+			event.rejectDrag();
+			return State.CONSUMED;
+		}
+		return State.REJECTED;
+	}
 
-    public State dragOver (Widget widget, WidgetDropTargetDragEvent event) {
-        ConnectorState acceptable = provider.isAcceptable (widget, event.getPoint (), event.getTransferable ());
+	public State dragOver(Widget widget, WidgetDropTargetDragEvent event) {
+		ConnectorState acceptable = provider.isAcceptable(widget, event.getPoint(), event.getTransferable());
 
-        if (acceptable == ConnectorState.ACCEPT) {
-            event.acceptDrag (TransferMode.COPY,TransferMode.MOVE);
-            return State.CONSUMED;
-        } else if (acceptable == ConnectorState.REJECT_AND_STOP) {
-            event.rejectDrag ();
-            return State.CONSUMED;
-        }
-        return State.REJECTED;
-    }
+		if (acceptable == ConnectorState.ACCEPT) {
+			event.acceptDrag(TransferMode.COPY, TransferMode.MOVE);
+			return State.CONSUMED;
+		} else if (acceptable == ConnectorState.REJECT_AND_STOP) {
+			event.rejectDrag();
+			return State.CONSUMED;
+		}
+		return State.REJECTED;
+	}
 
-    public State dropActionChanged (Widget widget, WidgetDropTargetDragEvent event) {
-        ConnectorState acceptable = provider.isAcceptable (widget, event.getPoint (), event.getTransferable ());
+	public State dropActionChanged(Widget widget, WidgetDropTargetDragEvent event) {
+		ConnectorState acceptable = provider.isAcceptable(widget, event.getPoint(), event.getTransferable());
 
-        if (acceptable == ConnectorState.ACCEPT) {
-            event.acceptDrag (TransferMode.COPY_OR_MOVE);
-            return State.CONSUMED;
-        } else if (acceptable == ConnectorState.REJECT_AND_STOP) {
-            event.rejectDrag ();
-            return State.CONSUMED;
-        }
-        return State.REJECTED;
-    }
+		if (acceptable == ConnectorState.ACCEPT) {
+			event.acceptDrag(TransferMode.COPY_OR_MOVE);
+			return State.CONSUMED;
+		} else if (acceptable == ConnectorState.REJECT_AND_STOP) {
+			event.rejectDrag();
+			return State.CONSUMED;
+		}
+		return State.REJECTED;
+	}
 
-    public State drop (Widget widget, WidgetDropTargetDropEvent event) {
-        ConnectorState acceptable = provider.isAcceptable (widget, event.getPoint (), event.getTransferable ());
+	public State drop(Widget widget, WidgetDropTargetDropEvent event) {
+		ConnectorState acceptable = provider.isAcceptable(widget, event.getPoint(), event.getTransferable());
 
-        if (acceptable == ConnectorState.ACCEPT) {
-            event.acceptDrop (TransferMode.COPY_OR_MOVE);
-            provider.accept (widget, event.getPoint (), event.getTransferable ());
-            return State.CONSUMED;
-        } else if (acceptable == ConnectorState.REJECT_AND_STOP) {
-            event.rejectDrop ();
-            return State.CONSUMED;
-        }
-        return State.REJECTED;
-    }
+		if (acceptable == ConnectorState.ACCEPT) {
+			event.acceptDrop(TransferMode.COPY_OR_MOVE);
+			provider.accept(widget, event.getPoint(), event.getTransferable());
+			return State.CONSUMED;
+		} else if (acceptable == ConnectorState.REJECT_AND_STOP) {
+			event.rejectDrop();
+			return State.CONSUMED;
+		}
+		return State.REJECTED;
+	}
 
 }

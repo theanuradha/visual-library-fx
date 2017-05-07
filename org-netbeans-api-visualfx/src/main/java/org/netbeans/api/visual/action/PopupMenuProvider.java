@@ -43,10 +43,10 @@
  */
 package org.netbeans.api.visual.action;
 
+import java.awt.Point;
+
 import org.netbeans.api.visual.widget.Widget;
 
-import javax.swing.*;
-import java.awt.*;
 import javafx.scene.control.ContextMenu;
 
 /**
@@ -56,17 +56,17 @@ import javafx.scene.control.ContextMenu;
  */
 public interface PopupMenuProvider {
 
-    /**
-     * Get a JPopupMenu to display in the context of the given Widget.
-     * This method may return <code>null</code>.  If that is the case,
-     * no popup menu will be displayed if this PopupMenuAction gets
-     * a valid popup trigger on the given Widget.
-     * Note: Since version 2.6 the <code>localLocation<code> parameter could be null.
-     * @param widget the widget
-     * @param localLocation the local location where the popup menu was invoked; if null, then popup menu is invoked by a keyboard
-     * @return The JPopupMenu to display for the given Widget.
-     *         May be <code>null</code>.
-     */
-    public ContextMenu getPopupMenu (Widget widget, Point localLocation);
+	/**
+	 * Get a JPopupMenu to display in the context of the given Widget. This
+	 * method may return <code>null</code>. If that is the case, no popup menu
+	 * will be displayed if this PopupMenuAction gets a valid popup trigger on
+	 * the given Widget. Note: Since version 2.6 the
+	 * <code>localLocation<code> parameter could be null.
+	 * &#64;param widget the widget
+	 * &#64;param localLocation the local location where the popup menu was invoked; if null, then popup menu is invoked by a keyboard
+	 * &#64;return The JPopupMenu to display for the given Widget.
+	 *         May be <code>null</code>.
+	 */
+	public ContextMenu getPopupMenu(Widget widget, Point localLocation);
 
 }

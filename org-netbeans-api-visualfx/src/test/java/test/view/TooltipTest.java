@@ -18,33 +18,36 @@
  */
 package test.view;
 
-import org.netbeans.api.visual.widget.Scene;
+import java.awt.Cursor;
+import java.awt.Point;
+
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
-import test.SceneSupport;
+import org.netbeans.api.visual.widget.Scene;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class TooltipTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
+	public static void main(String[] args) {
+		Scene scene = new Scene();
 
-        LayerWidget layer = new LayerWidget (scene);
-        scene.addChild (layer);
+		LayerWidget layer = new LayerWidget(scene);
+		scene.addChild(layer);
 
-        LabelWidget label = new LabelWidget (scene, "Press Ctrl+F1 to show a tool-tip of the label (the focused widget of the scene)");
-        label.setCursor (Cursor.getPredefinedCursor (Cursor.HAND_CURSOR));
-        label.setToolTipText ("This is the tool-tip");
-        label.setPreferredLocation (new Point (100, 100));
-        layer.addChild (label);
+		LabelWidget label = new LabelWidget(scene,
+				"Press Ctrl+F1 to show a tool-tip of the label (the focused widget of the scene)");
+		label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		label.setToolTipText("This is the tool-tip");
+		label.setPreferredLocation(new Point(100, 100));
+		layer.addChild(label);
 
-        scene.setFocusedWidget (label);
+		scene.setFocusedWidget(label);
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
 }

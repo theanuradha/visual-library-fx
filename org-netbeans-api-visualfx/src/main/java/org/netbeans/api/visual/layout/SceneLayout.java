@@ -46,84 +46,91 @@ package org.netbeans.api.visual.layout;
 import org.netbeans.api.visual.widget.Scene;
 
 /**
- * This is used for a one-time operations that had to be invoked after the scene is initialized and/or validated.
- * This is usually used for applying graph-oriented layouts where the layout requires to calculate boundaries
- * of widgets before the layout is invokes.
+ * This is used for a one-time operations that had to be invoked after the scene
+ * is initialized and/or validated. This is usually used for applying
+ * graph-oriented layouts where the layout requires to calculate boundaries of
+ * widgets before the layout is invokes.
  * <p>
- * The SceneLayout can be invoked by SceneLayout.invokeLayout method. This method just schedules the scene layout
- * to be performed after the scene validation is done.
+ * The SceneLayout can be invoked by SceneLayout.invokeLayout method. This
+ * method just schedules the scene layout to be performed after the scene
+ * validation is done.
  *
  * @author David Kaspar
  */
 public abstract class SceneLayout {
 
-    private Scene.SceneListener listener = new LayoutSceneListener ();
-    private Scene scene;
-    private volatile boolean attached;
+	private Scene.SceneListener listener = new LayoutSceneListener();
+	private Scene scene;
+	private volatile boolean attached;
 
-    /**
-     * Creates a scene layout that is related to a specific scene.
-     * @param scene the related scene
-     */
-    protected SceneLayout (Scene scene) {
-        assert scene != null;
-        this.scene = scene;
-    }
+	/**
+	 * Creates a scene layout that is related to a specific scene.
+	 * 
+	 * @param scene
+	 *            the related scene
+	 */
+	protected SceneLayout(Scene scene) {
+		assert scene != null;
+		this.scene = scene;
+	}
 
-    private void attach () {
-        synchronized (this) {
-            if (attached)
-                return;
-            attached = true;
-        }
-        scene.addSceneListener (listener);
-    }
+	private void attach() {
+		synchronized (this) {
+			if (attached)
+				return;
+			attached = true;
+		}
+		scene.addSceneListener(listener);
+	}
 
-    private void detach () {
-        synchronized (this) {
-            if (! attached)
-                return;
-            attached = false;
-        }
-        scene.removeSceneListener (listener);
-    }
+	private void detach() {
+		synchronized (this) {
+			if (!attached)
+				return;
+			attached = false;
+		}
+		scene.removeSceneListener(listener);
+	}
 
-    /**
-     * Schedules the performing of this scene layout just immediately after the scene validation.
-     * It also calls scene revalidation. The Scene.validate method has to be manually called after.
-     */
-    public final void invokeLayout () {
-        attach ();
-        scene.revalidate ();
-    }
+	/**
+	 * Schedules the performing of this scene layout just immediately after the
+	 * scene validation. It also calls scene revalidation. The Scene.validate
+	 * method has to be manually called after.
+	 */
+	public final void invokeLayout() {
+		attach();
+		scene.revalidate();
+	}
 
-    /**
-     * Schedules the performing of this scene layout just immediately after the scene validation.
-     * It also calls scene revalidation. The Scene.validate method is called automatically at the end.
-     */
-    public final void invokeLayoutImmediately () {
-        attach ();
-        scene.revalidate ();
-        scene.validate ();
-    }
+	/**
+	 * Schedules the performing of this scene layout just immediately after the
+	 * scene validation. It also calls scene revalidation. The Scene.validate
+	 * method is called automatically at the end.
+	 */
+	public final void invokeLayoutImmediately() {
+		attach();
+		scene.revalidate();
+		scene.validate();
+	}
 
-    /**
-     * Called immediately after the scene validation and is responsible for performing the logic e.g. graph-oriented layout.
-     */
-    protected abstract void performLayout ();
+	/**
+	 * Called immediately after the scene validation and is responsible for
+	 * performing the logic e.g. graph-oriented layout.
+	 */
+	protected abstract void performLayout();
 
-    private final class LayoutSceneListener implements Scene.SceneListener {
+	private final class LayoutSceneListener implements Scene.SceneListener {
 
-        public void sceneRepaint () {
-        }
+		public void sceneRepaint() {
+		}
 
-        public void sceneValidating () {
-        }
+		public void sceneValidating() {
+		}
 
-        public void sceneValidated () {
-            detach ();
-            performLayout ();
-        }
-    }
+		public void sceneValidated() {
+			detach();
+			performLayout();
+		}
+	}
 
 }

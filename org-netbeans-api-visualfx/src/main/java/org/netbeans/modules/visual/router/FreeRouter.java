@@ -43,45 +43,45 @@
  */
 package org.netbeans.modules.visual.router;
 
-import org.netbeans.api.visual.anchor.Anchor;
-import org.netbeans.api.visual.router.Router;
-import org.netbeans.api.visual.widget.ConnectionWidget;
-
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.netbeans.api.visual.anchor.Anchor;
+import org.netbeans.api.visual.router.Router;
+import org.netbeans.api.visual.widget.ConnectionWidget;
 
 /**
  *
  * @author alex
  */
 public class FreeRouter implements Router {
-    
-    public FreeRouter() {
-    }
-    
-    public List<Point> routeConnection(ConnectionWidget widget) {
-        ArrayList<Point> list = new ArrayList<Point> ();
-        
-        Anchor sourceAnchor = widget.getSourceAnchor();
-        Anchor targetAnchor = widget.getTargetAnchor();
-        if (sourceAnchor == null  ||  targetAnchor == null)
-            return Collections.emptyList();
 
-        list.add(sourceAnchor.compute(widget.getSourceAnchorEntry()).getAnchorSceneLocation());
+	public FreeRouter() {
+	}
 
-        List<Point> oldControlPoints = widget.getControlPoints ();
-        if(oldControlPoints !=null) {
-            ArrayList<Point> oldList = new ArrayList<Point> (oldControlPoints);
-            oldList.remove(widget.getFirstControlPoint());
-            oldList.remove(widget.getLastControlPoint());
-            list.addAll(oldList);
-        }
+	public List<Point> routeConnection(ConnectionWidget widget) {
+		ArrayList<Point> list = new ArrayList<Point>();
 
-        list.add(targetAnchor.compute(widget.getTargetAnchorEntry()).getAnchorSceneLocation());
+		Anchor sourceAnchor = widget.getSourceAnchor();
+		Anchor targetAnchor = widget.getTargetAnchor();
+		if (sourceAnchor == null || targetAnchor == null)
+			return Collections.emptyList();
 
-        return list;
-    }
-    
+		list.add(sourceAnchor.compute(widget.getSourceAnchorEntry()).getAnchorSceneLocation());
+
+		List<Point> oldControlPoints = widget.getControlPoints();
+		if (oldControlPoints != null) {
+			ArrayList<Point> oldList = new ArrayList<Point>(oldControlPoints);
+			oldList.remove(widget.getFirstControlPoint());
+			oldList.remove(widget.getLastControlPoint());
+			list.addAll(oldList);
+		}
+
+		list.add(targetAnchor.compute(widget.getTargetAnchorEntry()).getAnchorSceneLocation());
+
+		return list;
+	}
+
 }

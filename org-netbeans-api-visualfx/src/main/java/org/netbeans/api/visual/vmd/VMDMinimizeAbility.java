@@ -44,20 +44,21 @@
 package org.netbeans.api.visual.vmd;
 
 /**
- * This interface represents an ability to collapse and expand a widget. It is implemented by a VMDNodeWidget.
+ * This interface represents an ability to collapse and expand a widget. It is
+ * implemented by a VMDNodeWidget.
  *
  * @author David Kaspar
  */
 public interface VMDMinimizeAbility {
 
-    /**
-     * Collapses the widget.
-     */
-    public void collapseWidget ();
+	/**
+	 * Collapses the widget.
+	 */
+	public void collapseWidget();
 
-    /**
-     * Expands the widget.
-     */
-    public void expandWidget ();
+	/**
+	 * Expands the widget.
+	 */
+	public void expandWidget();
 
 }

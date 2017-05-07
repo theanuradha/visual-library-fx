@@ -43,55 +43,58 @@
  */
 package org.netbeans.modules.visual.action;
 
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+
 import org.netbeans.api.visual.action.ResizeControlPointResolver;
 import org.netbeans.api.visual.action.ResizeProvider;
 import org.netbeans.api.visual.widget.Widget;
 import org.netbeans.modules.visual.util.GeomUtil;
-
-import java.awt.*;
 
 /**
  * @author David Kaspar
  */
 public class ResizeCornersControlPointResolver implements ResizeControlPointResolver {
 
-    public ResizeProvider.ControlPoint resolveControlPoint (Widget widget, Point point) {
-        Rectangle bounds = widget.getBounds ();
-        Insets insets = widget.getBorder ().getInsets ();
-        Point center = GeomUtil.center (bounds);
-        Dimension centerDimension = new Dimension (Math.max (insets.left, insets.right), Math.max (insets.top, insets.bottom));
-        if (point.y >= bounds.y + bounds.height - insets.bottom && point.y < bounds.y + bounds.height) {
+	public ResizeProvider.ControlPoint resolveControlPoint(Widget widget, Point point) {
+		Rectangle bounds = widget.getBounds();
+		Insets insets = widget.getBorder().getInsets();
+		Point center = GeomUtil.center(bounds);
+		Dimension centerDimension = new Dimension(Math.max(insets.left, insets.right),
+				Math.max(insets.top, insets.bottom));
+		if (point.y >= bounds.y + bounds.height - insets.bottom && point.y < bounds.y + bounds.height) {
 
-            if (point.x >= bounds.x + bounds.width - insets.right && point.x < bounds.x + bounds.width)
-                return ResizeProvider.ControlPoint.BOTTOM_RIGHT;
-            else if (point.x >= bounds.x && point.x < bounds.x + insets.left)
-                return ResizeProvider.ControlPoint.BOTTOM_LEFT;
-            else
-            if (point.x >= center.x - centerDimension.height / 2 && point.x < center.x + centerDimension.height - centerDimension.height / 2)
-                return ResizeProvider.ControlPoint.BOTTOM_CENTER;
+			if (point.x >= bounds.x + bounds.width - insets.right && point.x < bounds.x + bounds.width)
+				return ResizeProvider.ControlPoint.BOTTOM_RIGHT;
+			else if (point.x >= bounds.x && point.x < bounds.x + insets.left)
+				return ResizeProvider.ControlPoint.BOTTOM_LEFT;
+			else if (point.x >= center.x - centerDimension.height / 2
+					&& point.x < center.x + centerDimension.height - centerDimension.height / 2)
+				return ResizeProvider.ControlPoint.BOTTOM_CENTER;
 
-        } else if (point.y >= bounds.y && point.y < bounds.y + insets.top) {
+		} else if (point.y >= bounds.y && point.y < bounds.y + insets.top) {
 
-            if (point.x >= bounds.x + bounds.width - insets.right && point.x < bounds.x + bounds.width)
-                return ResizeProvider.ControlPoint.TOP_RIGHT;
-            else if (point.x >= bounds.x && point.x < bounds.x + insets.left)
-                return ResizeProvider.ControlPoint.TOP_LEFT;
-            else
-            if (point.x >= center.x - centerDimension.height / 2 && point.x < center.x + centerDimension.height - centerDimension.height / 2)
-                return ResizeProvider.ControlPoint.TOP_CENTER;
+			if (point.x >= bounds.x + bounds.width - insets.right && point.x < bounds.x + bounds.width)
+				return ResizeProvider.ControlPoint.TOP_RIGHT;
+			else if (point.x >= bounds.x && point.x < bounds.x + insets.left)
+				return ResizeProvider.ControlPoint.TOP_LEFT;
+			else if (point.x >= center.x - centerDimension.height / 2
+					&& point.x < center.x + centerDimension.height - centerDimension.height / 2)
+				return ResizeProvider.ControlPoint.TOP_CENTER;
 
-        } else
-        if (point.y >= center.y - centerDimension.width / 2 && point.y < center.y + centerDimension.width - centerDimension.width / 2)
-        {
+		} else if (point.y >= center.y - centerDimension.width / 2
+				&& point.y < center.y + centerDimension.width - centerDimension.width / 2) {
 
-            if (point.x >= bounds.x + bounds.width - insets.right && point.x < bounds.x + bounds.width)
-                return ResizeProvider.ControlPoint.CENTER_RIGHT;
-            else if (point.x >= bounds.x && point.x < bounds.x + insets.left)
-                return ResizeProvider.ControlPoint.CENTER_LEFT;
+			if (point.x >= bounds.x + bounds.width - insets.right && point.x < bounds.x + bounds.width)
+				return ResizeProvider.ControlPoint.CENTER_RIGHT;
+			else if (point.x >= bounds.x && point.x < bounds.x + insets.left)
+				return ResizeProvider.ControlPoint.CENTER_LEFT;
 
-        }
-        // TODO - resolve CENTER points
-        return null;
-    }
+		}
+		// TODO - resolve CENTER points
+		return null;
+	}
 
 }

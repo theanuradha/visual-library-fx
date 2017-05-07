@@ -19,30 +19,31 @@
 
 package test.anchor;
 
+import java.awt.Point;
+
 import org.netbeans.api.visual.anchor.AnchorFactory;
 import org.netbeans.api.visual.anchor.AnchorShapeFactory;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.Scene;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class ArrowAnchorShapeTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
+	public static void main(String[] args) {
+		Scene scene = new Scene();
 
-        ConnectionWidget child = new ConnectionWidget (scene);
-        child.setSourceAnchor (AnchorFactory.createFixedAnchor (new Point (100, 100)));
-        child.setTargetAnchor (AnchorFactory.createFixedAnchor (new Point (200, 200)));
-        child.setSourceAnchorShape (AnchorShapeFactory.createArrowAnchorShape (180, 8));
-        child.setTargetAnchorShape (AnchorShapeFactory.createArrowAnchorShape (30, 16));
-        scene.addChild (child);
+		ConnectionWidget child = new ConnectionWidget(scene);
+		child.setSourceAnchor(AnchorFactory.createFixedAnchor(new Point(100, 100)));
+		child.setTargetAnchor(AnchorFactory.createFixedAnchor(new Point(200, 200)));
+		child.setSourceAnchorShape(AnchorShapeFactory.createArrowAnchorShape(180, 8));
+		child.setTargetAnchorShape(AnchorShapeFactory.createArrowAnchorShape(30, 16));
+		scene.addChild(child);
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
 }

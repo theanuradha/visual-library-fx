@@ -18,6 +18,10 @@
  */
 package test.layout;
 
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.Rectangle;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
@@ -25,51 +29,50 @@ import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class FlowLayoutTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
+	public static void main(String[] args) {
+		Scene scene = new Scene();
 
-        LayerWidget layer = new LayerWidget (scene);
-        scene.addChild (layer);
+		LayerWidget layer = new LayerWidget(scene);
+		scene.addChild(layer);
 
-        createParent (layer, LayoutFactory.SerialAlignment.JUSTIFY, 50, 50);
-        createParent (layer, LayoutFactory.SerialAlignment.CENTER, 300, 50);
-        createParent (layer, LayoutFactory.SerialAlignment.LEFT_TOP, 50, 300);
-        createParent (layer, LayoutFactory.SerialAlignment.RIGHT_BOTTOM, 300, 300);
+		createParent(layer, LayoutFactory.SerialAlignment.JUSTIFY, 50, 50);
+		createParent(layer, LayoutFactory.SerialAlignment.CENTER, 300, 50);
+		createParent(layer, LayoutFactory.SerialAlignment.LEFT_TOP, 50, 300);
+		createParent(layer, LayoutFactory.SerialAlignment.RIGHT_BOTTOM, 300, 300);
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
-    private static void createParent (LayerWidget layer, LayoutFactory.SerialAlignment align, int x, int y) {
-        Widget widget = new Widget (layer.getScene ());
-        widget.setBorder (BorderFactory.createResizeBorder (8, Color.BLACK, false));
-        widget.setLayout (LayoutFactory.createVerticalFlowLayout (align, 0));
-        widget.setPreferredLocation (new Point (x, y));
-        widget.setPreferredBounds (new Rectangle (200, 200));
-        widget.getActions ().addAction (ActionFactory.createResizeAction ());
-        widget.getActions ().addAction (ActionFactory.createMoveAction());
-        layer.addChild (widget);
+	private static void createParent(LayerWidget layer, LayoutFactory.SerialAlignment align, int x, int y) {
+		Widget widget = new Widget(layer.getScene());
+		widget.setBorder(BorderFactory.createResizeBorder(8, Color.BLACK, false));
+		widget.setLayout(LayoutFactory.createVerticalFlowLayout(align, 0));
+		widget.setPreferredLocation(new Point(x, y));
+		widget.setPreferredBounds(new Rectangle(200, 200));
+		widget.getActions().addAction(ActionFactory.createResizeAction());
+		widget.getActions().addAction(ActionFactory.createMoveAction());
+		layer.addChild(widget);
 
-        createChild (widget, Color.RED);
-        createChild (widget, Color.GREEN);
-        createChild (widget, Color.BLUE);
-        createChild (widget, Color.BLACK);
-    }
+		createChild(widget, Color.RED);
+		createChild(widget, Color.GREEN);
+		createChild(widget, Color.BLUE);
+		createChild(widget, Color.BLACK);
+	}
 
-    private static void createChild (Widget parent, Color color) {
-        LabelWidget child = new LabelWidget (parent.getScene (), "Color: " + Integer.toHexString (color.getRGB ()));
-        child.setOpaque (true);
-        child.setForeground (Color.WHITE);
-        child.setBackground (color);
-        parent.addChild (child);
-    }
+	private static void createChild(Widget parent, Color color) {
+		LabelWidget child = new LabelWidget(parent.getScene(), "Color: " + Integer.toHexString(color.getRGB()));
+		child.setOpaque(true);
+		child.setForeground(Color.WHITE);
+		child.setBackground(color);
+		parent.addChild(child);
+	}
 
 }

@@ -18,44 +18,50 @@
  */
 package test.action;
 
-import org.netbeans.api.visual.action.ActionFactory;
-import org.netbeans.api.visual.widget.LabelWidget;
-import org.netbeans.api.visual.widget.Scene;
-import test.SceneSupport;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
+
+import org.netbeans.api.visual.widget.LabelWidget;
+import org.netbeans.api.visual.widget.Scene;
+
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class ActionMapActionTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
-        scene.addChild (new LabelWidget (scene, "Press Enter key to invoke the action"));
+	public static void main(String[] args) {
+		Scene scene = new Scene();
+		scene.addChild(new LabelWidget(scene, "Press Enter key to invoke the action"));
 
-        InputMap inputMap = new InputMap ();
-        inputMap.put (KeyStroke.getKeyStroke (KeyEvent.VK_ENTER, 0, false), "myAction");
+		InputMap inputMap = new InputMap();
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false), "myAction");
 
-        ActionMap actionMap = new ActionMap ();
-        actionMap.put ("myAction", new MyAction ());
+		ActionMap actionMap = new ActionMap();
+		actionMap.put("myAction", new MyAction());
 
-       // scene.getActions ().addAction (ActionFactory.createActionMapAction (inputMap, actionMap));
-        
-        SceneSupport.show (scene);
-    }
+		// scene.getActions ().addAction (ActionFactory.createActionMapAction
+		// (inputMap, actionMap));
 
-    private static class MyAction extends AbstractAction {
+		SceneSupport.show(scene);
+	}
 
-        public MyAction () {
-            super ("My Action");
-        }
+	private static class MyAction extends AbstractAction {
 
-        public void actionPerformed (ActionEvent e) {
-            JOptionPane.showMessageDialog (null, "My Action has been invoked");
-        }
-    }
+		public MyAction() {
+			super("My Action");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			JOptionPane.showMessageDialog(null, "My Action has been invoked");
+		}
+	}
 
 }

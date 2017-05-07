@@ -43,40 +43,45 @@
  */
 package org.netbeans.modules.visual.anchor;
 
-import org.netbeans.api.visual.anchor.PointShape;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
-import java.awt.*;
+import org.netbeans.api.visual.anchor.PointShape;
 
 /**
  * Represents a square point shape.
+ * 
  * @author David Kaspar
  */
 public final class SquarePointShape implements PointShape {
 
-    private int size;
-    private boolean filled;
+	private int size;
+	private boolean filled;
 
-    /**
-     * Creates a square shape.
-     * @param size   the size
-     * @param filled if true, then the shape is filled
-     */
-    public SquarePointShape (int size, boolean filled) {
-        this.size = size;
-        this.filled = filled;
-    }
+	/**
+	 * Creates a square shape.
+	 * 
+	 * @param size
+	 *            the size
+	 * @param filled
+	 *            if true, then the shape is filled
+	 */
+	public SquarePointShape(int size, boolean filled) {
+		this.size = size;
+		this.filled = filled;
+	}
 
-    public int getRadius () {
-        return (int) Math.ceil (1.5f * size);
-    }
+	public int getRadius() {
+		return (int) Math.ceil(1.5f * size);
+	}
 
-    public void paint (Graphics2D graphics) {
-        int size2 = size + size;
-        Rectangle rect = new Rectangle (- size, - size, size2, size2);
-        if (filled)
-            graphics.fill (rect);
-        else
-            graphics.draw (rect);
-    }
+	public void paint(Graphics2D graphics) {
+		int size2 = size + size;
+		Rectangle rect = new Rectangle(-size, -size, size2, size2);
+		if (filled)
+			graphics.fill(rect);
+		else
+			graphics.draw(rect);
+	}
 
 }

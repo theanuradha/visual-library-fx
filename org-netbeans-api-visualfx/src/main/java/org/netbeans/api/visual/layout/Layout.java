@@ -46,30 +46,38 @@ package org.netbeans.api.visual.layout;
 import org.netbeans.api.visual.widget.Widget;
 
 /**
- * This class is responsible for layout and justification of children widgets of a widget where the layout is assigned.
- * Built-in layouts could be created by LayoutFactory class.
+ * This class is responsible for layout and justification of children widgets of
+ * a widget where the layout is assigned. Built-in layouts could be created by
+ * LayoutFactory class.
  *
  * @author David Kaspar
  */
 public interface Layout {
 
-    /**
-     * Resolve bounds of widget children based in their preferred locations and bounds.
-     * @param widget the widget
-     */
-    public void layout (Widget widget);
+	/**
+	 * Resolve bounds of widget children based in their preferred locations and
+	 * bounds.
+	 * 
+	 * @param widget
+	 *            the widget
+	 */
+	public void layout(Widget widget);
 
-    /**
-     * Resolve whether a widget requires justification after whole scene layout.
-     * @param widget the widget
-     * @return true if requires justification
-     */
-    public boolean requiresJustification (Widget widget);
+	/**
+	 * Resolve whether a widget requires justification after whole scene layout.
+	 * 
+	 * @param widget
+	 *            the widget
+	 * @return true if requires justification
+	 */
+	public boolean requiresJustification(Widget widget);
 
-    /**
-     * Justify bounds of widget children based on a widget client area.
-     * @param widget the widget
-     */
-    public void justify (Widget widget);
+	/**
+	 * Justify bounds of widget children based on a widget client area.
+	 * 
+	 * @param widget
+	 *            the widget
+	 */
+	public void justify(Widget widget);
 
 }

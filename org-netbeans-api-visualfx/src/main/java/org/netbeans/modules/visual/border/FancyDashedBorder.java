@@ -43,7 +43,10 @@
  */
 package org.netbeans.modules.visual.border;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+
 import org.netbeans.api.visual.widget.ResourceTable;
 import org.netbeans.api.visual.widget.Widget;
 
@@ -53,36 +56,39 @@ import org.netbeans.api.visual.widget.Widget;
  */
 public final class FancyDashedBorder extends DashedBorder {
 
-    private static int focusField=5;
-    private static int rectSize=5;
-    private static int halfRectSize=rectSize/2;
-    private static int rect15Size=rectSize+halfRectSize;
+	private static int focusField = 5;
+	private static int rectSize = 5;
+	private static int halfRectSize = rectSize / 2;
+	private static int rect15Size = rectSize + halfRectSize;
 
-    public FancyDashedBorder(Color color, int width, int height) {
-        super (color, width, height);
-    }
-    
-    public FancyDashedBorder (String property, Widget associated, int width, int height) {
-        super (property, associated, width, height);
-    }
-    
-    public FancyDashedBorder (String property, ResourceTable table, int width, int height) {
-        super (property, table, width, height);
-    }
-    
-    public void paint(Graphics2D g, Rectangle bounds) {
-        int x=bounds.x,y=bounds.y,width=bounds.width,height=bounds.height;
-        //x=x+halfRectSize;y=y+halfRectSize;width=width-rectSize;height=height-rectSize;
-        bounds.x=bounds.x+focusField/2;bounds.y=bounds.y+focusField/2;bounds.width=bounds.width-focusField;bounds.height=bounds.height-focusField;
-        super.paint(g,bounds);
-        g.drawRect(x,y,rectSize,rectSize);
-        g.drawRect(x+width/2-halfRectSize,y,rectSize,rectSize);
-        g.drawRect(x+width-rect15Size,y,rectSize,rectSize);
-        g.drawRect(x+width-rect15Size,y-halfRectSize+height/2,rectSize,rectSize);
-        g.drawRect(x+width-rect15Size,y-rect15Size+height,rectSize,rectSize);
-        g.drawRect(x+width/2-halfRectSize,y-rect15Size+height,rectSize,rectSize);
-        g.drawRect(x,y-rect15Size+height,rectSize,rectSize);
-        g.drawRect(x,y-rectSize+height/2,rectSize,rectSize);
-    }
-    
+	public FancyDashedBorder(Color color, int width, int height) {
+		super(color, width, height);
+	}
+
+	public FancyDashedBorder(String property, Widget associated, int width, int height) {
+		super(property, associated, width, height);
+	}
+
+	public FancyDashedBorder(String property, ResourceTable table, int width, int height) {
+		super(property, table, width, height);
+	}
+
+	public void paint(Graphics2D g, Rectangle bounds) {
+		int x = bounds.x, y = bounds.y, width = bounds.width, height = bounds.height;
+		// x=x+halfRectSize;y=y+halfRectSize;width=width-rectSize;height=height-rectSize;
+		bounds.x = bounds.x + focusField / 2;
+		bounds.y = bounds.y + focusField / 2;
+		bounds.width = bounds.width - focusField;
+		bounds.height = bounds.height - focusField;
+		super.paint(g, bounds);
+		g.drawRect(x, y, rectSize, rectSize);
+		g.drawRect(x + width / 2 - halfRectSize, y, rectSize, rectSize);
+		g.drawRect(x + width - rect15Size, y, rectSize, rectSize);
+		g.drawRect(x + width - rect15Size, y - halfRectSize + height / 2, rectSize, rectSize);
+		g.drawRect(x + width - rect15Size, y - rect15Size + height, rectSize, rectSize);
+		g.drawRect(x + width / 2 - halfRectSize, y - rect15Size + height, rectSize, rectSize);
+		g.drawRect(x, y - rect15Size + height, rectSize, rectSize);
+		g.drawRect(x, y - rectSize + height / 2, rectSize, rectSize);
+	}
+
 }

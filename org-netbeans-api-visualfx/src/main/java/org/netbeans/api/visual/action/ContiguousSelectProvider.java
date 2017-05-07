@@ -51,17 +51,22 @@ package org.netbeans.api.visual.action;
  */
 public interface ContiguousSelectProvider {
 
-    /**
-     * Called to resolve whether a selection is allowed.
-     * @param event the range select event
-     * @return true, if allowed; false, if not
-     */
-    public boolean isSelectionAllowed (ContiguousSelectEvent event);
+	/**
+	 * Called to resolve whether a selection is allowed.
+	 * 
+	 * @param event
+	 *            the range select event
+	 * @return true, if allowed; false, if not
+	 */
+	public boolean isSelectionAllowed(ContiguousSelectEvent event);
 
-    /**
-     * Should perform the selection. Call event.getSelectionType() to resolve the type of selection.
-     * @param event the range select event
-     */
-    public void select (ContiguousSelectEvent event);
-    
+	/**
+	 * Should perform the selection. Call event.getSelectionType() to resolve
+	 * the type of selection.
+	 * 
+	 * @param event
+	 *            the range select event
+	 */
+	public void select(ContiguousSelectEvent event);
+
 }

@@ -43,82 +43,86 @@
  */
 package org.netbeans.modules.visual.action;
 
+import java.awt.Point;
+
 import org.netbeans.api.visual.action.ContiguousSelectEvent;
 import org.netbeans.api.visual.action.ContiguousSelectProvider;
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.widget.Widget;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
 
 /**
  * @author David Kaspar
  */
 public final class ContiguousSelectAction extends WidgetAction.Adapter {
 
-    private ContiguousSelectProvider provider;
-    private Widget previousWidget;
-    private Point previousLocalLocation;
+	private ContiguousSelectProvider provider;
+	private Widget previousWidget;
+	private Point previousLocalLocation;
 
-    public ContiguousSelectAction (ContiguousSelectProvider provider) {
-        this.provider = provider;
-    }
+	public ContiguousSelectAction(ContiguousSelectProvider provider) {
+		this.provider = provider;
+	}
 
-    @Override
-    public State mousePressed (Widget widget, WidgetMouseEvent event) {
-        Point localLocation = event.getPoint();
-        
-            if (process (widget, localLocation, event))
-                return State.CHAIN_ONLY;
-        
-        return State.REJECTED;
-    }
+	@Override
+	public State mousePressed(Widget widget, WidgetMouseEvent event) {
+		Point localLocation = event.getPoint();
 
-    private boolean process (Widget widget, Point localLocation, WidgetMouseEvent event) {
-        boolean ctrl = event.isControlDown();
-        boolean shift =  event.isShiftDown();
-        ContiguousSelectEvent.SelectionType type = ctrl
-                ? (shift ? ContiguousSelectEvent.SelectionType.ADDITIVE_CONTIGUOUS : ContiguousSelectEvent.SelectionType.ADDITIVE_NON_CONTIGUOUS)
-                : (shift ? ContiguousSelectEvent.SelectionType.REPLACE_CONTIGUOUS : ContiguousSelectEvent.SelectionType.REPLACE_NON_CONTIGUOUS);
-        ContiguousSelectEvent providerEvent = ContiguousSelectEvent.create (previousWidget, previousLocalLocation, widget, localLocation, type);
-        if (provider.isSelectionAllowed (providerEvent)) {
-            provider.select(providerEvent);
-            if (! shift) {
-                previousWidget = widget;
-                previousLocalLocation = localLocation;
-            }
-            return true;
-        }
-        return false;
-    }
-    
-     private boolean process (Widget widget, Point localLocation, WidgetKeyEvent event) {
-        boolean ctrl = event.isControlDown();
-        boolean shift =  event.isShiftDown();
-        ContiguousSelectEvent.SelectionType type = ctrl
-                ? (shift ? ContiguousSelectEvent.SelectionType.ADDITIVE_CONTIGUOUS : ContiguousSelectEvent.SelectionType.ADDITIVE_NON_CONTIGUOUS)
-                : (shift ? ContiguousSelectEvent.SelectionType.REPLACE_CONTIGUOUS : ContiguousSelectEvent.SelectionType.REPLACE_NON_CONTIGUOUS);
-        ContiguousSelectEvent providerEvent = ContiguousSelectEvent.create (previousWidget, previousLocalLocation, widget, localLocation, type);
-        if (provider.isSelectionAllowed (providerEvent)) {
-            provider.select(providerEvent);
-            if (! shift) {
-                previousWidget = widget;
-                previousLocalLocation = localLocation;
-            }
-            return true;
-        }
-        return false;
-    }
+		if (process(widget, localLocation, event))
+			return State.CHAIN_ONLY;
 
-    @Override
-    public State keyTyped (Widget widget, WidgetKeyEvent event) {
-        if (event.getKeyCode() == KeyCode.SPACE)
-            if (process (widget, null, event))
-                return State.CONSUMED;
-        return State.REJECTED;
-    }
+		return State.REJECTED;
+	}
+
+	private boolean process(Widget widget, Point localLocation, WidgetMouseEvent event) {
+		boolean ctrl = event.isControlDown();
+		boolean shift = event.isShiftDown();
+		ContiguousSelectEvent.SelectionType type = ctrl
+				? (shift ? ContiguousSelectEvent.SelectionType.ADDITIVE_CONTIGUOUS
+						: ContiguousSelectEvent.SelectionType.ADDITIVE_NON_CONTIGUOUS)
+				: (shift ? ContiguousSelectEvent.SelectionType.REPLACE_CONTIGUOUS
+						: ContiguousSelectEvent.SelectionType.REPLACE_NON_CONTIGUOUS);
+		ContiguousSelectEvent providerEvent = ContiguousSelectEvent.create(previousWidget, previousLocalLocation,
+				widget, localLocation, type);
+		if (provider.isSelectionAllowed(providerEvent)) {
+			provider.select(providerEvent);
+			if (!shift) {
+				previousWidget = widget;
+				previousLocalLocation = localLocation;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	private boolean process(Widget widget, Point localLocation, WidgetKeyEvent event) {
+		boolean ctrl = event.isControlDown();
+		boolean shift = event.isShiftDown();
+		ContiguousSelectEvent.SelectionType type = ctrl
+				? (shift ? ContiguousSelectEvent.SelectionType.ADDITIVE_CONTIGUOUS
+						: ContiguousSelectEvent.SelectionType.ADDITIVE_NON_CONTIGUOUS)
+				: (shift ? ContiguousSelectEvent.SelectionType.REPLACE_CONTIGUOUS
+						: ContiguousSelectEvent.SelectionType.REPLACE_NON_CONTIGUOUS);
+		ContiguousSelectEvent providerEvent = ContiguousSelectEvent.create(previousWidget, previousLocalLocation,
+				widget, localLocation, type);
+		if (provider.isSelectionAllowed(providerEvent)) {
+			provider.select(providerEvent);
+			if (!shift) {
+				previousWidget = widget;
+				previousLocalLocation = localLocation;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public State keyTyped(Widget widget, WidgetKeyEvent event) {
+		if (event.getKeyCode() == KeyCode.SPACE)
+			if (process(widget, null, event))
+				return State.CONSUMED;
+		return State.REJECTED;
+	}
 
 }

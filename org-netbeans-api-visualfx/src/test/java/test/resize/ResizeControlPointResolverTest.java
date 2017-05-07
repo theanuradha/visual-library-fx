@@ -18,47 +18,52 @@
  */
 package test.resize;
 
-import test.SceneSupport;
-import org.netbeans.api.visual.widget.LabelWidget;
-import org.netbeans.api.visual.widget.Scene;
-import org.netbeans.api.visual.widget.Widget;
+import java.awt.Color;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.ResizeControlPointResolver;
 import org.netbeans.api.visual.action.ResizeProvider;
 import org.netbeans.api.visual.border.BorderFactory;
+import org.netbeans.api.visual.widget.LabelWidget;
+import org.netbeans.api.visual.widget.Scene;
+import org.netbeans.api.visual.widget.Widget;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class ResizeControlPointResolverTest extends Scene {
 
-    public ResizeControlPointResolverTest () {
-        LabelWidget widget = new LabelWidget (this, "Only bottom-right corner allows the label resizing");
+	public ResizeControlPointResolverTest() {
+		LabelWidget widget = new LabelWidget(this, "Only bottom-right corner allows the label resizing");
 
-        widget.setOpaque (true);
-        widget.setBackground (Color.LIGHT_GRAY);
-        widget.setBorder (BorderFactory.createResizeBorder (8));
+		widget.setOpaque(true);
+		widget.setBackground(Color.LIGHT_GRAY);
+		widget.setBorder(BorderFactory.createResizeBorder(8));
 
-        widget.getActions ().addAction (ActionFactory.createResizeAction (null, new MyResizeControlPointResolver (), null));
+		widget.getActions().addAction(ActionFactory.createResizeAction(null, new MyResizeControlPointResolver(), null));
 
-        addChild (widget);
-    }
+		addChild(widget);
+	}
 
-    public static void main (String[] args) {
-        SceneSupport.show (new ResizeControlPointResolverTest ());
-    }
+	public static void main(String[] args) {
+		SceneSupport.show(new ResizeControlPointResolverTest());
+	}
 
-    private static class MyResizeControlPointResolver implements ResizeControlPointResolver {
+	private static class MyResizeControlPointResolver implements ResizeControlPointResolver {
 
-        public ResizeProvider.ControlPoint resolveControlPoint (Widget widget, Point point) {
-            Rectangle bounds = widget.getBounds ();
-            Insets insets = widget.getBorder ().getInsets ();
-            if (new Rectangle (bounds.x + bounds.width - insets.right, bounds.y + bounds.height - insets.bottom, insets.right, insets.bottom).contains (point))
-                return ResizeProvider.ControlPoint.BOTTOM_RIGHT;
-            return null;
-        }
-    }
+		public ResizeProvider.ControlPoint resolveControlPoint(Widget widget, Point point) {
+			Rectangle bounds = widget.getBounds();
+			Insets insets = widget.getBorder().getInsets();
+			if (new Rectangle(bounds.x + bounds.width - insets.right, bounds.y + bounds.height - insets.bottom,
+					insets.right, insets.bottom).contains(point))
+				return ResizeProvider.ControlPoint.BOTTOM_RIGHT;
+			return null;
+		}
+	}
 
 }

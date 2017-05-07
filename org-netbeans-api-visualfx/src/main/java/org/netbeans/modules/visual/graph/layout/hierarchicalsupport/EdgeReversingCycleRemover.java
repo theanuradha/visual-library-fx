@@ -43,21 +43,20 @@
  */
 package org.netbeans.modules.visual.graph.layout.hierarchicalsupport;
 
-
 public class EdgeReversingCycleRemover {
-    
-    /**
-     * Creates a new instance of EdgeReversingCycleRemover 
-     */
-    public EdgeReversingCycleRemover() {
-    }
-    
-    /**
-     * 
-     * @param graph
-     * @return
-     */
-    public DirectedGraph removeCycles(DirectedGraph graph) {
-        return graph;
-    }
+
+	/**
+	 * Creates a new instance of EdgeReversingCycleRemover
+	 */
+	public EdgeReversingCycleRemover() {
+	}
+
+	/**
+	 * 
+	 * @param graph
+	 * @return
+	 */
+	public DirectedGraph removeCycles(DirectedGraph graph) {
+		return graph;
+	}
 }

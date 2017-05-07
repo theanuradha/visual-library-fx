@@ -43,76 +43,83 @@
  */
 package org.netbeans.modules.visual.anchor;
 
-import org.netbeans.api.visual.anchor.AnchorShape;
-
+import java.awt.BasicStroke;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
-import java.awt.*;
+
+import org.netbeans.api.visual.anchor.AnchorShape;
 
 /**
  * @author David Kaspar
  */
 public class TriangleAnchorShape implements AnchorShape {
 
-    public static final Stroke STROKE = new BasicStroke (1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+	public static final Stroke STROKE = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
-    private int size;
-    private boolean filled;
-    private boolean hollow;
-    private double cutDistance;
+	private int size;
+	private boolean filled;
+	private boolean hollow;
+	private double cutDistance;
 
-    private GeneralPath generalPath;
+	private GeneralPath generalPath;
 
-    /**
-     * Creates a triangular anchor shape.
-     * @param size the size of triangle
-     * @param filled if true, then the triangle is filled
-     * @param output if true, then it is output triangle
-     * @param cutDistance the cut distance
-     */
-    public TriangleAnchorShape (int size, boolean filled, boolean output, boolean hollow, double cutDistance) {
-        this.size = size;
-        this.filled = filled;
-        this.hollow = hollow;
-        this.cutDistance = cutDistance;
+	/**
+	 * Creates a triangular anchor shape.
+	 * 
+	 * @param size
+	 *            the size of triangle
+	 * @param filled
+	 *            if true, then the triangle is filled
+	 * @param output
+	 *            if true, then it is output triangle
+	 * @param cutDistance
+	 *            the cut distance
+	 */
+	public TriangleAnchorShape(int size, boolean filled, boolean output, boolean hollow, double cutDistance) {
+		this.size = size;
+		this.filled = filled;
+		this.hollow = hollow;
+		this.cutDistance = cutDistance;
 
-        float side = size * 0.3f;
-        generalPath = new GeneralPath ();
-        if (output) {
-            generalPath.moveTo (size, 0.0f);
-            generalPath.lineTo (0.0f, -side);
-            generalPath.lineTo (0.0f, +side);
-            if (hollow)
-                generalPath.lineTo (size, 0.0f);
-        } else {
-            generalPath.moveTo (0.0f, 0.0f);
-            generalPath.lineTo (size, -side);
-            generalPath.lineTo (size, +side);
-            if (hollow)
-                generalPath.lineTo (0.0f, 0.0f);
-        }
-    }
+		float side = size * 0.3f;
+		generalPath = new GeneralPath();
+		if (output) {
+			generalPath.moveTo(size, 0.0f);
+			generalPath.lineTo(0.0f, -side);
+			generalPath.lineTo(0.0f, +side);
+			if (hollow)
+				generalPath.lineTo(size, 0.0f);
+		} else {
+			generalPath.moveTo(0.0f, 0.0f);
+			generalPath.lineTo(size, -side);
+			generalPath.lineTo(size, +side);
+			if (hollow)
+				generalPath.lineTo(0.0f, 0.0f);
+		}
+	}
 
-    public boolean isLineOriented () {
-        return true;
-    }
+	public boolean isLineOriented() {
+		return true;
+	}
 
-    public int getRadius () {
-        return (int) Math.ceil (1.5f * size);
-    }
+	public int getRadius() {
+		return (int) Math.ceil(1.5f * size);
+	}
 
-    public double getCutDistance () {
-        return cutDistance;
-    }
+	public double getCutDistance() {
+		return cutDistance;
+	}
 
-    public void paint (Graphics2D graphics, boolean source) {
-        if (filled)
-            graphics.fill (generalPath);
-        else {
-            Stroke stroke = graphics.getStroke ();
-            graphics.setStroke (STROKE);
-            graphics.draw (generalPath);
-            graphics.setStroke (stroke);
-        }
-    }
+	public void paint(Graphics2D graphics, boolean source) {
+		if (filled)
+			graphics.fill(generalPath);
+		else {
+			Stroke stroke = graphics.getStroke();
+			graphics.setStroke(STROKE);
+			graphics.draw(generalPath);
+			graphics.setStroke(stroke);
+		}
+	}
 
 }

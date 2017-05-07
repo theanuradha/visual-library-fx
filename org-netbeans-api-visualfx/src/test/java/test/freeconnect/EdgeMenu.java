@@ -21,14 +21,12 @@ package test.freeconnect;
 import java.awt.Point;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+
 import org.netbeans.api.visual.action.PopupMenuProvider;
+import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.api.visual.graph.GraphScene;
 
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
@@ -38,80 +36,84 @@ import javafx.scene.control.SeparatorMenuItem;
  * @author alex
  */
 public class EdgeMenu implements PopupMenuProvider {
-    
-    private static final String ADD_REMOVE_CP_ACTION = "addRemoveCPAction"; // NOI18N
-//    private static final String DELETE_ALL_CP_ACTION = "deleteAllCPAction"; // NOI18N
-    private static final String DELETE_TRANSITION = "deleteTransition"; // NOI18N
 
-    private GraphScene.StringGraph scene;
+	private static final String ADD_REMOVE_CP_ACTION = "addRemoveCPAction"; // NOI18N
+	// private static final String DELETE_ALL_CP_ACTION = "deleteAllCPAction";
+	// // NOI18N
+	private static final String DELETE_TRANSITION = "deleteTransition"; // NOI18N
 
-    private ContextMenu menu;
-    private ConnectionWidget edge;
-    private Point point;
+	private GraphScene.StringGraph scene;
 
-    public EdgeMenu(GraphScene.StringGraph scene) {
-        this.scene = scene;
-        menu = new ContextMenu();
-        MenuItem item;
+	private ContextMenu menu;
+	private ConnectionWidget edge;
+	private Point point;
 
-        item = new MenuItem("Add/Delete Control Point");
-        item.setOnAction(e->{ addRemoveControlPoint(point);});
-        
-        
-        menu.getItems().add(item);
+	public EdgeMenu(GraphScene.StringGraph scene) {
+		this.scene = scene;
+		menu = new ContextMenu();
+		MenuItem item;
 
-        menu.getItems().add(new SeparatorMenuItem());
+		item = new MenuItem("Add/Delete Control Point");
+		item.setOnAction(e -> {
+			addRemoveControlPoint(point);
+		});
 
-//        item = new JMenuItem("Delete All Control Points");
-//        item.setActionCommand(DELETE_ALL_CP_ACTION);
-//        item.addActionListener(this);
-//        item.setEnabled(false);
-//        menu.add(item);
+		menu.getItems().add(item);
 
-        item = new MenuItem("Delete Transition");
-        item.setOnAction(e->{ scene.removeEdge ((String) scene.findObject (edge));});
-        menu.getItems().add(item);
+		menu.getItems().add(new SeparatorMenuItem());
 
-    }
-    
-    public ContextMenu getPopupMenu(Widget widget, Point point){
-        if (widget instanceof ConnectionWidget) {
-            this.edge = (ConnectionWidget) widget;
-            this.point=point;
-            return menu;
-        }
-        return null;
-    }
-    
-   
-    
-    private void addRemoveControlPoint (Point localLocation) {
-        ArrayList<Point> list = new ArrayList<Point> (edge.getControlPoints());
-        double createSensitivity=1.00, deleteSensitivity=5.00;
-            if(!removeControlPoint(localLocation,list,deleteSensitivity)){
-                Point exPoint=null;int index=0;
-                for (Point elem : list) {
-                    if(exPoint!=null){
-                        Line2D l2d=new Line2D.Double(exPoint,elem);
-                        if(l2d.ptLineDist(localLocation)<createSensitivity){
-                            list.add(index,localLocation);
-                            break;
-                        }
-                    }
-                    exPoint=elem;index++;
-                }
-            }
-            edge.setControlPoints(list,false);
-    }
-    
-    private boolean removeControlPoint(Point point, ArrayList<Point> list, double deleteSensitivity){
-        for (Point elem : list) {
-            if(elem.distance(point)<deleteSensitivity){
-                list.remove(elem);
-                return true;
-            }
-        }
-        return false;
-    }
-    
+		// item = new JMenuItem("Delete All Control Points");
+		// item.setActionCommand(DELETE_ALL_CP_ACTION);
+		// item.addActionListener(this);
+		// item.setEnabled(false);
+		// menu.add(item);
+
+		item = new MenuItem("Delete Transition");
+		item.setOnAction(e -> {
+			scene.removeEdge((String) scene.findObject(edge));
+		});
+		menu.getItems().add(item);
+
+	}
+
+	public ContextMenu getPopupMenu(Widget widget, Point point) {
+		if (widget instanceof ConnectionWidget) {
+			this.edge = (ConnectionWidget) widget;
+			this.point = point;
+			return menu;
+		}
+		return null;
+	}
+
+	private void addRemoveControlPoint(Point localLocation) {
+		ArrayList<Point> list = new ArrayList<Point>(edge.getControlPoints());
+		double createSensitivity = 1.00, deleteSensitivity = 5.00;
+		if (!removeControlPoint(localLocation, list, deleteSensitivity)) {
+			Point exPoint = null;
+			int index = 0;
+			for (Point elem : list) {
+				if (exPoint != null) {
+					Line2D l2d = new Line2D.Double(exPoint, elem);
+					if (l2d.ptLineDist(localLocation) < createSensitivity) {
+						list.add(index, localLocation);
+						break;
+					}
+				}
+				exPoint = elem;
+				index++;
+			}
+		}
+		edge.setControlPoints(list, false);
+	}
+
+	private boolean removeControlPoint(Point point, ArrayList<Point> list, double deleteSensitivity) {
+		for (Point elem : list) {
+			if (elem.distance(point) < deleteSensitivity) {
+				list.remove(elem);
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

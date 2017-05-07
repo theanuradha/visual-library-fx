@@ -18,40 +18,42 @@
  */
 package test.custom;
 
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class CustomWidgetTest extends Widget {
 
-    private double radius;
+	private double radius;
 
-    public CustomWidgetTest (Scene scene, double radius) {
-        super (scene);
-        this.radius = radius;
-    }
+	public CustomWidgetTest(Scene scene, double radius) {
+		super(scene);
+		this.radius = radius;
+	}
 
-    protected Rectangle calculateClientArea () {
-        int r = (int) Math.ceil (radius);
-        return new Rectangle (- r, - r, 2 * r + 1, 2 * r + 1);
-    }
+	protected Rectangle calculateClientArea() {
+		int r = (int) Math.ceil(radius);
+		return new Rectangle(-r, -r, 2 * r + 1, 2 * r + 1);
+	}
 
-    protected void paintWidget () {
-        int r = (int) Math.ceil (radius);
-        Graphics2D g = getGraphics ();
-        g.setColor (getForeground ());
-        g.drawOval (- r, - r, 2 * r, 2 * r);
-    }
+	protected void paintWidget() {
+		int r = (int) Math.ceil(radius);
+		Graphics2D g = getGraphics();
+		g.setColor(getForeground());
+		g.drawOval(-r, -r, 2 * r, 2 * r);
+	}
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
-        scene.addChild (new CustomWidgetTest (scene, 10));
-        SceneSupport.show (scene);
-    }
+	public static void main(String[] args) {
+		Scene scene = new Scene();
+		scene.addChild(new CustomWidgetTest(scene, 10));
+		SceneSupport.show(scene);
+	}
 
 }

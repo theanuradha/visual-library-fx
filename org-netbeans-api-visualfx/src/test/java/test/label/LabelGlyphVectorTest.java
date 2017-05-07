@@ -18,43 +18,45 @@
  */
 package test.label;
 
+import java.awt.Color;
+import java.awt.Point;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class LabelGlyphVectorTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
-        scene.getActions ().addAction (ActionFactory.createZoomAction (1.1, false));
-        scene.getActions ().addAction (ActionFactory.createPanAction ());
+	public static void main(String[] args) {
+		Scene scene = new Scene();
+		scene.getActions().addAction(ActionFactory.createZoomAction(1.1, false));
+		scene.getActions().addAction(ActionFactory.createPanAction());
 
-        LayerWidget layer = new LayerWidget (scene);
-        scene.addChild (layer);
+		LayerWidget layer = new LayerWidget(scene);
+		scene.addChild(layer);
 
-        createLabel (layer, 100, 100, "We are glyph-vector labels");
-        createLabel (layer, 100, 150, "Zoom the scene in/out using Ctrl+MouseWheel");
-        createLabel (layer, 100, 200, "The labels should be rendered correctly all the time (no clipping)");
+		createLabel(layer, 100, 100, "We are glyph-vector labels");
+		createLabel(layer, 100, 150, "Zoom the scene in/out using Ctrl+MouseWheel");
+		createLabel(layer, 100, 200, "The labels should be rendered correctly all the time (no clipping)");
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
-    private static void createLabel (LayerWidget layer, int x, int y, String label) {
-        LabelWidget widget = new LabelWidget (layer.getScene (), label);
-        widget.setOpaque (true);
-        widget.setBackground (Color.GREEN);
-        widget.setUseGlyphVector (true);
-        widget.setAlignment (LabelWidget.Alignment.CENTER);
-        widget.setVerticalAlignment (LabelWidget.VerticalAlignment.CENTER);
-        widget.setPreferredLocation (new Point (x, y));
-        layer.addChild (widget);
-    }
+	private static void createLabel(LayerWidget layer, int x, int y, String label) {
+		LabelWidget widget = new LabelWidget(layer.getScene(), label);
+		widget.setOpaque(true);
+		widget.setBackground(Color.GREEN);
+		widget.setUseGlyphVector(true);
+		widget.setAlignment(LabelWidget.Alignment.CENTER);
+		widget.setVerticalAlignment(LabelWidget.VerticalAlignment.CENTER);
+		widget.setPreferredLocation(new Point(x, y));
+		layer.addChild(widget);
+	}
 
 }

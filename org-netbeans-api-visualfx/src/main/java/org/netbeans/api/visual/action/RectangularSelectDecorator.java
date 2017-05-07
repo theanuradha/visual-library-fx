@@ -52,11 +52,13 @@ import org.netbeans.api.visual.widget.Widget;
  */
 public interface RectangularSelectDecorator {
 
-    /**
-     * Creates a widget which will be resized and placed into a scene and will represent the rectangular selection.
-     * @return the selection widget
-     */
-    // TODO - API consistency maybe there could be a scene parameter added
-    Widget createSelectionWidget ();
+	/**
+	 * Creates a widget which will be resized and placed into a scene and will
+	 * represent the rectangular selection.
+	 * 
+	 * @return the selection widget
+	 */
+	// TODO - API consistency maybe there could be a scene parameter added
+	Widget createSelectionWidget();
 
 }

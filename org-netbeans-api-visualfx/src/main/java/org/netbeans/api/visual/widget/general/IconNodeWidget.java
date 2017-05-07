@@ -43,6 +43,8 @@
  */
 package org.netbeans.api.visual.widget.general;
 
+import java.awt.Image;
+
 import org.netbeans.api.visual.laf.LookFeel;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.model.ObjectState;
@@ -51,105 +53,120 @@ import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 
-import java.awt.*;
-
 /**
- * This class represents a general icon node widget which is rendered as a image and a label placed to the right or bottom from the image.
- * By default uses vertical/horizontal flow layout.
+ * This class represents a general icon node widget which is rendered as a image
+ * and a label placed to the right or bottom from the image. By default uses
+ * vertical/horizontal flow layout.
  *
  * @author David Kaspar
  */
 public class IconNodeWidget extends Widget {
 
-    /**
-     * The text orientation specified relatively to the image
-     */
-    public static enum TextOrientation {
+	/**
+	 * The text orientation specified relatively to the image
+	 */
+	public static enum TextOrientation {
 
-        BOTTOM_CENTER, RIGHT_CENTER
+		BOTTOM_CENTER, RIGHT_CENTER
 
-    }
+	}
 
-    private ImageWidget imageWidget;
-    private LabelWidget labelWidget;
+	private ImageWidget imageWidget;
+	private LabelWidget labelWidget;
 
-    /**
-     * Creates an icon node widget with bottom-center orientation.
-     * @param scene the scene
-     */
-    public IconNodeWidget (Scene scene) {
-        this (scene, TextOrientation.BOTTOM_CENTER);
-    }
+	/**
+	 * Creates an icon node widget with bottom-center orientation.
+	 * 
+	 * @param scene
+	 *            the scene
+	 */
+	public IconNodeWidget(Scene scene) {
+		this(scene, TextOrientation.BOTTOM_CENTER);
+	}
 
-    /**
-     * Creates an icon node widget with a specified orientation.
-     * @param scene the scene
-     * @param orientation the text orientation
-     */
-    public IconNodeWidget (Scene scene, TextOrientation orientation) {
-        super (scene);
-        LookFeel lookFeel = getScene ().getLookFeel ();
+	/**
+	 * Creates an icon node widget with a specified orientation.
+	 * 
+	 * @param scene
+	 *            the scene
+	 * @param orientation
+	 *            the text orientation
+	 */
+	public IconNodeWidget(Scene scene, TextOrientation orientation) {
+		super(scene);
+		LookFeel lookFeel = getScene().getLookFeel();
 
-        switch (orientation) {
-            case BOTTOM_CENTER:
-                setLayout (LayoutFactory.createVerticalFlowLayout (LayoutFactory.SerialAlignment.CENTER, - lookFeel.getMargin () + 1));
-                break;
-            case RIGHT_CENTER:
-                setLayout (LayoutFactory.createHorizontalFlowLayout (LayoutFactory.SerialAlignment.CENTER, - lookFeel.getMargin () + 1));
-                break;
-        }
+		switch (orientation) {
+		case BOTTOM_CENTER:
+			setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER,
+					-lookFeel.getMargin() + 1));
+			break;
+		case RIGHT_CENTER:
+			setLayout(LayoutFactory.createHorizontalFlowLayout(LayoutFactory.SerialAlignment.CENTER,
+					-lookFeel.getMargin() + 1));
+			break;
+		}
 
-        imageWidget = new ImageWidget (scene);
-        addChild (imageWidget);
+		imageWidget = new ImageWidget(scene);
+		addChild(imageWidget);
 
-        labelWidget = new LabelWidget (scene);
-        labelWidget.setFont (scene.getDefaultFont ().deriveFont (14.0f));
-        addChild (labelWidget);
+		labelWidget = new LabelWidget(scene);
+		labelWidget.setFont(scene.getDefaultFont().deriveFont(14.0f));
+		addChild(labelWidget);
 
-        setState (ObjectState.createNormal ());
-    }
+		setState(ObjectState.createNormal());
+	}
 
-    /**
-     * Implements the widget-state specific look of the widget.
-     * @param previousState the previous state
-     * @param state the new state
-     */
-    public void notifyStateChanged (ObjectState previousState, ObjectState state) {
-        LookFeel lookFeel = getScene ().getLookFeel ();
-        labelWidget.setBorder (lookFeel.getBorder (state));
-        labelWidget.setForeground (lookFeel.getForeground (state));
-    }
+	/**
+	 * Implements the widget-state specific look of the widget.
+	 * 
+	 * @param previousState
+	 *            the previous state
+	 * @param state
+	 *            the new state
+	 */
+	public void notifyStateChanged(ObjectState previousState, ObjectState state) {
+		LookFeel lookFeel = getScene().getLookFeel();
+		labelWidget.setBorder(lookFeel.getBorder(state));
+		labelWidget.setForeground(lookFeel.getForeground(state));
+	}
 
-    /**
-     * Sets an image.
-     * @param image the image
-     */
-    public final void setImage (Image image) {
-        imageWidget.setImage (image);
-    }
+	/**
+	 * Sets an image.
+	 * 
+	 * @param image
+	 *            the image
+	 */
+	public final void setImage(Image image) {
+		imageWidget.setImage(image);
+	}
 
-    /**
-     * Sets a label.
-     * @param label the label
-     */
-    public final void setLabel (String label) {
-        labelWidget.setLabel (label);
-    }
+	/**
+	 * Sets a label.
+	 * 
+	 * @param label
+	 *            the label
+	 */
+	public final void setLabel(String label) {
+		labelWidget.setLabel(label);
+	}
 
-    /**
-     * Returns the image widget part of the icon node widget.
-     * @return the image widget
-     */
-    public final ImageWidget getImageWidget () {
-        return imageWidget;
-    }
+	/**
+	 * Returns the image widget part of the icon node widget.
+	 * 
+	 * @return the image widget
+	 */
+	public final ImageWidget getImageWidget() {
+		return imageWidget;
+	}
 
-    /**
-     * Returns the label widget part of the icon node widget.
-     * @return the label widget
-     */
-    public final LabelWidget getLabelWidget () {
-        return labelWidget;
-    }
+	/**
+	 * Returns the label widget part of the icon node widget.
+	 * 
+	 * @return the label widget
+	 */
+	public final LabelWidget getLabelWidget() {
+		return labelWidget;
+	}
 
 }

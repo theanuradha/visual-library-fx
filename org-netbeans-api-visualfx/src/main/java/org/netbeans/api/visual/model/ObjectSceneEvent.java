@@ -44,24 +44,26 @@
 package org.netbeans.api.visual.model;
 
 /**
- * A wrapper object for the ObjectScene when it is passed to ObjectSceneListener.
+ * A wrapper object for the ObjectScene when it is passed to
+ * ObjectSceneListener.
  *
  * @author William Headrick
  */
 public class ObjectSceneEvent {
 
-    private ObjectScene objectScene = null;
+	private ObjectScene objectScene = null;
 
-    ObjectSceneEvent (ObjectScene objectScene) {
-        this.objectScene = objectScene;
-    }
+	ObjectSceneEvent(ObjectScene objectScene) {
+		this.objectScene = objectScene;
+	}
 
-    /**
-     * Returns an instance of related object scene.
-     * @return the object scene
-     */
-    public ObjectScene getObjectScene () {
-        return objectScene;
-    }
+	/**
+	 * Returns an instance of related object scene.
+	 * 
+	 * @return the object scene
+	 */
+	public ObjectScene getObjectScene() {
+		return objectScene;
+	}
 
 }

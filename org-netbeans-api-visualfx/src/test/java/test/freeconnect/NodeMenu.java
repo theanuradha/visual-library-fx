@@ -19,50 +19,48 @@
 package test.freeconnect;
 
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 
 import org.netbeans.api.visual.action.PopupMenuProvider;
 import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.Widget;
 import org.netbeans.api.visual.widget.general.IconNodeWidget;
 
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+
 /**
  *
  * @author alex
  */
 public class NodeMenu implements PopupMenuProvider {
-    
-    private static final String DELETE_NODE_ACTION = "deleteNodeAction"; // NOI18N
-    
-    private ContextMenu menu;
-    private IconNodeWidget node;
 
-    private Point point;
-    private GraphScene.StringGraph scene;
-    
-    public NodeMenu(GraphScene.StringGraph scene) {
-        this.scene=scene;
-        menu = new ContextMenu();
-        MenuItem item;
-        
-        item = new MenuItem("Delete Node");
-        
-        item.setOnAction(e->{ scene.removeNodeWithEdges((String)scene.findObject (node));
-            scene.validate();});
-        
-        menu.getItems().add(item);
-    }
-    
-    public ContextMenu getPopupMenu(Widget widget,Point point){
-        this.point=point;
-        this.node=(IconNodeWidget)widget;
-        return menu;
-    }
-    
-  
+	private static final String DELETE_NODE_ACTION = "deleteNodeAction"; // NOI18N
 
-    
+	private ContextMenu menu;
+	private IconNodeWidget node;
+
+	private Point point;
+	private GraphScene.StringGraph scene;
+
+	public NodeMenu(GraphScene.StringGraph scene) {
+		this.scene = scene;
+		menu = new ContextMenu();
+		MenuItem item;
+
+		item = new MenuItem("Delete Node");
+
+		item.setOnAction(e -> {
+			scene.removeNodeWithEdges((String) scene.findObject(node));
+			scene.validate();
+		});
+
+		menu.getItems().add(item);
+	}
+
+	public ContextMenu getPopupMenu(Widget widget, Point point) {
+		this.point = point;
+		this.node = (IconNodeWidget) widget;
+		return menu;
+	}
+
 }

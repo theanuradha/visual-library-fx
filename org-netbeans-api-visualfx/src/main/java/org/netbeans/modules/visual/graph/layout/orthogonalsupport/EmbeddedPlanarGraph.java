@@ -45,6 +45,7 @@ package org.netbeans.modules.visual.graph.layout.orthogonalsupport;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 import org.netbeans.modules.visual.graph.layout.orthogonalsupport.Face.Dart;
 
 /**
@@ -53,107 +54,106 @@ import org.netbeans.modules.visual.graph.layout.orthogonalsupport.Face.Dart;
  */
 public class EmbeddedPlanarGraph {
 
-    private MGraph originalGraph;
-    private ArrayList<Face> faces;
+	private MGraph originalGraph;
+	private ArrayList<Face> faces;
 
-    /**
-     * 
-     * @param graph
-     * @return
-     */
-    public static EmbeddedPlanarGraph createGraph(MGraph graph) {
-        return new EmbeddedPlanarGraph(graph);
-    }
+	/**
+	 * 
+	 * @param graph
+	 * @return
+	 */
+	public static EmbeddedPlanarGraph createGraph(MGraph graph) {
+		return new EmbeddedPlanarGraph(graph);
+	}
 
-    /**
-     * 
-     * @param graph
-     */
-    private EmbeddedPlanarGraph(MGraph graph) {
-        this.originalGraph = graph;
-        faces = new ArrayList<Face>();
-    }
+	/**
+	 * 
+	 * @param graph
+	 */
+	private EmbeddedPlanarGraph(MGraph graph) {
+		this.originalGraph = graph;
+		faces = new ArrayList<Face>();
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public MGraph getOriginalGraph() {
-        return originalGraph;
-    }
+	/**
+	 * 
+	 * @return
+	 */
+	public MGraph getOriginalGraph() {
+		return originalGraph;
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public ArrayList<Face> getFaces() {
-        return faces;
-    }
+	/**
+	 * 
+	 * @return
+	 */
+	public ArrayList<Face> getFaces() {
+		return faces;
+	}
 
-    /**
-     * 
-     * @param newFace
-     */
-    public void addFace(Face newFace) {
-        if (!faces.contains(newFace)) {
-            faces.add(newFace);
-        }
-    }
+	/**
+	 * 
+	 * @param newFace
+	 */
+	public void addFace(Face newFace) {
+		if (!faces.contains(newFace)) {
+			faces.add(newFace);
+		}
+	}
 
-    /**
-     * 
-     * @param newFaces
-     */
-    public void addFaces(Collection<Face> newFaces) {
-        faces.addAll(newFaces);
-    }
+	/**
+	 * 
+	 * @param newFaces
+	 */
+	public void addFaces(Collection<Face> newFaces) {
+		faces.addAll(newFaces);
+	}
 
-    /**
-     * 
-     * @param faceToRemove
-     */
-    public void removeFace(Face faceToRemove) {
-        faces.remove(faceToRemove);
-    }
+	/**
+	 * 
+	 * @param faceToRemove
+	 */
+	public void removeFace(Face faceToRemove) {
+		faces.remove(faceToRemove);
+	}
 
-    /**
-     * 
-     * @param facesToRemove
-     */
-    public void removeFaces(Collection<Face> facesToRemove) {
-        faces.removeAll(facesToRemove);
-    }
+	/**
+	 * 
+	 * @param facesToRemove
+	 */
+	public void removeFaces(Collection<Face> facesToRemove) {
+		faces.removeAll(facesToRemove);
+	}
 
-    /**
-     * 
-     * @param face
-     * @param dart
-     * @return
-     */
-    public Face getOppositeFace(Face face, Dart dart) {
-        for (Face f : faces) {
-            if (f != face) {
-                if (f.containsEdge(dart.getEdge())) {
-                    return f;
-                }
-            }
-        }
+	/**
+	 * 
+	 * @param face
+	 * @param dart
+	 * @return
+	 */
+	public Face getOppositeFace(Face face, Dart dart) {
+		for (Face f : faces) {
+			if (f != face) {
+				if (f.containsEdge(dart.getEdge())) {
+					return f;
+				}
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public Face getOuterFace() {
-        for (Face face : faces) {
-            if (face.isOuterFace()) {
-                return face;
-            }
-        }
+	/**
+	 * 
+	 * @return
+	 */
+	public Face getOuterFace() {
+		for (Face face : faces) {
+			if (face.isOuterFace()) {
+				return face;
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 }
-

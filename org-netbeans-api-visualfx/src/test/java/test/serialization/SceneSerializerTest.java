@@ -18,158 +18,174 @@
  */
 package test.serialization;
 
-import org.netbeans.api.visual.action.*;
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFileChooser;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+
+import org.netbeans.api.visual.action.ActionFactory;
+import org.netbeans.api.visual.action.ConnectProvider;
+import org.netbeans.api.visual.action.ConnectorState;
+import org.netbeans.api.visual.action.SelectProvider;
 import org.netbeans.api.visual.anchor.AnchorFactory;
 import org.netbeans.api.visual.anchor.AnchorShape;
 import org.netbeans.api.visual.border.Border;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.graph.GraphScene;
-import org.netbeans.api.visual.widget.*;
-import test.SceneSupport;
+import org.netbeans.api.visual.widget.ConnectionWidget;
+import org.netbeans.api.visual.widget.LabelWidget;
+import org.netbeans.api.visual.widget.LayerWidget;
+import org.netbeans.api.visual.widget.Scene;
+import org.netbeans.api.visual.widget.Widget;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
-public class SceneSerializerTest extends GraphScene<String,String> {
+public class SceneSerializerTest extends GraphScene<String, String> {
 
-    private static final Border BORDER_NODE = BorderFactory.createLineBorder (4, Color.BLACK);
+	private static final Border BORDER_NODE = BorderFactory.createLineBorder(4, Color.BLACK);
 
-    private LayerWidget mainLayer;
-    private LayerWidget connLayer;
-    private LayerWidget interactionLayer;
+	private LayerWidget mainLayer;
+	private LayerWidget connLayer;
+	private LayerWidget interactionLayer;
 
-    long nodeIDcounter = 0;
-    long edgeIDcounter = 0;
+	long nodeIDcounter = 0;
+	long edgeIDcounter = 0;
 
-    public SceneSerializerTest () {
-        addChild (mainLayer = new LayerWidget (this));
-        addChild (connLayer = new LayerWidget (this));
-        addChild (interactionLayer = new LayerWidget (this));
+	public SceneSerializerTest() {
+		addChild(mainLayer = new LayerWidget(this));
+		addChild(connLayer = new LayerWidget(this));
+		addChild(interactionLayer = new LayerWidget(this));
 
-        final JPopupMenu menu = new JPopupMenu ();
-        JMenuItem load = new JMenuItem ("Load scene...");
-        load.addActionListener (new ActionListener() {
-            public void actionPerformed (ActionEvent e) {
-                load ();
-            }
-        });
-        menu.add (load);
-        JMenuItem save = new JMenuItem ("Save scene...");
-        save.addActionListener (new ActionListener() {
-            public void actionPerformed (ActionEvent e) {
-                save ();
-            }
-        });
-        menu.add (save);
-//        getActions ().addAction (ActionFactory.createPopupMenuAction (new PopupMenuProvider() {
-//            public JPopupMenu getPopupMenu (Widget widget, Point localLocation) {
-//                return menu;
-//            }
-//        }));
+		final JPopupMenu menu = new JPopupMenu();
+		JMenuItem load = new JMenuItem("Load scene...");
+		load.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				load();
+			}
+		});
+		menu.add(load);
+		JMenuItem save = new JMenuItem("Save scene...");
+		save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				save();
+			}
+		});
+		menu.add(save);
+		// getActions ().addAction (ActionFactory.createPopupMenuAction (new
+		// PopupMenuProvider() {
+		// public JPopupMenu getPopupMenu (Widget widget, Point localLocation) {
+		// return menu;
+		// }
+		// }));
 
-        getActions ().addAction (ActionFactory.createSelectAction (new SelectProvider() {
-            public boolean isAimingAllowed (Widget widget, Point localLocation, boolean invertSelection) {
-                return false;
-            }
+		getActions().addAction(ActionFactory.createSelectAction(new SelectProvider() {
+			public boolean isAimingAllowed(Widget widget, Point localLocation, boolean invertSelection) {
+				return false;
+			}
 
-            public boolean isSelectionAllowed (Widget widget, Point localLocation, boolean invertSelection) {
-                return true;
-            }
+			public boolean isSelectionAllowed(Widget widget, Point localLocation, boolean invertSelection) {
+				return true;
+			}
 
-            public void select (Widget widget, Point localLocation, boolean invertSelection) {
-                String node = "node" + ++ nodeIDcounter;
-                Widget nodeWidget = addNode (node);
-                nodeWidget.setPreferredLocation (localLocation);
-            }
-        }));
-    }
+			public void select(Widget widget, Point localLocation, boolean invertSelection) {
+				String node = "node" + ++nodeIDcounter;
+				Widget nodeWidget = addNode(node);
+				nodeWidget.setPreferredLocation(localLocation);
+			}
+		}));
+	}
 
-    protected Widget attachNodeWidget (String node) {
-        LabelWidget widget = new LabelWidget (this, node);
-        widget.setBorder (BORDER_NODE);
-        widget.setOpaque (true);
-        widget.setBackground (Color.LIGHT_GRAY);
-        widget.getActions ().addAction (ActionFactory.createExtendedConnectAction (interactionLayer, new ConnectProvider() {
-            public boolean isSourceWidget (Widget sourceWidget) {
-                return isNode (findObject (sourceWidget));
-            }
+	protected Widget attachNodeWidget(String node) {
+		LabelWidget widget = new LabelWidget(this, node);
+		widget.setBorder(BORDER_NODE);
+		widget.setOpaque(true);
+		widget.setBackground(Color.LIGHT_GRAY);
+		widget.getActions()
+				.addAction(ActionFactory.createExtendedConnectAction(interactionLayer, new ConnectProvider() {
+					public boolean isSourceWidget(Widget sourceWidget) {
+						return isNode(findObject(sourceWidget));
+					}
 
-            public ConnectorState isTargetWidget (Widget sourceWidget, Widget targetWidget) {
-                return isNode (findObject (targetWidget)) ? ConnectorState.ACCEPT : ConnectorState.REJECT_AND_STOP;
-            }
+					public ConnectorState isTargetWidget(Widget sourceWidget, Widget targetWidget) {
+						return isNode(findObject(targetWidget)) ? ConnectorState.ACCEPT
+								: ConnectorState.REJECT_AND_STOP;
+					}
 
-            public boolean hasCustomTargetWidgetResolver (Scene scene) {
-                return false;
-            }
+					public boolean hasCustomTargetWidgetResolver(Scene scene) {
+						return false;
+					}
 
-            public Widget resolveTargetWidget (Scene scene, Point sceneLocation) {
-                return null;
-            }
+					public Widget resolveTargetWidget(Scene scene, Point sceneLocation) {
+						return null;
+					}
 
-            public void createConnection (Widget sourceWidget, Widget targetWidget) {
-                String edge = "edge" + ++edgeIDcounter;
-                addEdge (edge);
-                setEdgeSource (edge, (String) findObject (sourceWidget));
-                setEdgeTarget (edge, (String) findObject (targetWidget));
-            }
-        }));
-        widget.getActions ().addAction (ActionFactory.createMoveAction ());
-        mainLayer.addChild (widget);
-        return widget;
-    }
+					public void createConnection(Widget sourceWidget, Widget targetWidget) {
+						String edge = "edge" + ++edgeIDcounter;
+						addEdge(edge);
+						setEdgeSource(edge, (String) findObject(sourceWidget));
+						setEdgeTarget(edge, (String) findObject(targetWidget));
+					}
+				}));
+		widget.getActions().addAction(ActionFactory.createMoveAction());
+		mainLayer.addChild(widget);
+		return widget;
+	}
 
-    protected Widget attachEdgeWidget (String edge) {
-        ConnectionWidget conn = new ConnectionWidget (this);
-        conn.setTargetAnchorShape (AnchorShape.TRIANGLE_HOLLOW);
-        connLayer.addChild (conn);
-        return conn;
-    }
+	protected Widget attachEdgeWidget(String edge) {
+		ConnectionWidget conn = new ConnectionWidget(this);
+		conn.setTargetAnchorShape(AnchorShape.TRIANGLE_HOLLOW);
+		connLayer.addChild(conn);
+		return conn;
+	}
 
-    protected void attachEdgeSourceAnchor (String edge, String oldSourceNode, String sourceNode) {
-        ConnectionWidget conn = (ConnectionWidget) findWidget (edge);
-        Widget widget = findWidget (sourceNode);
-        conn.setSourceAnchor (AnchorFactory.createRectangularAnchor (widget));
-    }
+	protected void attachEdgeSourceAnchor(String edge, String oldSourceNode, String sourceNode) {
+		ConnectionWidget conn = (ConnectionWidget) findWidget(edge);
+		Widget widget = findWidget(sourceNode);
+		conn.setSourceAnchor(AnchorFactory.createRectangularAnchor(widget));
+	}
 
-    protected void attachEdgeTargetAnchor (String edge, String oldTargetNode, String targetNode) {
-        ConnectionWidget conn = (ConnectionWidget) findWidget (edge);
-        Widget widget = findWidget (targetNode);
-        conn.setTargetAnchor (AnchorFactory.createRectangularAnchor (widget));
-    }
+	protected void attachEdgeTargetAnchor(String edge, String oldTargetNode, String targetNode) {
+		ConnectionWidget conn = (ConnectionWidget) findWidget(edge);
+		Widget widget = findWidget(targetNode);
+		conn.setTargetAnchor(AnchorFactory.createRectangularAnchor(widget));
+	}
 
-    private void load () {
-        JFileChooser chooser = new JFileChooser ();
-        chooser.setDialogTitle ("Load Scene ...");
-        chooser.setMultiSelectionEnabled (false);
-        chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
-//        if (chooser.showOpenDialog (getView ()) == JFileChooser.APPROVE_OPTION) {
-//            for (String edge : new ArrayList<String> (getEdges ()))
-//                removeEdge (edge);
-//            for (String node : new ArrayList<String> (getNodes ()))
-//                removeNode (node);
-//            SceneSerializer.deserialize (this, chooser.getSelectedFile ());
-//            validate ();
-//        }
-    }
+	private void load() {
+		JFileChooser chooser = new JFileChooser();
+		chooser.setDialogTitle("Load Scene ...");
+		chooser.setMultiSelectionEnabled(false);
+		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		// if (chooser.showOpenDialog (getView ()) ==
+		// JFileChooser.APPROVE_OPTION) {
+		// for (String edge : new ArrayList<String> (getEdges ()))
+		// removeEdge (edge);
+		// for (String node : new ArrayList<String> (getNodes ()))
+		// removeNode (node);
+		// SceneSerializer.deserialize (this, chooser.getSelectedFile ());
+		// validate ();
+		// }
+	}
 
-    private void save () {
-        JFileChooser chooser = new JFileChooser ();
-        chooser.setDialogTitle ("Save Scene ...");
-        chooser.setMultiSelectionEnabled (false);
-        chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
-//        if (chooser.showSaveDialog (getView ()) == JFileChooser.APPROVE_OPTION) {
-//            SceneSerializer.serialize (this, chooser.getSelectedFile ());
-//        }
-    }
+	private void save() {
+		JFileChooser chooser = new JFileChooser();
+		chooser.setDialogTitle("Save Scene ...");
+		chooser.setMultiSelectionEnabled(false);
+		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		// if (chooser.showSaveDialog (getView ()) ==
+		// JFileChooser.APPROVE_OPTION) {
+		// SceneSerializer.serialize (this, chooser.getSelectedFile ());
+		// }
+	}
 
-    public static void main (String[] args) {
-        SceneSupport.show (new SceneSerializerTest ());
-    }
+	public static void main(String[] args) {
+		SceneSupport.show(new SceneSerializerTest());
+	}
 
 }

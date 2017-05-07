@@ -51,27 +51,27 @@ import org.netbeans.api.visual.widget.Widget;
  */
 public final class ForwardKeyEventsAction extends WidgetAction.Adapter {
 
-    private Widget forwardToWidget;
-    private String forwardedToTool;
+	private Widget forwardToWidget;
+	private String forwardedToTool;
 
-    public ForwardKeyEventsAction (Widget forwardToWidget, String forwardedToTool) {
-        this.forwardToWidget = forwardToWidget;
-        this.forwardedToTool = forwardedToTool;
-    }
+	public ForwardKeyEventsAction(Widget forwardToWidget, String forwardedToTool) {
+		this.forwardToWidget = forwardToWidget;
+		this.forwardedToTool = forwardedToTool;
+	}
 
-    public State keyTyped (Widget widget, WidgetKeyEvent event) {
-        WidgetAction.Chain actions = forwardedToTool != null ? widget.getActions (forwardedToTool) : widget.getActions ();
-        return actions != null ? actions.keyTyped (forwardToWidget, event) : State.REJECTED;
-    }
+	public State keyTyped(Widget widget, WidgetKeyEvent event) {
+		WidgetAction.Chain actions = forwardedToTool != null ? widget.getActions(forwardedToTool) : widget.getActions();
+		return actions != null ? actions.keyTyped(forwardToWidget, event) : State.REJECTED;
+	}
 
-    public State keyPressed (Widget widget, WidgetKeyEvent event) {
-        WidgetAction.Chain actions = forwardedToTool != null ? widget.getActions (forwardedToTool) : widget.getActions ();
-        return actions != null ? actions.keyPressed (forwardToWidget, event) : State.REJECTED;
-    }
+	public State keyPressed(Widget widget, WidgetKeyEvent event) {
+		WidgetAction.Chain actions = forwardedToTool != null ? widget.getActions(forwardedToTool) : widget.getActions();
+		return actions != null ? actions.keyPressed(forwardToWidget, event) : State.REJECTED;
+	}
 
-    public State keyReleased (Widget widget, WidgetKeyEvent event) {
-        WidgetAction.Chain actions = forwardedToTool != null ? widget.getActions (forwardedToTool) : widget.getActions ();
-        return actions != null ? actions.keyReleased (forwardToWidget, event) : State.REJECTED;
-    }
+	public State keyReleased(Widget widget, WidgetKeyEvent event) {
+		WidgetAction.Chain actions = forwardedToTool != null ? widget.getActions(forwardedToTool) : widget.getActions();
+		return actions != null ? actions.keyReleased(forwardToWidget, event) : State.REJECTED;
+	}
 
 }

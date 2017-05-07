@@ -43,7 +43,8 @@
  */
 package org.netbeans.modules.visual.util;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -51,8 +52,8 @@ import java.awt.geom.Rectangle2D;
  */
 public class RenderUtil {
 
-    public static void drawRect (Graphics2D gr, Rectangle rect) {
-        gr.draw(new Rectangle2D.Double(rect.x + 1., rect.y + 1., rect.width - 1.0, rect.height - 1.0));
-    }
+	public static void drawRect(Graphics2D gr, Rectangle rect) {
+		gr.draw(new Rectangle2D.Double(rect.x + 1., rect.y + 1., rect.width - 1.0, rect.height - 1.0));
+	}
 
 }

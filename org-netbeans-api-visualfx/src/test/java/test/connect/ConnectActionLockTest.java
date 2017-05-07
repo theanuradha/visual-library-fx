@@ -19,66 +19,72 @@
 
 package test.connect;
 
-import org.netbeans.api.visual.widget.*;
+import java.awt.Point;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.ConnectProvider;
 import org.netbeans.api.visual.action.ConnectorState;
 import org.netbeans.api.visual.anchor.AnchorFactory;
-import test.SceneSupport;
+import org.netbeans.api.visual.widget.ConnectionWidget;
+import org.netbeans.api.visual.widget.LabelWidget;
+import org.netbeans.api.visual.widget.LayerWidget;
+import org.netbeans.api.visual.widget.Scene;
+import org.netbeans.api.visual.widget.Widget;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class ConnectActionLockTest {
 
-    public static void main (String[] args) {
-        final Scene scene = new Scene ();
+	public static void main(String[] args) {
+		final Scene scene = new Scene();
 
-        LayerWidget mainLayer = new LayerWidget (scene);
-        scene.addChild (mainLayer);
+		LayerWidget mainLayer = new LayerWidget(scene);
+		scene.addChild(mainLayer);
 
-        final LayerWidget connLayer = new LayerWidget (scene);
-        scene.addChild (connLayer);
+		final LayerWidget connLayer = new LayerWidget(scene);
+		scene.addChild(connLayer);
 
-        LayerWidget interLayer = new LayerWidget (scene);
-        scene.addChild (interLayer);
+		LayerWidget interLayer = new LayerWidget(scene);
+		scene.addChild(interLayer);
 
-        LabelWidget label1 = new LabelWidget (scene, "Drag with left-mouse button");
-        label1.setPreferredLocation (new Point (100, 100));
-        mainLayer.addChild (label1);
+		LabelWidget label1 = new LabelWidget(scene, "Drag with left-mouse button");
+		label1.setPreferredLocation(new Point(100, 100));
+		mainLayer.addChild(label1);
 
-        final LabelWidget label2 = new LabelWidget (scene, "Still hold the left-mouse button and press right-mouse button additionally");
-        label2.setPreferredLocation (new Point (200, 150));
-        mainLayer.addChild (label2);
+		final LabelWidget label2 = new LabelWidget(scene,
+				"Still hold the left-mouse button and press right-mouse button additionally");
+		label2.setPreferredLocation(new Point(200, 150));
+		mainLayer.addChild(label2);
 
-        label1.getActions ().addAction (ActionFactory.createConnectAction (interLayer, new ConnectProvider() {
-            public boolean isSourceWidget (Widget sourceWidget) {
-                return true;
-            }
+		label1.getActions().addAction(ActionFactory.createConnectAction(interLayer, new ConnectProvider() {
+			public boolean isSourceWidget(Widget sourceWidget) {
+				return true;
+			}
 
-            public ConnectorState isTargetWidget (Widget sourceWidget, Widget targetWidget) {
-                return targetWidget == label2 ? ConnectorState.ACCEPT : ConnectorState.REJECT_AND_STOP;
-            }
+			public ConnectorState isTargetWidget(Widget sourceWidget, Widget targetWidget) {
+				return targetWidget == label2 ? ConnectorState.ACCEPT : ConnectorState.REJECT_AND_STOP;
+			}
 
-            public boolean hasCustomTargetWidgetResolver (Scene scene) {
-                return false;
-            }
+			public boolean hasCustomTargetWidgetResolver(Scene scene) {
+				return false;
+			}
 
-            public Widget resolveTargetWidget (Scene scene, Point sceneLocation) {
-                return null;
-            }
+			public Widget resolveTargetWidget(Scene scene, Point sceneLocation) {
+				return null;
+			}
 
-            public void createConnection (Widget sourceWidget, Widget targetWidget) {
-                ConnectionWidget conn = new ConnectionWidget (scene);
-                conn.setSourceAnchor (AnchorFactory.createRectangularAnchor (sourceWidget));
-                conn.setTargetAnchor (AnchorFactory.createRectangularAnchor (targetWidget));
-                connLayer.addChild (conn);
-            }
-        }));
+			public void createConnection(Widget sourceWidget, Widget targetWidget) {
+				ConnectionWidget conn = new ConnectionWidget(scene);
+				conn.setSourceAnchor(AnchorFactory.createRectangularAnchor(sourceWidget));
+				conn.setTargetAnchor(AnchorFactory.createRectangularAnchor(targetWidget));
+				connLayer.addChild(conn);
+			}
+		}));
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
 }

@@ -18,94 +18,98 @@
  */
 package test.animator;
 
-import org.netbeans.api.visual.action.*;
+import java.awt.Image;
+import java.awt.Point;
+
+import org.netbeans.api.visual.action.ActionFactory;
+import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
 import org.netbeans.api.visual.widget.general.IconNodeWidget;
 import org.openide.util.Utilities;
-import test.SceneSupport;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
 import javafx.scene.input.MouseButton;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class AnimatorTest extends GraphScene.StringGraph {
 
-    private static final Image IMAGE = Utilities.loadImage ("test/resources/displayable_64.png"); // NOI18N
+	private static final Image IMAGE = Utilities.loadImage("test/resources/displayable_64.png"); // NOI18N
 
-    private LayerWidget layer;
+	private LayerWidget layer;
 
-    private WidgetAction moveAction = ActionFactory.createMoveAction ();
+	private WidgetAction moveAction = ActionFactory.createMoveAction();
 
-    public AnimatorTest () {
-        layer = new LayerWidget (this);
-        addChild (layer);
-        getActions ().addAction (ActionFactory.createZoomAction ());
-        //getActions ().addAction (ActionFactory.createPanAction ());
-        getActions ().addAction (new MyAction ());
-    }
+	public AnimatorTest() {
+		layer = new LayerWidget(this);
+		addChild(layer);
+		getActions().addAction(ActionFactory.createZoomAction());
+		// getActions ().addAction (ActionFactory.createPanAction ());
+		getActions().addAction(new MyAction());
+	}
 
-    protected Widget attachNodeWidget (String node) {
-        IconNodeWidget widget = new IconNodeWidget (this);
-        widget.setImage (IMAGE);
-        widget.setLabel (node);
-        layer.addChild (widget);
+	protected Widget attachNodeWidget(String node) {
+		IconNodeWidget widget = new IconNodeWidget(this);
+		widget.setImage(IMAGE);
+		widget.setLabel(node);
+		layer.addChild(widget);
 
-        widget.getActions ().addAction (createObjectHoverAction ());
-        widget.getActions ().addAction (moveAction);
+		widget.getActions().addAction(createObjectHoverAction());
+		widget.getActions().addAction(moveAction);
 
-        return widget;
-    }
+		return widget;
+	}
 
-    protected Widget attachEdgeWidget (String edge) {
-        return null;
-    }
+	protected Widget attachEdgeWidget(String edge) {
+		return null;
+	}
 
-    protected void attachEdgeSourceAnchor (String edge, String oldSourceNode, String sourceNode) {
-    }
+	protected void attachEdgeSourceAnchor(String edge, String oldSourceNode, String sourceNode) {
+	}
 
-    protected void attachEdgeTargetAnchor (String edge, String oldTargetNode, String targetNode) {
-    }
+	protected void attachEdgeTargetAnchor(String edge, String oldTargetNode, String targetNode) {
+	}
 
-    public class MyAction extends WidgetAction.Adapter {
+	public class MyAction extends WidgetAction.Adapter {
 
-        public State mousePressed (Widget widget, WidgetMouseEvent event) {
-            moveTo (event.getButton () == MouseButton.PRIMARY ? event.getPoint () : null);
-            return State.CONSUMED;
-        }
+		public State mousePressed(Widget widget, WidgetMouseEvent event) {
+			moveTo(event.getButton() == MouseButton.PRIMARY ? event.getPoint() : null);
+			return State.CONSUMED;
+		}
 
-        public State mouseDragged (Widget widget, WidgetMouseEvent event) {
-            moveTo (event.getPoint ());
-            return State.CONSUMED;
-        }
+		public State mouseDragged(Widget widget, WidgetMouseEvent event) {
+			moveTo(event.getPoint());
+			return State.CONSUMED;
+		}
 
-    }
+	}
 
-    private void moveTo (Point point) {
-        int index = 0;
-        for (String node : getNodes ())
-            getSceneAnimator ().animatePreferredLocation (findWidget (node), point != null ? point : new Point (++ index * 100, index * 100));
-//          findWidget (node).setPreferredLocation (point != null ? point : new Point (++ index * 100, index * 100));
-    }
+	private void moveTo(Point point) {
+		int index = 0;
+		for (String node : getNodes())
+			getSceneAnimator().animatePreferredLocation(findWidget(node),
+					point != null ? point : new Point(++index * 100, index * 100));
+		// findWidget (node).setPreferredLocation (point != null ? point : new
+		// Point (++ index * 100, index * 100));
+	}
 
-    public static void main (String[] args) {
-       
-         SceneSupport.show (()->{
-          AnimatorTest scene = new AnimatorTest ();
-        scene.addNode ("form [Form]");
-        scene.addNode ("list [List]");
-        scene.addNode ("canvas [Canvas]");
-        scene.addNode ("alert [Alert]");
-        scene.moveTo (null);
-        
-        return scene;
-         
-         });
-       
-    }
+	public static void main(String[] args) {
+
+		SceneSupport.show(() -> {
+			AnimatorTest scene = new AnimatorTest();
+			scene.addNode("form [Form]");
+			scene.addNode("list [List]");
+			scene.addNode("canvas [Canvas]");
+			scene.addNode("alert [Alert]");
+			scene.moveTo(null);
+
+			return scene;
+
+		});
+
+	}
 
 }

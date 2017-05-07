@@ -18,11 +18,12 @@
  */
 package test.move;
 
+import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
-import org.netbeans.api.visual.action.ActionFactory;
+
 import test.SceneSupport;
 
 /**
@@ -30,17 +31,18 @@ import test.SceneSupport;
  */
 public class SnapToGridTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
-        LayerWidget mainLayer = new LayerWidget (scene);
-        scene.addChild (mainLayer);
+	public static void main(String[] args) {
+		Scene scene = new Scene();
+		LayerWidget mainLayer = new LayerWidget(scene);
+		scene.addChild(mainLayer);
 
-        LabelWidget widget = new LabelWidget (scene, "Drag me to see snap-to-grid of 16x16 pixels.");
-        widget.setBorder (BorderFactory.createLineBorder (10));
-        mainLayer.addChild (widget);
-        widget.getActions ().addAction (ActionFactory.createMoveAction (ActionFactory.createSnapToGridMoveStrategy (16, 16), null));
+		LabelWidget widget = new LabelWidget(scene, "Drag me to see snap-to-grid of 16x16 pixels.");
+		widget.setBorder(BorderFactory.createLineBorder(10));
+		mainLayer.addChild(widget);
+		widget.getActions()
+				.addAction(ActionFactory.createMoveAction(ActionFactory.createSnapToGridMoveStrategy(16, 16), null));
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
 }

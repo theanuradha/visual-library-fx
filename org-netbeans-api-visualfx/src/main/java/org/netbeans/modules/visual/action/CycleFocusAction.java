@@ -43,11 +43,10 @@
  */
 package org.netbeans.modules.visual.action;
 
-import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.action.CycleFocusProvider;
+import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.widget.Widget;
 
-import java.awt.event.KeyEvent;
 import javafx.scene.input.KeyCode;
 
 /**
@@ -55,21 +54,21 @@ import javafx.scene.input.KeyCode;
  */
 public class CycleFocusAction extends WidgetAction.Adapter {
 
-    private CycleFocusProvider provider;
+	private CycleFocusProvider provider;
 
-    public CycleFocusAction (CycleFocusProvider provider) {
-        this.provider = provider;
-    }
+	public CycleFocusAction(CycleFocusProvider provider) {
+		this.provider = provider;
+	}
 
-    public State keyTyped (Widget widget, WidgetKeyEvent event) {
-        boolean state = false;
-        if (event.getKeyCode() == KeyCode.TAB) {
-            if (event.isShiftDown())
-                state = provider.switchPreviousFocus (widget);
-            else
-                state = provider.switchNextFocus (widget);
-        }
-        return state ? State.CONSUMED : State.REJECTED;
-    }
+	public State keyTyped(Widget widget, WidgetKeyEvent event) {
+		boolean state = false;
+		if (event.getKeyCode() == KeyCode.TAB) {
+			if (event.isShiftDown())
+				state = provider.switchPreviousFocus(widget);
+			else
+				state = provider.switchNextFocus(widget);
+		}
+		return state ? State.CONSUMED : State.REJECTED;
+	}
 
 }

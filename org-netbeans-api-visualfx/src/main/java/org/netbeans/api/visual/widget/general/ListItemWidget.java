@@ -51,33 +51,41 @@ import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.modules.visual.util.GeomUtil;
 
 /**
- * This class represents a general list item widget. Right now it presented as a label.
+ * This class represents a general list item widget. Right now it presented as a
+ * label.
  *
  * @deprecated
  * @author David Kaspar
  */
 public class ListItemWidget extends LabelWidget {
 
-    /**
-     * Creates a list item widget.
-     * @param scene the scene
-     */
-    public ListItemWidget (Scene scene) {
-        super (scene);
-        GeomUtil.LOG.warning ("org.netbeans.api.visual.widget.general.ListItemWidget class is deprecated. Use org.netbeans.modules.visual.experimental.widget.general.ListItemWidget class instead. Since it is an experimental class outside of public-API packages, you have to set an implementation dependency on the org.netbeans.api.visual module."); // NOI18N
+	/**
+	 * Creates a list item widget.
+	 * 
+	 * @param scene
+	 *            the scene
+	 */
+	public ListItemWidget(Scene scene) {
+		super(scene);
+		GeomUtil.LOG.warning(
+				"org.netbeans.api.visual.widget.general.ListItemWidget class is deprecated. Use org.netbeans.modules.visual.experimental.widget.general.ListItemWidget class instead. Since it is an experimental class outside of public-API packages, you have to set an implementation dependency on the org.netbeans.api.visual module."); // NOI18N
 
-        setState (ObjectState.createNormal ());
-    }
+		setState(ObjectState.createNormal());
+	}
 
-    /**
-     * Implements the widget-state specific look of the widget.
-     * @param previousState the previous state
-     * @param state the new state
-     */
-    public void notifyStateChanged (ObjectState previousState, ObjectState state) {
-        LookFeel lookFeel = getScene ().getLookFeel ();
-        setBorder (BorderFactory.createCompositeBorder (BorderFactory.createEmptyBorder (8, 2), lookFeel.getMiniBorder (state)));
-        setForeground (lookFeel.getForeground (state));
-    }
+	/**
+	 * Implements the widget-state specific look of the widget.
+	 * 
+	 * @param previousState
+	 *            the previous state
+	 * @param state
+	 *            the new state
+	 */
+	public void notifyStateChanged(ObjectState previousState, ObjectState state) {
+		LookFeel lookFeel = getScene().getLookFeel();
+		setBorder(BorderFactory.createCompositeBorder(BorderFactory.createEmptyBorder(8, 2),
+				lookFeel.getMiniBorder(state)));
+		setForeground(lookFeel.getForeground(state));
+	}
 
 }

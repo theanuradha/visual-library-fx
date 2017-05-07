@@ -18,48 +18,50 @@
  */
 package test.layout;
 
+import java.awt.Color;
+import java.awt.Rectangle;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
+import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.api.visual.widget.LabelWidget;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class OverlayLayoutWidgetTest extends Widget {
 
-    public OverlayLayoutWidgetTest (Scene scene) {
-        super(scene);
+	public OverlayLayoutWidgetTest(Scene scene) {
+		super(scene);
 
-        setOpaque (true);
-        setBackground (Color.RED);
-        setBorder (BorderFactory.createResizeBorder (8));
+		setOpaque(true);
+		setBackground(Color.RED);
+		setBorder(BorderFactory.createResizeBorder(8));
 
-        setLayout (LayoutFactory.createOverlayLayout ());
+		setLayout(LayoutFactory.createOverlayLayout());
 
-        getActions ().addAction (ActionFactory.createResizeAction ());
-        getActions ().addAction (ActionFactory.createMoveAction ());
+		getActions().addAction(ActionFactory.createResizeAction());
+		getActions().addAction(ActionFactory.createMoveAction());
 
-        LabelWidget innerWidget = new LabelWidget (scene, "Everything has to be symetric");
-        innerWidget.setAlignment (LabelWidget.Alignment.CENTER);
-        innerWidget.setVerticalAlignment (LabelWidget.VerticalAlignment.CENTER);
-        innerWidget.setOpaque (true);
-        innerWidget.setBorder (BorderFactory.createResizeBorder (4));
-        innerWidget.setBackground (Color.GREEN);
-        addChild(innerWidget);
-    }
+		LabelWidget innerWidget = new LabelWidget(scene, "Everything has to be symetric");
+		innerWidget.setAlignment(LabelWidget.Alignment.CENTER);
+		innerWidget.setVerticalAlignment(LabelWidget.VerticalAlignment.CENTER);
+		innerWidget.setOpaque(true);
+		innerWidget.setBorder(BorderFactory.createResizeBorder(4));
+		innerWidget.setBackground(Color.GREEN);
+		addChild(innerWidget);
+	}
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
-        OverlayLayoutWidgetTest widget = new OverlayLayoutWidgetTest (scene);
-        widget.setPreferredBounds (new Rectangle (-50, -50, 300, 100));
-        scene.addChild (widget);
-        SceneSupport.show (scene);
-    }
+	public static void main(String[] args) {
+		Scene scene = new Scene();
+		OverlayLayoutWidgetTest widget = new OverlayLayoutWidgetTest(scene);
+		widget.setPreferredBounds(new Rectangle(-50, -50, 300, 100));
+		scene.addChild(widget);
+		SceneSupport.show(scene);
+	}
 
 }

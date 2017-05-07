@@ -48,6 +48,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.netbeans.modules.visual.graph.layout.orthogonalsupport.Face.Dart;
 import org.netbeans.modules.visual.graph.layout.orthogonalsupport.MGraph.Edge;
 import org.netbeans.modules.visual.graph.layout.orthogonalsupport.MGraph.Vertex;
@@ -58,194 +59,194 @@ import org.netbeans.modules.visual.graph.layout.orthogonalsupport.MGraph.Vertex;
  */
 public class OrthogonalRepresentation {
 
-    private Map<Face, OrthogonalShape> shapes;
-    private EmbeddedPlanarGraph originalGraph;
-    private Vertex cornerVertex;
+	private Map<Face, OrthogonalShape> shapes;
+	private EmbeddedPlanarGraph originalGraph;
+	private Vertex cornerVertex;
 
-    public static OrthogonalRepresentation createGraph(EmbeddedPlanarGraph graph) {
-        return new OrthogonalRepresentation(graph);
-    }
+	public static OrthogonalRepresentation createGraph(EmbeddedPlanarGraph graph) {
+		return new OrthogonalRepresentation(graph);
+	}
 
-    private OrthogonalRepresentation(EmbeddedPlanarGraph graph) {
-        shapes = new LinkedHashMap<Face, OrthogonalShape>();
-        this.originalGraph = graph;
-    }
+	private OrthogonalRepresentation(EmbeddedPlanarGraph graph) {
+		shapes = new LinkedHashMap<Face, OrthogonalShape>();
+		this.originalGraph = graph;
+	}
 
-    public EmbeddedPlanarGraph getOriginalGraph() {
-        return originalGraph;
-    }
+	public EmbeddedPlanarGraph getOriginalGraph() {
+		return originalGraph;
+	}
 
-    public OrthogonalShape getShape(Face face) {
-        OrthogonalShape shape = shapes.get(face);
-        if (shape == null) {
-            shape = new OrthogonalShape(face);
-            shapes.put(face, shape);
-        }
+	public OrthogonalShape getShape(Face face) {
+		OrthogonalShape shape = shapes.get(face);
+		if (shape == null) {
+			shape = new OrthogonalShape(face);
+			shapes.put(face, shape);
+		}
 
-        return shape;
-    }
+		return shape;
+	}
 
-    public Collection<OrthogonalShape> getShapes() {
-        return shapes.values();
-    }
+	public Collection<OrthogonalShape> getShapes() {
+		return shapes.values();
+	}
 
-    public void setCornerVertex(Vertex cornerVertex) {
-        this.cornerVertex = cornerVertex;
-    }
+	public void setCornerVertex(Vertex cornerVertex) {
+		this.cornerVertex = cornerVertex;
+	}
 
-    public Vertex getCornerVertex() {
-        return cornerVertex;
-    }
+	public Vertex getCornerVertex() {
+		return cornerVertex;
+	}
 
-    @Override
-    public String toString() {
-        String s = "Orthogonal Representation:\n";
+	@Override
+	public String toString() {
+		String s = "Orthogonal Representation:\n";
 
-        for (OrthogonalShape shape : shapes.values()) {
-            s = s + shape;
-        }
+		for (OrthogonalShape shape : shapes.values()) {
+			s = s + shape;
+		}
 
-        return s;
-    }
+		return s;
+	}
 
-    public class OrthogonalShape {
+	public class OrthogonalShape {
 
-        private Map<Dart, Tuple> tupleMap;
-        private Face face;
+		private Map<Dart, Tuple> tupleMap;
+		private Face face;
 
-        OrthogonalShape(Face face) {
-            this.face = face;
-            tupleMap = new LinkedHashMap<Dart, Tuple>();
-            for (Dart d : face.getDarts()) {
-                Tuple t = new Tuple(d);
-                tupleMap.put(d, t);
-            }
-        }
+		OrthogonalShape(Face face) {
+			this.face = face;
+			tupleMap = new LinkedHashMap<Dart, Tuple>();
+			for (Dart d : face.getDarts()) {
+				Tuple t = new Tuple(d);
+				tupleMap.put(d, t);
+			}
+		}
 
-        public Face getFace() {
-            return face;
-        }
+		public Face getFace() {
+			return face;
+		}
 
-        public Tuple getTuple(Dart dart) {
-            return tupleMap.get(dart);
-        }
+		public Tuple getTuple(Dart dart) {
+			return tupleMap.get(dart);
+		}
 
-        public void updateTuple(Tuple tuple, Collection<Edge> newEdges) {
+		public void updateTuple(Tuple tuple, Collection<Edge> newEdges) {
 
-            Dart originalDart = tuple.getDart();
-            Edge originalEdge = originalDart.getEdge();
-            List<Dart> newDarts = face.replaceDart(originalDart, newEdges);
-            tupleMap.remove(originalDart);
-            BitSet bends = tuple.getBends();
-            int size = newDarts.size();
+			Dart originalDart = tuple.getDart();
+			Edge originalEdge = originalDart.getEdge();
+			List<Dart> newDarts = face.replaceDart(originalDart, newEdges);
+			tupleMap.remove(originalDart);
+			BitSet bends = tuple.getBends();
+			int size = newDarts.size();
 
-            for (int i = 0; i < size; i++) {
-                Dart newDart = newDarts.get(i);
-                Tuple newTuple = new Tuple(newDart);
-                tupleMap.put(newDart, newTuple);
+			for (int i = 0; i < size; i++) {
+				Dart newDart = newDarts.get(i);
+				Tuple newTuple = new Tuple(newDart);
+				tupleMap.put(newDart, newTuple);
 
-                if (i == 0) {
-                    newTuple.setAngles(tuple.getAngles());
-                } else {
-                    if (bends.length() > 0) {
-                        boolean bit = bends.get(i - 1);
-                        if (bit) {
-                            newTuple.setAngles(3);
-                        } else {
-                            newTuple.setAngles(1);
-                        }
-                    } else {
-                        newTuple.setAngles(2);
-                    }
-                }
-            }
+				if (i == 0) {
+					newTuple.setAngles(tuple.getAngles());
+				} else {
+					if (bends.length() > 0) {
+						boolean bit = bends.get(i - 1);
+						if (bit) {
+							newTuple.setAngles(3);
+						} else {
+							newTuple.setAngles(1);
+						}
+					} else {
+						newTuple.setAngles(2);
+					}
+				}
+			}
 
-            // Check to see if there is a reverse dart
-            Dart reverseDart = face.getDart(originalEdge);
-            if (reverseDart != null) {
-                Tuple reverseTuple = getTuple(reverseDart);
-                updateTuple(reverseTuple, newEdges);
-            }
-        }
+			// Check to see if there is a reverse dart
+			Dart reverseDart = face.getDart(originalEdge);
+			if (reverseDart != null) {
+				Tuple reverseTuple = getTuple(reverseDart);
+				updateTuple(reverseTuple, newEdges);
+			}
+		}
 
-        public void insertEdge(Edge edge) {
-            List<Dart> removedDarts = face.replaceDarts(edge);
+		public void insertEdge(Edge edge) {
+			List<Dart> removedDarts = face.replaceDarts(edge);
 
-            if (removedDarts.isEmpty()) {
-                return;
-            }
+			if (removedDarts.isEmpty()) {
+				return;
+			}
 
-            for (Dart d : removedDarts) {
-                tupleMap.remove(d);
-            }
+			for (Dart d : removedDarts) {
+				tupleMap.remove(d);
+			}
 
-            // Create the new tuple
-            Dart newDart = face.getDart(edge);
-            Tuple newTuple = new Tuple(newDart);
-            tupleMap.put(newDart, newTuple);
-            newTuple.setAngles(1);
+			// Create the new tuple
+			Dart newDart = face.getDart(edge);
+			Tuple newTuple = new Tuple(newDart);
+			tupleMap.put(newDart, newTuple);
+			newTuple.setAngles(1);
 
-            // Update the angle of the next tuple to 180
-            Dart nextDart = face.getNextDart(newDart);
-            Tuple nextTuple = getTuple(nextDart);
-            nextTuple.setAngles(2);
-        }
+			// Update the angle of the next tuple to 180
+			Dart nextDart = face.getNextDart(newDart);
+			Tuple nextTuple = getTuple(nextDart);
+			nextTuple.setAngles(2);
+		}
 
-        public String toString() {
-            String s = "Shape:\n";
-            s = s + face;
+		public String toString() {
+			String s = "Shape:\n";
+			s = s + face;
 
-            return s;
-        }
-    }
+			return s;
+		}
+	}
 
-    public class Tuple {
+	public class Tuple {
 
-        private Dart dart;
-        private BitSet bends;
-        private int angles;
+		private Dart dart;
+		private BitSet bends;
+		private int angles;
 
-        public Tuple(Dart dart) {
-            this.dart = dart;
-            bends = new BitSet();
-        }
+		public Tuple(Dart dart) {
+			this.dart = dart;
+			bends = new BitSet();
+		}
 
-        public Dart getDart() {
-            return dart;
-        }
+		public Dart getDart() {
+			return dart;
+		}
 
-        public BitSet getBends() {
-            return bends;
-        }
+		public BitSet getBends() {
+			return bends;
+		}
 
-        public int getNumberOfBends() {
-            int length = bends.length();
+		public int getNumberOfBends() {
+			int length = bends.length();
 
-            if (length > 0) {
-                length--;
-            }
-            return length;
-        }
+			if (length > 0) {
+				length--;
+			}
+			return length;
+		}
 
-        public int getAngles() {
-            return angles;
-        }
+		public int getAngles() {
+			return angles;
+		}
 
-        public void setAngles(int angles) {
-            if (angles == 0) {
-                (new Exception()).printStackTrace();
-            }
-            this.angles = angles;
-        }
+		public void setAngles(int angles) {
+			if (angles == 0) {
+				(new Exception()).printStackTrace();
+			}
+			this.angles = angles;
+		}
 
-        public String toString() {
-            String s = "Tuple:\n";
-            s = s + dart + "\n";
-            s = s + "angles = " + angles + "\n";
-            s = s + "bends = " + bends + "\n";
-            s = s + "# of bends = " + getNumberOfBends() + "\n";
-            s = s + "direction = " + dart.getEdge().getDirection() + "\n";
-            return s;
-        }
-    }
+		public String toString() {
+			String s = "Tuple:\n";
+			s = s + dart + "\n";
+			s = s + "angles = " + angles + "\n";
+			s = s + "bends = " + bends + "\n";
+			s = s + "# of bends = " + getNumberOfBends() + "\n";
+			s = s + "direction = " + dart.getEdge().getDirection() + "\n";
+			return s;
+		}
+	}
 }

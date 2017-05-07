@@ -44,36 +44,36 @@
 
 package org.netbeans.modules.visual.action;
 
-import org.netbeans.api.visual.action.WidgetAction;
-import org.netbeans.api.visual.widget.Widget;
-
+import java.awt.Rectangle;
 import java.awt.event.InputEvent;
-import java.awt.*;
+
+import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.widget.SceneNode;
+import org.netbeans.api.visual.widget.Widget;
 
 /**
  * @author David Kaspar
  */
 public class WheelPanAction extends WidgetAction.Adapter {
 
-    public State mouseWheelMoved (Widget widget, WidgetMouseWheelEvent event) {
-        SceneNode view = widget.getScene ().getView ();
-        Rectangle visibleRect = view.getVisibleRect ();
-        int amount = event.getWheelRotation () * 64;
+	public State mouseWheelMoved(Widget widget, WidgetMouseWheelEvent event) {
+		SceneNode view = widget.getScene().getView();
+		Rectangle visibleRect = view.getVisibleRect();
+		int amount = event.getWheelRotation() * 64;
 
-        switch (event.getModifiers () & (InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK | InputEvent.ALT_MASK)) {
-            case InputEvent.SHIFT_MASK:
-                visibleRect.x += amount;
-                break;
-            case 0:
-                visibleRect.y += amount;
-                break;
-            default:
-                return State.REJECTED;
-        }
+		switch (event.getModifiers() & (InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK | InputEvent.ALT_MASK)) {
+		case InputEvent.SHIFT_MASK:
+			visibleRect.x += amount;
+			break;
+		case 0:
+			visibleRect.y += amount;
+			break;
+		default:
+			return State.REJECTED;
+		}
 
-        view.scrollRectToVisible (visibleRect);
-        return State.CONSUMED;
-    }
+		view.scrollRectToVisible(visibleRect);
+		return State.CONSUMED;
+	}
 
 }

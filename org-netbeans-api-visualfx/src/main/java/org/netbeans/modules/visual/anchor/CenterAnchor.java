@@ -43,21 +43,21 @@
  */
 package org.netbeans.modules.visual.anchor;
 
-import org.netbeans.api.visual.widget.Widget;
 import org.netbeans.api.visual.anchor.Anchor;
+import org.netbeans.api.visual.widget.Widget;
 
 /**
  * @author David Kaspar
  */
 public final class CenterAnchor extends Anchor {
 
-    public CenterAnchor (Widget widget) {
-        super (widget);
-//        assert widget != null;
-    }
+	public CenterAnchor(Widget widget) {
+		super(widget);
+		// assert widget != null;
+	}
 
-    public Result compute (Entry entry) {
-        return new Result (getRelatedSceneLocation (), Anchor.DIRECTION_ANY);
-    }
+	public Result compute(Entry entry) {
+		return new Result(getRelatedSceneLocation(), Anchor.DIRECTION_ANY);
+	}
 
 }

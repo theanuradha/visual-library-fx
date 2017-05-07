@@ -19,52 +19,55 @@
 
 package test.layout;
 
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.Rectangle;
+
+import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.api.visual.action.ActionFactory;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class WeightFlowLayoutTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
+	public static void main(String[] args) {
+		Scene scene = new Scene();
 
-        LayerWidget layer = new LayerWidget (scene);
-        scene.addChild (layer);
+		LayerWidget layer = new LayerWidget(scene);
+		scene.addChild(layer);
 
-        Widget widget = new Widget (scene);
-        widget.setBorder (BorderFactory.createResizeBorder (8, Color.BLACK, false));
-        widget.setLayout (LayoutFactory.createVerticalFlowLayout (LayoutFactory.SerialAlignment.JUSTIFY, 10));
-        widget.setPreferredLocation (new Point (50, 50));
-        widget.setPreferredBounds (new Rectangle (200, 200));
-        widget.getActions ().addAction (ActionFactory.createResizeAction ());
-        layer.addChild (widget);
+		Widget widget = new Widget(scene);
+		widget.setBorder(BorderFactory.createResizeBorder(8, Color.BLACK, false));
+		widget.setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.JUSTIFY, 10));
+		widget.setPreferredLocation(new Point(50, 50));
+		widget.setPreferredBounds(new Rectangle(200, 200));
+		widget.getActions().addAction(ActionFactory.createResizeAction());
+		layer.addChild(widget);
 
-        createChild (widget, Color.RED, 10);
-        createChild (widget, Color.GREEN, 20);
-        createChild (widget, Color.YELLOW, 100).setVisible (false);
-        createChild (widget, Color.BLUE, 30);
-        createChild (widget, Color.BLACK, 40);
+		createChild(widget, Color.RED, 10);
+		createChild(widget, Color.GREEN, 20);
+		createChild(widget, Color.YELLOW, 100).setVisible(false);
+		createChild(widget, Color.BLUE, 30);
+		createChild(widget, Color.BLACK, 40);
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
-    private static LabelWidget createChild (Widget parent, Color color, int weight) {
-        LabelWidget child = new LabelWidget (parent.getScene (), "Weight: " + weight);
-        child.setOpaque (true);
-        child.setBackground (color);
-        child.setForeground (Color.WHITE);
-        parent.addChild (child, weight);
-        return child;
-    }
+	private static LabelWidget createChild(Widget parent, Color color, int weight) {
+		LabelWidget child = new LabelWidget(parent.getScene(), "Weight: " + weight);
+		child.setOpaque(true);
+		child.setBackground(color);
+		child.setForeground(Color.WHITE);
+		parent.addChild(child, weight);
+		return child;
+	}
 
 }

@@ -25,6 +25,7 @@ import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
 import org.openide.util.Utilities;
+
 import test.SceneSupport;
 
 /**
@@ -32,23 +33,30 @@ import test.SceneSupport;
  */
 public class IconNodeWidget extends Widget {
 
-    public IconNodeWidget(Scene scene, String icon, String label) {
-        super (scene);
+	public IconNodeWidget(Scene scene, String icon, String label) {
+		super(scene);
 
-        setOpaque (true);
-        setLayout (LayoutFactory.createVerticalFlowLayout (LayoutFactory.SerialAlignment.CENTER, 4)); // use vertical layout
+		setOpaque(true);
+		setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.CENTER, 4)); // use
+																									// vertical
+																									// layout
 
-        addChild (new ImageWidget (scene, Utilities.loadImage (icon))); // add image sub-widget
-        addChild (new LabelWidget (scene, label)); // add label sub-widget
-    }
+		addChild(new ImageWidget(scene, Utilities.loadImage(icon))); // add
+																		// image
+																		// sub-widget
+		addChild(new LabelWidget(scene, label)); // add label sub-widget
+	}
 
-    public static void main (String[] args) {
-        Scene scene = new Scene (); // create a scene
+	public static void main(String[] args) {
+		Scene scene = new Scene(); // create a scene
 
-        IconNodeWidget iconNode = new IconNodeWidget (scene, "javaone/resources/netbeans_logo.gif", "Visual Library"); // create our icon node
-        scene.addChild (iconNode); // add the icon node into scene
+		IconNodeWidget iconNode = new IconNodeWidget(scene, "javaone/resources/netbeans_logo.gif", "Visual Library"); // create
+																														// our
+																														// icon
+																														// node
+		scene.addChild(iconNode); // add the icon node into scene
 
-        SceneSupport.show (scene); // create and show the view in JFrame
-    }
+		SceneSupport.show(scene); // create and show the view in JFrame
+	}
 
 }

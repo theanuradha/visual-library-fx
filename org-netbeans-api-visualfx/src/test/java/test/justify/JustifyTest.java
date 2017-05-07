@@ -18,6 +18,9 @@
  */
 package test.justify;
 
+import java.awt.Color;
+import java.awt.Dimension;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.TextFieldInplaceEditor;
 import org.netbeans.api.visual.border.BorderFactory;
@@ -25,81 +28,82 @@ import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class JustifyTest extends Scene {
 
-    public JustifyTest () {
-        Widget r = creeateVerticalBox ();
-        r.setMinimumSize (new Dimension (200, 200));
-        addChild (r);
+	public JustifyTest() {
+		Widget r = creeateVerticalBox();
+		r.setMinimumSize(new Dimension(200, 200));
+		addChild(r);
 
-        Widget h1 = creeateHorizontalBox ();
-        r.addChild (h1);
-        Widget h2 = creeateHorizontalBox ();
-        r.addChild (h2);
+		Widget h1 = creeateHorizontalBox();
+		r.addChild(h1);
+		Widget h2 = creeateHorizontalBox();
+		r.addChild(h2);
 
-        Widget v11 = creeateVerticalBox ();
-        h1.addChild (v11);
-        Widget v12 = creeateVerticalBox ();
-        h1.addChild (v12);
+		Widget v11 = creeateVerticalBox();
+		h1.addChild(v11);
+		Widget v12 = creeateVerticalBox();
+		h1.addChild(v12);
 
-        Widget v21 = creeateVerticalBox ();
-        h2.addChild (v21);
-        Widget v22 = creeateVerticalBox ();
-        h2.addChild (v22);
+		Widget v21 = creeateVerticalBox();
+		h2.addChild(v21);
+		Widget v22 = creeateVerticalBox();
+		h2.addChild(v22);
 
-        v11.addChild (createLabel ("Hi"));
-        v11.addChild (createLabel ("Privet"));
-        v12.addChild (createLabel ("Cau"));
-        v12.addChild (createLabel ("Caio"));
-        v21.addChild (createLabel ("Good morning"));
-        v21.addChild (createLabel ("Dobry den"));
-        v22.addChild (createLabel ("Welcome"));
-        v22.addChild (createLabel ("Vitejte"));
-    }
+		v11.addChild(createLabel("Hi"));
+		v11.addChild(createLabel("Privet"));
+		v12.addChild(createLabel("Cau"));
+		v12.addChild(createLabel("Caio"));
+		v21.addChild(createLabel("Good morning"));
+		v21.addChild(createLabel("Dobry den"));
+		v22.addChild(createLabel("Welcome"));
+		v22.addChild(createLabel("Vitejte"));
+	}
 
-    private LabelWidget createLabel (String text) {
-        final LabelWidget label = new LabelWidget (this, text);
-        label.setBorder (BorderFactory.createLineBorder (10, Color.RED));
-        label.getActions ().addAction (ActionFactory.createResizeAction ());
-        label.getActions ().addAction (ActionFactory.createInplaceEditorAction (new TextFieldInplaceEditor () {
-            public boolean isEnabled (Widget widget) {
-                return true;
-            }
-            public String getText (Widget widget) {
-                return label.getLabel ();
-            }
-            public void setText (Widget widget, String text) {
-                label.setLabel (text);
-            }
-        }));
-        return label;
-    }
+	private LabelWidget createLabel(String text) {
+		final LabelWidget label = new LabelWidget(this, text);
+		label.setBorder(BorderFactory.createLineBorder(10, Color.RED));
+		label.getActions().addAction(ActionFactory.createResizeAction());
+		label.getActions().addAction(ActionFactory.createInplaceEditorAction(new TextFieldInplaceEditor() {
+			public boolean isEnabled(Widget widget) {
+				return true;
+			}
 
-    private Widget creeateVerticalBox () {
-        Widget vbox = new Widget (this);
-        vbox.setBorder (BorderFactory.createLineBorder (10, Color.GREEN));
-        vbox.setLayout (LayoutFactory.createVerticalFlowLayout ());
-        vbox.getActions ().addAction (ActionFactory.createResizeAction ());
-        return vbox;
-    }
+			public String getText(Widget widget) {
+				return label.getLabel();
+			}
 
-    private Widget creeateHorizontalBox () {
-        Widget hbox = new Widget (this);
-        hbox.setBorder (BorderFactory.createLineBorder (10, Color.BLUE));
-        hbox.setLayout (LayoutFactory.createHorizontalFlowLayout ());
-        hbox.getActions ().addAction (ActionFactory.createResizeAction ());
-        return hbox;
-    }
+			public void setText(Widget widget, String text) {
+				label.setLabel(text);
+			}
+		}));
+		return label;
+	}
 
-    public static void main (String[] args) {
-        SceneSupport.show (new JustifyTest ());
-    }
+	private Widget creeateVerticalBox() {
+		Widget vbox = new Widget(this);
+		vbox.setBorder(BorderFactory.createLineBorder(10, Color.GREEN));
+		vbox.setLayout(LayoutFactory.createVerticalFlowLayout());
+		vbox.getActions().addAction(ActionFactory.createResizeAction());
+		return vbox;
+	}
+
+	private Widget creeateHorizontalBox() {
+		Widget hbox = new Widget(this);
+		hbox.setBorder(BorderFactory.createLineBorder(10, Color.BLUE));
+		hbox.setLayout(LayoutFactory.createHorizontalFlowLayout());
+		hbox.getActions().addAction(ActionFactory.createResizeAction());
+		return hbox;
+	}
+
+	public static void main(String[] args) {
+		SceneSupport.show(new JustifyTest());
+	}
 
 }

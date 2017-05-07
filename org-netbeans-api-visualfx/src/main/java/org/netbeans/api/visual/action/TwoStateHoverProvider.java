@@ -52,16 +52,20 @@ import org.netbeans.api.visual.widget.Widget;
  */
 public interface TwoStateHoverProvider {
 
-    /**
-     * Called when a hovering is going to be unset from a widget.
-     * @param widget the unhovered widget
-     */
-    void unsetHovering (Widget widget);
+	/**
+	 * Called when a hovering is going to be unset from a widget.
+	 * 
+	 * @param widget
+	 *            the unhovered widget
+	 */
+	void unsetHovering(Widget widget);
 
-    /**
-     * Called when a hovering is going to be set to a widget.
-     * @param widget the hovered widget
-     */
-    void setHovering (Widget widget);
+	/**
+	 * Called when a hovering is going to be set to a widget.
+	 * 
+	 * @param widget
+	 *            the hovered widget
+	 */
+	void setHovering(Widget widget);
 
 }

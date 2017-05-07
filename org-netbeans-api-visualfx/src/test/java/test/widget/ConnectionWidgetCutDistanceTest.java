@@ -19,49 +19,50 @@
 
 package test.widget;
 
+import java.awt.Point;
+
 import org.netbeans.api.visual.anchor.AnchorFactory;
+import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.router.RouterFactory;
 import org.netbeans.api.visual.widget.ConnectionWidget;
-import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.LabelWidget;
-import org.netbeans.api.visual.layout.LayoutFactory;
-import test.SceneSupport;
+import org.netbeans.api.visual.widget.Scene;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class ConnectionWidgetCutDistanceTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
+	public static void main(String[] args) {
+		Scene scene = new Scene();
 
-        ConnectionWidget conn1 = new ConnectionWidget (scene);
-        conn1.setControlPointCutDistance (8);
-        conn1.setRouter (RouterFactory.createOrthogonalSearchRouter ());
-        conn1.setSourceAnchor (AnchorFactory.createFixedAnchor (new Point (50, 50)));
-        conn1.setTargetAnchor (AnchorFactory.createFixedAnchor (new Point (450, 150)));
-        conn1.getActions ().addAction (scene.createWidgetHoverAction ());
-        scene.addChild (conn1);
+		ConnectionWidget conn1 = new ConnectionWidget(scene);
+		conn1.setControlPointCutDistance(8);
+		conn1.setRouter(RouterFactory.createOrthogonalSearchRouter());
+		conn1.setSourceAnchor(AnchorFactory.createFixedAnchor(new Point(50, 50)));
+		conn1.setTargetAnchor(AnchorFactory.createFixedAnchor(new Point(450, 150)));
+		conn1.getActions().addAction(scene.createWidgetHoverAction());
+		scene.addChild(conn1);
 
-        LabelWidget label1 = new LabelWidget (scene, "Control Point Cut Distance = 8");
-        conn1.addChild (label1);
-        conn1.setConstraint (label1, LayoutFactory.ConnectionWidgetLayoutAlignment.BOTTOM_RIGHT, 0);
+		LabelWidget label1 = new LabelWidget(scene, "Control Point Cut Distance = 8");
+		conn1.addChild(label1);
+		conn1.setConstraint(label1, LayoutFactory.ConnectionWidgetLayoutAlignment.BOTTOM_RIGHT, 0);
 
-        ConnectionWidget conn2 = new ConnectionWidget (scene);
-        conn2.setControlPointCutDistance (0);
-        conn2.setRouter (RouterFactory.createOrthogonalSearchRouter ());
-        conn2.setSourceAnchor (AnchorFactory.createFixedAnchor (new Point (50, 250)));
-        conn2.setTargetAnchor (AnchorFactory.createFixedAnchor (new Point (450, 350)));
-        conn2.getActions ().addAction (scene.createWidgetHoverAction ());
-        scene.addChild (conn2);
+		ConnectionWidget conn2 = new ConnectionWidget(scene);
+		conn2.setControlPointCutDistance(0);
+		conn2.setRouter(RouterFactory.createOrthogonalSearchRouter());
+		conn2.setSourceAnchor(AnchorFactory.createFixedAnchor(new Point(50, 250)));
+		conn2.setTargetAnchor(AnchorFactory.createFixedAnchor(new Point(450, 350)));
+		conn2.getActions().addAction(scene.createWidgetHoverAction());
+		scene.addChild(conn2);
 
-        LabelWidget label2 = new LabelWidget (scene, "Control Point Cut Distance = 0");
-        conn2.addChild (label2);
-        conn2.setConstraint (label2, LayoutFactory.ConnectionWidgetLayoutAlignment.BOTTOM_RIGHT, 0);
-        
-        SceneSupport.show (scene);
-    }
+		LabelWidget label2 = new LabelWidget(scene, "Control Point Cut Distance = 0");
+		conn2.addChild(label2);
+		conn2.setConstraint(label2, LayoutFactory.ConnectionWidgetLayoutAlignment.BOTTOM_RIGHT, 0);
+
+		SceneSupport.show(scene);
+	}
 
 }

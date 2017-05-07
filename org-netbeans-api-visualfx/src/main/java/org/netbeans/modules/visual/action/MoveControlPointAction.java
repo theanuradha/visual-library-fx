@@ -43,13 +43,13 @@
  */
 package org.netbeans.modules.visual.action;
 
+import java.awt.Point;
+
 import org.netbeans.api.visual.action.MoveControlPointProvider;
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.Widget;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
 import javafx.scene.input.MouseButton;
 
 /**
@@ -57,80 +57,80 @@ import javafx.scene.input.MouseButton;
  */
 public final class MoveControlPointAction extends WidgetAction.LockedAdapter {
 
-    private MoveControlPointProvider provider;
-    private ConnectionWidget.RoutingPolicy routingPolicy;
+	private MoveControlPointProvider provider;
+	private ConnectionWidget.RoutingPolicy routingPolicy;
 
-    private ConnectionWidget movingWidget = null;
-    private Point controlPointLocation;
-    private int controlPointIndex;
-    private Point lastLocation = null;
+	private ConnectionWidget movingWidget = null;
+	private Point controlPointLocation;
+	private int controlPointIndex;
+	private Point lastLocation = null;
 
-    public MoveControlPointAction (MoveControlPointProvider provider, ConnectionWidget.RoutingPolicy routingPolicy) {
-        this.provider = provider;
-        this.routingPolicy = routingPolicy;
-    }
+	public MoveControlPointAction(MoveControlPointProvider provider, ConnectionWidget.RoutingPolicy routingPolicy) {
+		this.provider = provider;
+		this.routingPolicy = routingPolicy;
+	}
 
-    protected boolean isLocked () {
-        return movingWidget != null;
-    }
+	protected boolean isLocked() {
+		return movingWidget != null;
+	}
 
-    @Override
-    public State mousePressed (Widget widget, WidgetMouseEvent event) {
-        if (isLocked ())
-            return State.createLocked (widget, this);
-        if (event.getButton () == MouseButton.PRIMARY  &&  event.getClickCount () == 1) {
-            if (widget instanceof ConnectionWidget) {
-                ConnectionWidget conn = (ConnectionWidget) widget;
-                controlPointIndex = conn.getControlPointHitAt (event.getPoint ());
-                if (controlPointIndex >= 0) {
-                    movingWidget = conn;
-                    controlPointLocation = new Point (conn.getControlPoints (). get (controlPointIndex));
-                    lastLocation = new Point (event.getPoint ());
-                    return State.createLocked (widget, this);
-                } else {
-                    movingWidget = null;
-                }
-            }
-        }
-        return State.REJECTED;
-    }
+	@Override
+	public State mousePressed(Widget widget, WidgetMouseEvent event) {
+		if (isLocked())
+			return State.createLocked(widget, this);
+		if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
+			if (widget instanceof ConnectionWidget) {
+				ConnectionWidget conn = (ConnectionWidget) widget;
+				controlPointIndex = conn.getControlPointHitAt(event.getPoint());
+				if (controlPointIndex >= 0) {
+					movingWidget = conn;
+					controlPointLocation = new Point(conn.getControlPoints().get(controlPointIndex));
+					lastLocation = new Point(event.getPoint());
+					return State.createLocked(widget, this);
+				} else {
+					movingWidget = null;
+				}
+			}
+		}
+		return State.REJECTED;
+	}
 
-    @Override
-    public State mouseReleased(Widget widget, WidgetMouseEvent event) {
-        State state = move(widget, event.getPoint()) ? State.CONSUMED : State.REJECTED;
-        movingWidget = null;
-        return state;
-    }
+	@Override
+	public State mouseReleased(Widget widget, WidgetMouseEvent event) {
+		State state = move(widget, event.getPoint()) ? State.CONSUMED : State.REJECTED;
+		movingWidget = null;
+		return state;
+	}
 
-    @Override
-    public State mouseDragged(Widget widget, WidgetMouseEvent event) {
-        if (move(widget, event.getPoint())) {
-            return State.createLocked(widget, this);
-        } else {
-            movingWidget = null;
-            return State.REJECTED;
-        }
-    }
+	@Override
+	public State mouseDragged(Widget widget, WidgetMouseEvent event) {
+		if (move(widget, event.getPoint())) {
+			return State.createLocked(widget, this);
+		} else {
+			movingWidget = null;
+			return State.REJECTED;
+		}
+	}
 
-    private boolean move(Widget widget, Point newLocation) {
-        if (movingWidget != widget)
-            return false;
+	private boolean move(Widget widget, Point newLocation) {
+		if (movingWidget != widget)
+			return false;
 
-        java.util.List<Point> controlPoints = movingWidget.getControlPoints ();
-        if (controlPointIndex < 0  ||  controlPointIndex >= controlPoints.size ())
-            return false;
+		java.util.List<Point> controlPoints = movingWidget.getControlPoints();
+		if (controlPointIndex < 0 || controlPointIndex >= controlPoints.size())
+			return false;
 
-        Point location = new Point (controlPointLocation);
-        location.translate (newLocation.x - lastLocation.x, newLocation.y - lastLocation.y);
+		Point location = new Point(controlPointLocation);
+		location.translate(newLocation.x - lastLocation.x, newLocation.y - lastLocation.y);
 
-        controlPoints = provider.locationSuggested (movingWidget, controlPointIndex, location);
-        if (controlPoints == null)
-            return false;
+		controlPoints = provider.locationSuggested(movingWidget, controlPointIndex, location);
+		if (controlPoints == null)
+			return false;
 
-        if (routingPolicy != null)
-            movingWidget.setRoutingPolicy (routingPolicy);
-        movingWidget.setControlPoints (controlPoints, false);
-        return true;
-    }
+		if (routingPolicy != null)
+			movingWidget.setRoutingPolicy(routingPolicy);
+		movingWidget.setControlPoints(controlPoints, false);
+		return true;
+	}
 
 }

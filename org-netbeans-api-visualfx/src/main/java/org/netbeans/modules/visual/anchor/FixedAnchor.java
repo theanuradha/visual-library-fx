@@ -43,28 +43,28 @@
  */
 package org.netbeans.modules.visual.anchor;
 
-import org.netbeans.api.visual.anchor.Anchor;
+import java.awt.Point;
 
-import java.awt.*;
+import org.netbeans.api.visual.anchor.Anchor;
 
 /**
  * @author David Kaspar
  */
 public final class FixedAnchor extends Anchor {
 
-    private Point location;
+	private Point location;
 
-    public FixedAnchor (Point location) {
-        super (null);
-        this.location = location;
-    }
+	public FixedAnchor(Point location) {
+		super(null);
+		this.location = location;
+	}
 
-    public Point getRelatedSceneLocation () {
-        return location;
-    }
+	public Point getRelatedSceneLocation() {
+		return location;
+	}
 
-    public Result compute (Entry entry) {
-        return new Result (location, Anchor.DIRECTION_ANY);
-    }
+	public Result compute(Entry entry) {
+		return new Result(location, Anchor.DIRECTION_ANY);
+	}
 
 }

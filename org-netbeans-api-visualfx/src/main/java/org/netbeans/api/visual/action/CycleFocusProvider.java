@@ -52,18 +52,22 @@ import org.netbeans.api.visual.widget.Widget;
  */
 public interface CycleFocusProvider {
 
-    /**
-     * Switches a focus to the previous widget/object on a scene.
-     * @param widget the widget where the action was invoked
-     * @return true, if switching was successful
-     */
-    boolean switchPreviousFocus (Widget widget);
+	/**
+	 * Switches a focus to the previous widget/object on a scene.
+	 * 
+	 * @param widget
+	 *            the widget where the action was invoked
+	 * @return true, if switching was successful
+	 */
+	boolean switchPreviousFocus(Widget widget);
 
-    /**
-     * Switches a focus to the next widget/object on a scene.
-     * @param widget the widget where the action was invoked
-     * @return true, if switching was successful
-     */
-    boolean switchNextFocus (Widget widget);
+	/**
+	 * Switches a focus to the next widget/object on a scene.
+	 * 
+	 * @param widget
+	 *            the widget where the action was invoked
+	 * @return true, if switching was successful
+	 */
+	boolean switchNextFocus(Widget widget);
 
 }

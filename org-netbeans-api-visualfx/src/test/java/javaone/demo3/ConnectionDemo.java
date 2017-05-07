@@ -19,6 +19,8 @@
 
 package javaone.demo3;
 
+import java.awt.Point;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.anchor.AnchorFactory;
 import org.netbeans.api.visual.anchor.AnchorShape;
@@ -27,43 +29,42 @@ import org.netbeans.api.visual.widget.ImageWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.openide.util.Utilities;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class ConnectionDemo {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
+	public static void main(String[] args) {
+		Scene scene = new Scene();
 
-        LayerWidget mainLayer = new LayerWidget (scene);
-        scene.addChild(mainLayer);
+		LayerWidget mainLayer = new LayerWidget(scene);
+		scene.addChild(mainLayer);
 
-        ImageWidget first = new ImageWidget (scene);
-        first.setImage (Utilities.loadImage ("javaone/resources/a.png"));
-        first.setPreferredLocation(new Point (100, 100));
-        first.getActions().addAction(ActionFactory.createMoveAction ());
-        mainLayer.addChild(first);
+		ImageWidget first = new ImageWidget(scene);
+		first.setImage(Utilities.loadImage("javaone/resources/a.png"));
+		first.setPreferredLocation(new Point(100, 100));
+		first.getActions().addAction(ActionFactory.createMoveAction());
+		mainLayer.addChild(first);
 
-        ImageWidget second = new ImageWidget (scene);
-        second.setImage (Utilities.loadImage ("javaone/resources/b.png"));
-        second.setPreferredLocation(new Point (300, 200));
-        second.getActions().addAction(ActionFactory.createMoveAction ());
-        mainLayer.addChild(second);
+		ImageWidget second = new ImageWidget(scene);
+		second.setImage(Utilities.loadImage("javaone/resources/b.png"));
+		second.setPreferredLocation(new Point(300, 200));
+		second.getActions().addAction(ActionFactory.createMoveAction());
+		mainLayer.addChild(second);
 
-        LayerWidget connectionLayer = new LayerWidget (scene);
-        scene.addChild(connectionLayer);
+		LayerWidget connectionLayer = new LayerWidget(scene);
+		scene.addChild(connectionLayer);
 
-        ConnectionWidget connection = new ConnectionWidget (scene);
-        connection.setSourceAnchor(AnchorFactory.createCircularAnchor (first, 32));
-        connection.setTargetAnchor(AnchorFactory.createCircularAnchor (second, 32));
-        connection.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
-        connectionLayer.addChild(connection);
+		ConnectionWidget connection = new ConnectionWidget(scene);
+		connection.setSourceAnchor(AnchorFactory.createCircularAnchor(first, 32));
+		connection.setTargetAnchor(AnchorFactory.createCircularAnchor(second, 32));
+		connection.setTargetAnchorShape(AnchorShape.TRIANGLE_FILLED);
+		connectionLayer.addChild(connection);
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
 }

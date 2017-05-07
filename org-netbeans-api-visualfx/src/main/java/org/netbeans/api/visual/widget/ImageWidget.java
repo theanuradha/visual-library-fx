@@ -43,139 +43,155 @@
  */
 package org.netbeans.api.visual.widget;
 
-import org.openide.ErrorManager;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
 
+import javax.swing.GrayFilter;
+
 /**
- * A widget representing image. The origin of the widget is at its top-left corner.
+ * A widget representing image. The origin of the widget is at its top-left
+ * corner.
+ * 
  * @author David Kaspar
  */
 // TODO - alignment
 public class ImageWidget extends Widget {
 
-    private Image image;
-    private Image disabledImage;
-    private int width, height;
-    private boolean paintAsDisabled;
-    private ImageObserver observer = new ImageObserver() {
-        public boolean imageUpdate (Image img, int infoflags, int x, int y, int width, int height) {
-//            System.out.println ("INFO: " + infoflags);
-            setImageCore (image);
-            getScene ().validate ();
-            return (infoflags & (ImageObserver.ABORT | ImageObserver.ERROR)) == 0;
-        }
-    };
+	private Image image;
+	private Image disabledImage;
+	private int width, height;
+	private boolean paintAsDisabled;
+	private ImageObserver observer = new ImageObserver() {
+		public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+			// System.out.println ("INFO: " + infoflags);
+			setImageCore(image);
+			getScene().validate();
+			return (infoflags & (ImageObserver.ABORT | ImageObserver.ERROR)) == 0;
+		}
+	};
 
-    /**
-     * Creates an image widget.
-     * @param scene the scene
-     */
-    public ImageWidget (Scene scene) {
-        super (scene);
-    }
+	/**
+	 * Creates an image widget.
+	 * 
+	 * @param scene
+	 *            the scene
+	 */
+	public ImageWidget(Scene scene) {
+		super(scene);
+	}
 
-    /**
-     * Creates an image widget.
-     * @param scene the scene
-     * @param image the image
-     */
-    public ImageWidget (Scene scene, Image image) {
-        super (scene);
-        setImage (image);
-    }
+	/**
+	 * Creates an image widget.
+	 * 
+	 * @param scene
+	 *            the scene
+	 * @param image
+	 *            the image
+	 */
+	public ImageWidget(Scene scene, Image image) {
+		super(scene);
+		setImage(image);
+	}
 
-    /**
-     * Returns an image.
-     * @return the image
-     */
-    public Image getImage () {
-        return image;
-    }
+	/**
+	 * Returns an image.
+	 * 
+	 * @return the image
+	 */
+	public Image getImage() {
+		return image;
+	}
 
-    /**
-     * Sets an image
-     * @param image the image
-     */
-    public void setImage (Image image) {
-        if (this.image == image)
-            return;
-        setImageCore (image);
-    }
+	/**
+	 * Sets an image
+	 * 
+	 * @param image
+	 *            the image
+	 */
+	public void setImage(Image image) {
+		if (this.image == image)
+			return;
+		setImageCore(image);
+	}
 
-    private void setImageCore (Image image) {
-        if (image == this.image) {
-            return;
-        }
-        int oldWidth = width;
-        int oldHeight = height;
+	private void setImageCore(Image image) {
+		if (image == this.image) {
+			return;
+		}
+		int oldWidth = width;
+		int oldHeight = height;
 
-        this.image = image;
-        this.disabledImage = null;
-        width = image != null ? image.getWidth (null) : 0;
-        height = image != null ? image.getHeight (null) : 0;
+		this.image = image;
+		this.disabledImage = null;
+		width = image != null ? image.getWidth(null) : 0;
+		height = image != null ? image.getHeight(null) : 0;
 
-        if (oldWidth == width  &&  oldHeight == height)
-            repaint ();
-        else
-            revalidate ();
-    }
+		if (oldWidth == width && oldHeight == height)
+			repaint();
+		else
+			revalidate();
+	}
 
-    /**
-     * Returns whether the label is painted as disabled.
-     * @return true, if the label is painted as disabled
-     */
-    public boolean isPaintAsDisabled () {
-        return paintAsDisabled;
-    }
+	/**
+	 * Returns whether the label is painted as disabled.
+	 * 
+	 * @return true, if the label is painted as disabled
+	 */
+	public boolean isPaintAsDisabled() {
+		return paintAsDisabled;
+	}
 
-    /**
-     * Sets whether the label is painted as disabled.
-     * @param paintAsDisabled if true, then the label is painted as disabled
-     */
-    public void setPaintAsDisabled (boolean paintAsDisabled) {
-        boolean repaint = this.paintAsDisabled != paintAsDisabled;
-        this.paintAsDisabled = paintAsDisabled;
-        if (repaint)
-            repaint ();
-    }
+	/**
+	 * Sets whether the label is painted as disabled.
+	 * 
+	 * @param paintAsDisabled
+	 *            if true, then the label is painted as disabled
+	 */
+	public void setPaintAsDisabled(boolean paintAsDisabled) {
+		boolean repaint = this.paintAsDisabled != paintAsDisabled;
+		this.paintAsDisabled = paintAsDisabled;
+		if (repaint)
+			repaint();
+	}
 
-    /**
-     * Calculates a client area of the image
-     * @return the calculated client area
-     */
-    protected Rectangle calculateClientArea () {
-        if (image != null)
-            return new Rectangle (0, 0, width, height);
-        return super.calculateClientArea ();
-    }
+	/**
+	 * Calculates a client area of the image
+	 * 
+	 * @return the calculated client area
+	 */
+	protected Rectangle calculateClientArea() {
+		if (image != null)
+			return new Rectangle(0, 0, width, height);
+		return super.calculateClientArea();
+	}
 
-    /**
-     * Paints the image widget.
-     */
-    protected void paintWidget () {
-        if (image == null)
-            return;
-        Graphics2D gr = getGraphics ();
-        if (image != null) {
-            if (paintAsDisabled) {
-                if (disabledImage == null) {
-                    disabledImage = GrayFilter.createDisabledImage (image);
-                    //FIXME
-//                    MediaTracker tracker = new MediaTracker (getScene ().getView ());
-//                    tracker.addImage (disabledImage, 0);
-//                    try {
-//                        tracker.waitForAll ();
-//                    } catch (InterruptedException e) {
-//                        ErrorManager.getDefault ().notify (e);
-//                    }
-                }
-                gr.drawImage (disabledImage, 0, 0, observer);
-            } else
-                gr.drawImage (image, 0, 0, observer);
-        }
-    }
+	/**
+	 * Paints the image widget.
+	 */
+	protected void paintWidget() {
+		if (image == null)
+			return;
+		Graphics2D gr = getGraphics();
+		if (image != null) {
+			if (paintAsDisabled) {
+				if (disabledImage == null) {
+					disabledImage = GrayFilter.createDisabledImage(image);
+					// FIXME
+					// MediaTracker tracker = new MediaTracker (getScene
+					// ().getView ());
+					// tracker.addImage (disabledImage, 0);
+					// try {
+					// tracker.waitForAll ();
+					// } catch (InterruptedException e) {
+					// ErrorManager.getDefault ().notify (e);
+					// }
+				}
+				gr.drawImage(disabledImage, 0, 0, observer);
+			} else
+				gr.drawImage(image, 0, 0, observer);
+		}
+	}
 
 }

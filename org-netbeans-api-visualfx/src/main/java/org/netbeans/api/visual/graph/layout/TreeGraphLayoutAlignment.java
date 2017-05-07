@@ -43,15 +43,17 @@
 package org.netbeans.api.visual.graph.layout;
 
 /**
- * This Enumeration is used to do the alignment in a TreeGraphLayout. It indicates the position within a level.
+ * This Enumeration is used to do the alignment in a TreeGraphLayout. It
+ * indicates the position within a level.
+ * 
  * @since 2.25
  * @author Erhard Pointl
  */
 public enum TreeGraphLayoutAlignment {
-    /** Alignment at the top of each level. */
-    TOP,
-    /** Alignment at the center of each level. */
-    CENTER,
-    /** Alignment at the bottom of each level. */
-    BOTTOM
+	/** Alignment at the top of each level. */
+	TOP,
+	/** Alignment at the center of each level. */
+	CENTER,
+	/** Alignment at the bottom of each level. */
+	BOTTOM
 }

@@ -18,58 +18,67 @@
  */
 package test.widget;
 
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.Rectangle;
+
+import org.netbeans.api.visual.action.ActionFactory;
+import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.api.visual.action.ActionFactory;
-import org.netbeans.api.visual.border.BorderFactory;
-import test.general.UMLClassWidget;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
+import test.general.UMLClassWidget;
 
 /**
  * @author David Kaspar
  */
 public class RelativeDecorationTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
+	public static void main(String[] args) {
+		Scene scene = new Scene();
 
-        LayerWidget mainLayer = new LayerWidget (scene);
-        scene.addChild (mainLayer);
+		LayerWidget mainLayer = new LayerWidget(scene);
+		scene.addChild(mainLayer);
 
-        Widget widget = new Widget (scene);
-        widget.setPreferredLocation (new Point (100, 100));
-        widget.setBorder (BorderFactory.createLineBorder (1, Color.RED));
-        widget.getActions ().addAction (ActionFactory.createMoveAction ());
-        mainLayer.addChild (widget);
+		Widget widget = new Widget(scene);
+		widget.setPreferredLocation(new Point(100, 100));
+		widget.setBorder(BorderFactory.createLineBorder(1, Color.RED));
+		widget.getActions().addAction(ActionFactory.createMoveAction());
+		mainLayer.addChild(widget);
 
-//        widget.setLayout(LayoutFactory.createOverlayLayout()); // HINT - you have to use AbsoluteLayout
+		// widget.setLayout(LayoutFactory.createOverlayLayout()); // HINT - you
+		// have to use AbsoluteLayout
 
-        LayerWidget childLayer = new LayerWidget(scene); // HINT - or you can remove the childLayer and use umlClassWidget directly
-        childLayer.setLayout(LayoutFactory.createOverlayLayout());
-        widget.addChild(childLayer);
+		LayerWidget childLayer = new LayerWidget(scene); // HINT - or you can
+															// remove the
+															// childLayer and
+															// use
+															// umlClassWidget
+															// directly
+		childLayer.setLayout(LayoutFactory.createOverlayLayout());
+		widget.addChild(childLayer);
 
-        LayerWidget decoratorLayer = new LayerWidget (scene);
-        decoratorLayer.setLayout(LayoutFactory.createAbsoluteLayout());
-        widget.addChild(decoratorLayer);
+		LayerWidget decoratorLayer = new LayerWidget(scene);
+		decoratorLayer.setLayout(LayoutFactory.createAbsoluteLayout());
+		widget.addChild(decoratorLayer);
 
-        UMLClassWidget uml = new UMLClassWidget (scene);
-        uml.setClassName ("ClassName");
-        uml.addMember (uml.createMember ("Member 1"));
-        uml.addOperation (uml.createOperation ("Operation 1"));
-        childLayer.addChild (uml);
+		UMLClassWidget uml = new UMLClassWidget(scene);
+		uml.setClassName("ClassName");
+		uml.addMember(uml.createMember("Member 1"));
+		uml.addOperation(uml.createOperation("Operation 1"));
+		childLayer.addChild(uml);
 
-        Widget decorator = new Widget(scene);
-        decorator.setPreferredBounds(new Rectangle (-8, -8, 16, 16));
-        decorator.setPreferredLocation(new Point(0, 0));
-        decorator.setBackground(java.awt.Color.DARK_GRAY);
-        decorator.setOpaque(true);
-        decoratorLayer.addChild(decorator);
+		Widget decorator = new Widget(scene);
+		decorator.setPreferredBounds(new Rectangle(-8, -8, 16, 16));
+		decorator.setPreferredLocation(new Point(0, 0));
+		decorator.setBackground(java.awt.Color.DARK_GRAY);
+		decorator.setOpaque(true);
+		decoratorLayer.addChild(decorator);
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
 }

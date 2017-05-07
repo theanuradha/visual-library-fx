@@ -18,72 +18,81 @@
  */
 package test.order;
 
+import java.awt.Point;
+
 import org.netbeans.api.visual.action.ActionFactory;
-import org.netbeans.api.visual.border.BorderFactory;
-import org.netbeans.api.visual.widget.*;
-import org.netbeans.api.visual.anchor.AnchorFactory;
 import org.netbeans.api.visual.anchor.Anchor;
+import org.netbeans.api.visual.anchor.AnchorFactory;
+import org.netbeans.api.visual.border.BorderFactory;
+import org.netbeans.api.visual.widget.ConnectionWidget;
+import org.netbeans.api.visual.widget.LabelWidget;
+import org.netbeans.api.visual.widget.LayerWidget;
+import org.netbeans.api.visual.widget.Scene;
+import org.netbeans.api.visual.widget.Widget;
+
 import test.SceneSupport;
 
-import java.awt.*;
-
 /**
- * Test of how to have a connection widget in the background with anchors/widgets that are resolved later then the connection widget.
- * To solve it you have to cache and update Anchors manually in SceneListener.sceneValidated method.
+ * Test of how to have a connection widget in the background with
+ * anchors/widgets that are resolved later then the connection widget. To solve
+ * it you have to cache and update Anchors manually in
+ * SceneListener.sceneValidated method.
  *
  * @author David Kaspar
  */
 public class ReverseOrderWidgetDependencyTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
+	public static void main(String[] args) {
+		Scene scene = new Scene();
 
-        LayerWidget backgroundLayer = new LayerWidget (scene);
-        scene.addChild (backgroundLayer);
+		LayerWidget backgroundLayer = new LayerWidget(scene);
+		scene.addChild(backgroundLayer);
 
-        final ConnectionWidget conn = new ConnectionWidget (scene);
-        backgroundLayer.addChild (conn);
+		final ConnectionWidget conn = new ConnectionWidget(scene);
+		backgroundLayer.addChild(conn);
 
-        LayerWidget mainLayer = new LayerWidget (scene);
-        scene.addChild (mainLayer);
+		LayerWidget mainLayer = new LayerWidget(scene);
+		scene.addChild(mainLayer);
 
-        Widget source = new LabelWidget (scene, "Source");
-        source.setBorder (BorderFactory.createLineBorder (10));
-        source.setPreferredLocation (new Point (100, 100));
-        source.getActions ().addAction (ActionFactory.createMoveAction ());
-        mainLayer.addChild (source);
+		Widget source = new LabelWidget(scene, "Source");
+		source.setBorder(BorderFactory.createLineBorder(10));
+		source.setPreferredLocation(new Point(100, 100));
+		source.getActions().addAction(ActionFactory.createMoveAction());
+		mainLayer.addChild(source);
 
-        Widget target = new LabelWidget (scene, "Target");
-        target.setBorder (BorderFactory.createLineBorder (10));
-        target.setPreferredLocation (new Point (300, 200));
-        target.getActions ().addAction (ActionFactory.createMoveAction ());
-        mainLayer.addChild (target);
+		Widget target = new LabelWidget(scene, "Target");
+		target.setBorder(BorderFactory.createLineBorder(10));
+		target.setPreferredLocation(new Point(300, 200));
+		target.getActions().addAction(ActionFactory.createMoveAction());
+		mainLayer.addChild(target);
 
-        // lazy anchor location computation
+		// lazy anchor location computation
 
-        conn.setSourceAnchor (AnchorFactory.createFixedAnchor (new Point ()));
-        conn.setTargetAnchor (AnchorFactory.createFixedAnchor (new Point ()));
+		conn.setSourceAnchor(AnchorFactory.createFixedAnchor(new Point()));
+		conn.setTargetAnchor(AnchorFactory.createFixedAnchor(new Point()));
 
-        final Anchor sourceAnchor = AnchorFactory.createRectangularAnchor (source);
-        final Anchor targetAnchor = AnchorFactory.createRectangularAnchor (target);
+		final Anchor sourceAnchor = AnchorFactory.createRectangularAnchor(source);
+		final Anchor targetAnchor = AnchorFactory.createRectangularAnchor(target);
 
-        final Point[] anchorPointsCache = new Point[2];
+		final Point[] anchorPointsCache = new Point[2];
 
-        scene.addSceneListener (new Scene.SceneListener() {
-            public void sceneRepaint () {
-            }
-            public void sceneValidating () {
-            }
-            public void sceneValidated () {
-                Point sourcePoint = sourceAnchor.compute (conn.getSourceAnchorEntry ()).getAnchorSceneLocation ();
-                Point targetPoint = targetAnchor.compute (conn.getTargetAnchorEntry ()).getAnchorSceneLocation ();
-                if (! sourcePoint.equals (anchorPointsCache[0]))
-                    conn.setSourceAnchor (AnchorFactory.createFixedAnchor (anchorPointsCache[0] = sourcePoint));
-                if (! targetPoint.equals (anchorPointsCache[1]))
-                    conn.setTargetAnchor (AnchorFactory.createFixedAnchor (anchorPointsCache[1] = targetPoint));
-            }
-        });
-        SceneSupport.show (scene);
-    }
+		scene.addSceneListener(new Scene.SceneListener() {
+			public void sceneRepaint() {
+			}
+
+			public void sceneValidating() {
+			}
+
+			public void sceneValidated() {
+				Point sourcePoint = sourceAnchor.compute(conn.getSourceAnchorEntry()).getAnchorSceneLocation();
+				Point targetPoint = targetAnchor.compute(conn.getTargetAnchorEntry()).getAnchorSceneLocation();
+				if (!sourcePoint.equals(anchorPointsCache[0]))
+					conn.setSourceAnchor(AnchorFactory.createFixedAnchor(anchorPointsCache[0] = sourcePoint));
+				if (!targetPoint.equals(anchorPointsCache[1]))
+					conn.setTargetAnchor(AnchorFactory.createFixedAnchor(anchorPointsCache[1] = targetPoint));
+			}
+		});
+		SceneSupport.show(scene);
+	}
 
 }

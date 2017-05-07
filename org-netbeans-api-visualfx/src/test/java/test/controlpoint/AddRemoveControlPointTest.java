@@ -18,66 +18,67 @@
  */
 package test.controlpoint;
 
+import java.awt.Point;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.anchor.AnchorFactory;
 import org.netbeans.api.visual.anchor.PointShape;
+import org.netbeans.api.visual.router.RouterFactory;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
-import org.netbeans.api.visual.router.RouterFactory;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class AddRemoveControlPointTest extends Scene {
 
-    private LayerWidget mainLayer;
+	private LayerWidget mainLayer;
 
-    public AddRemoveControlPointTest () {
-        mainLayer = new LayerWidget (this);
-        addChild (mainLayer);
-        LayerWidget connLayer = new LayerWidget (this);
-        addChild (connLayer);
+	public AddRemoveControlPointTest() {
+		mainLayer = new LayerWidget(this);
+		addChild(mainLayer);
+		LayerWidget connLayer = new LayerWidget(this);
+		addChild(connLayer);
 
-        addLabel ("Double-click on the connection to create a control point", 10, 30);
-        addLabel ("Drag a control point to move it", 10, 60);
-        addLabel ("Double-click on a control point to delete it", 10, 90);
+		addLabel("Double-click on the connection to create a control point", 10, 30);
+		addLabel("Drag a control point to move it", 10, 60);
+		addLabel("Double-click on a control point to delete it", 10, 90);
 
-        LabelWidget hello1 = addLabel ("Hello", 100, 150);
-        LabelWidget hello2 = addLabel ("NetBeans", 300, 250);
+		LabelWidget hello1 = addLabel("Hello", 100, 150);
+		LabelWidget hello2 = addLabel("NetBeans", 300, 250);
 
-        ConnectionWidget conn = new ConnectionWidget (this);
-        conn.setPaintControlPoints (true);
-        conn.setControlPointShape (PointShape.SQUARE_FILLED_BIG);
-        conn.setRouter (RouterFactory.createFreeRouter ());
-        conn.setSourceAnchor (AnchorFactory.createFreeRectangularAnchor (hello1, true));
-        conn.setTargetAnchor (AnchorFactory.createFreeRectangularAnchor (hello2, true));
-        connLayer.addChild (conn);
+		ConnectionWidget conn = new ConnectionWidget(this);
+		conn.setPaintControlPoints(true);
+		conn.setControlPointShape(PointShape.SQUARE_FILLED_BIG);
+		conn.setRouter(RouterFactory.createFreeRouter());
+		conn.setSourceAnchor(AnchorFactory.createFreeRectangularAnchor(hello1, true));
+		conn.setTargetAnchor(AnchorFactory.createFreeRectangularAnchor(hello2, true));
+		connLayer.addChild(conn);
 
-        conn.getActions ().addAction (ActionFactory.createAddRemoveControlPointAction ());
-        conn.getActions ().addAction (ActionFactory.createFreeMoveControlPointAction ());
-    }
+		conn.getActions().addAction(ActionFactory.createAddRemoveControlPointAction());
+		conn.getActions().addAction(ActionFactory.createFreeMoveControlPointAction());
+	}
 
-    private LabelWidget addLabel (String text, int x, int y) {
-        LabelWidget widget = new LabelWidget (this, text);
+	private LabelWidget addLabel(String text, int x, int y) {
+		LabelWidget widget = new LabelWidget(this, text);
 
-        widget.setFont(getDefaultFont().deriveFont(24.0f));
-        widget.setOpaque(true);
-        widget.setPreferredLocation (new Point (x, y));
+		widget.setFont(getDefaultFont().deriveFont(24.0f));
+		widget.setOpaque(true);
+		widget.setPreferredLocation(new Point(x, y));
 
-        widget.getActions ().addAction (ActionFactory.createMoveAction ());
+		widget.getActions().addAction(ActionFactory.createMoveAction());
 
-        mainLayer.addChild (widget);
+		mainLayer.addChild(widget);
 
-        return widget;
-    }
+		return widget;
+	}
 
-    public static void main (String[] args) {
-        SceneSupport.show (new AddRemoveControlPointTest ());
-    }
+	public static void main(String[] args) {
+		SceneSupport.show(new AddRemoveControlPointTest());
+	}
 
 }

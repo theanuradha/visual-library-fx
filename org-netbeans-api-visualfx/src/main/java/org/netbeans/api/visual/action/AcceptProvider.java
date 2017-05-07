@@ -43,10 +43,10 @@
  */
 package org.netbeans.api.visual.action;
 
+import java.awt.Point;
+
 import org.netbeans.api.visual.widget.Widget;
 
-import java.awt.*;
-import java.awt.datatransfer.Transferable;
 import javafx.scene.input.Dragboard;
 
 /**
@@ -56,21 +56,30 @@ import javafx.scene.input.Dragboard;
  */
 public interface AcceptProvider {
 
-    /**
-     * Checks whether a transferable can be dropped on a widget at a specific point.
-     * @param widget the widget could be dropped
-     * @param point the drop location in local coordination system of the widget
-     * @param transferable the transferable
-     * @return the state
-     */
-    ConnectorState isAcceptable (Widget widget, Point point, Dragboard transferable);
+	/**
+	 * Checks whether a transferable can be dropped on a widget at a specific
+	 * point.
+	 * 
+	 * @param widget
+	 *            the widget could be dropped
+	 * @param point
+	 *            the drop location in local coordination system of the widget
+	 * @param transferable
+	 *            the transferable
+	 * @return the state
+	 */
+	ConnectorState isAcceptable(Widget widget, Point point, Dragboard transferable);
 
-    /**
-     * Handles the drop of a transferable.
-     * @param widget the widget where the transferable is dropped
-     * @param point the drop location in local coordination system of the widget
-     * @param transferable the transferable
-     */
-    void accept (Widget widget, Point point, Dragboard transferable);
+	/**
+	 * Handles the drop of a transferable.
+	 * 
+	 * @param widget
+	 *            the widget where the transferable is dropped
+	 * @param point
+	 *            the drop location in local coordination system of the widget
+	 * @param transferable
+	 *            the transferable
+	 */
+	void accept(Widget widget, Point point, Dragboard transferable);
 
 }

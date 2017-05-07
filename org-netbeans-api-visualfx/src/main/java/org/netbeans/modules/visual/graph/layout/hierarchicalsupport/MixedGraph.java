@@ -48,6 +48,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.graph.layout.UniversalGraph;
 
@@ -57,192 +58,191 @@ import org.netbeans.api.visual.graph.layout.UniversalGraph;
  */
 public class MixedGraph<N, E> {
 
-    private Collection<N> nodes;
-    private Map<N, Vertex> vertexMap;
-    private GraphScene scene;
-    private UniversalGraph<N, E> uGraph;
-    private Collection<E> edges;
+	private Collection<N> nodes;
+	private Map<N, Vertex> vertexMap;
+	private GraphScene scene;
+	private UniversalGraph<N, E> uGraph;
+	private Collection<E> edges;
 
-    /** Creates a new instance of UndirectedGraph */
-    private MixedGraph(UniversalGraph<N, E> uGraph, GraphScene scene) {
-        this.uGraph = uGraph;
-        this.scene = scene;
-        this.nodes = uGraph.getNodes();
-        this.edges = uGraph.getEdges() ;
+	/** Creates a new instance of UndirectedGraph */
+	private MixedGraph(UniversalGraph<N, E> uGraph, GraphScene scene) {
+		this.uGraph = uGraph;
+		this.scene = scene;
+		this.nodes = uGraph.getNodes();
+		this.edges = uGraph.getEdges();
 
-        vertexMap = new HashMap<N, Vertex>();
-    }
+		vertexMap = new HashMap<N, Vertex>();
+	}
 
-    public static <N, E> MixedGraph createGraph(UniversalGraph<N, E> uGraph, GraphScene scene) {
-        MixedGraph<N, E> graph = new MixedGraph<N, E>(uGraph, scene);
-        graph.createGraph();
-        //graph.printGraph();
-        return graph;
-    }
+	public static <N, E> MixedGraph createGraph(UniversalGraph<N, E> uGraph, GraphScene scene) {
+		MixedGraph<N, E> graph = new MixedGraph<N, E>(uGraph, scene);
+		graph.createGraph();
+		// graph.printGraph();
+		return graph;
+	}
 
-    /**
-     *
-     *
-     */
-//    private void createGraph() {
-//        for (NodeDesignElement node : nodes) {
-//            Vertex v = getVertex(node);
-//
-//            for (EdgeDesignElement edge : node.getOutputEdges()) {
-//                NodeDesignElement destNode = edge.getTargetNode();
-//                Vertex nv = getVertex(destNode);
-//
-//                v.addLowerNeighbor(nv);
-//                nv.addUpperNeighbor(v);
-//
-//            }
-//
-//            for (EdgeDesignElement edge : node.getInputEdges()) {
-//                NodeDesignElement srcNode = edge.getSourceNode();
-//
-//                v.addNeighbor(getVertex(srcNode));
-// 
-//            }
-//        }
-//
-//        printGraph();
-//    }
+	/**
+	 *
+	 *
+	 */
+	// private void createGraph() {
+	// for (NodeDesignElement node : nodes) {
+	// Vertex v = getVertex(node);
+	//
+	// for (EdgeDesignElement edge : node.getOutputEdges()) {
+	// NodeDesignElement destNode = edge.getTargetNode();
+	// Vertex nv = getVertex(destNode);
+	//
+	// v.addLowerNeighbor(nv);
+	// nv.addUpperNeighbor(v);
+	//
+	// }
+	//
+	// for (EdgeDesignElement edge : node.getInputEdges()) {
+	// NodeDesignElement srcNode = edge.getSourceNode();
+	//
+	// v.addNeighbor(getVertex(srcNode));
+	//
+	// }
+	// }
+	//
+	// printGraph();
+	// }
 
-    protected void createGraph() {
-        for (E e: edges) {
-            
-            N source = uGraph.getEdgeSource(e) ;
-            N target = uGraph.getEdgeTarget(e) ;
-            
-            Vertex sourceVertex = getVertex(source);
-            Vertex targetVertex = getVertex(target);
-            
-            sourceVertex.addUpperNeighbor(targetVertex);
-            targetVertex.addLowerNeighbor(sourceVertex);
-            
-            targetVertex.addNeighbor(sourceVertex);
-        }
-        
-        for (N node : nodes) {
-            Vertex vertex = getVertex(node);
-        }
-        
+	protected void createGraph() {
+		for (E e : edges) {
 
-    //printGraph();
-    }
-    
-    /**
-     *
-     *
-     */
-    public Collection<Vertex> getVertices() {
-        return vertexMap.values();
-    }
+			N source = uGraph.getEdgeSource(e);
+			N target = uGraph.getEdgeTarget(e);
 
-    /**
-     *
-     *
-     */
-    private Vertex getVertex(N node) {
-        Vertex vertex = vertexMap.get(node);
+			Vertex sourceVertex = getVertex(source);
+			Vertex targetVertex = getVertex(target);
 
-        if (vertex == null) {
-            vertex = new Vertex(node);
-            vertexMap.put(node, vertex);
-        }
+			sourceVertex.addUpperNeighbor(targetVertex);
+			targetVertex.addLowerNeighbor(sourceVertex);
 
-        return vertex;
-    }
+			targetVertex.addNeighbor(sourceVertex);
+		}
 
-    /**
-     *
-     *
-     */
-    private void printGraph() {
-        for (Vertex v : getVertices()) {
-            System.out.println("vertex = " + v);
-            Collection<Vertex> vertices = v.getNeighbors() ;
-            for (Vertex nv : vertices) {
-                System.out.println("\tneighbor = " + nv);
-            }
-        }
-    }
+		for (N node : nodes) {
+			Vertex vertex = getVertex(node);
+		}
 
-    /**
-     *
-     *
-     */
-    public static class Vertex <N> {
+		// printGraph();
+	}
 
-        private N node;
-        private ArrayList<Vertex> upperNeighbors;
-        private ArrayList<Vertex> lowerNeighbors;
-        private ArrayList<Vertex> neighbors;
-        private Object vertexData;
+	/**
+	 *
+	 *
+	 */
+	public Collection<Vertex> getVertices() {
+		return vertexMap.values();
+	}
 
-        public Vertex(N node) {
-            this.node = node;
-            neighbors = new ArrayList<Vertex>();
-        }
+	/**
+	 *
+	 *
+	 */
+	private Vertex getVertex(N node) {
+		Vertex vertex = vertexMap.get(node);
 
-        public void addNeighbor(Vertex vertex) {
-            neighbors.add(vertex);
-        }
+		if (vertex == null) {
+			vertex = new Vertex(node);
+			vertexMap.put(node, vertex);
+		}
 
-        public void removeNeighbor(Vertex vertex) {
-            neighbors.remove(vertex);
-        }
+		return vertex;
+	}
 
-        public void addLowerNeighbor(Vertex vertex) {
-            if (!lowerNeighbors.contains(vertex)) {
-                lowerNeighbors.add(vertex);
-            }
-        }
+	/**
+	 *
+	 *
+	 */
+	private void printGraph() {
+		for (Vertex v : getVertices()) {
+			System.out.println("vertex = " + v);
+			Collection<Vertex> vertices = v.getNeighbors();
+			for (Vertex nv : vertices) {
+				System.out.println("\tneighbor = " + nv);
+			}
+		}
+	}
 
-        public void removeLowerNeighbor(Vertex vertex) {
-            lowerNeighbors.remove(vertex);
-        }
+	/**
+	 *
+	 *
+	 */
+	public static class Vertex<N> {
 
-        public Collection<Vertex> getLowerNeighbors() {
-            return Collections.unmodifiableCollection(lowerNeighbors);
-        }
+		private N node;
+		private ArrayList<Vertex> upperNeighbors;
+		private ArrayList<Vertex> lowerNeighbors;
+		private ArrayList<Vertex> neighbors;
+		private Object vertexData;
 
-        public void addUpperNeighbor(Vertex vertex) {
-            if (!upperNeighbors.contains(vertex)) {
-                upperNeighbors.add(vertex);
-            }
-        }
+		public Vertex(N node) {
+			this.node = node;
+			neighbors = new ArrayList<Vertex>();
+		}
 
-        public void removeUpperNeighbor(Vertex vertex) {
-            upperNeighbors.remove(vertex);
-        }
+		public void addNeighbor(Vertex vertex) {
+			neighbors.add(vertex);
+		}
 
-        public Collection<Vertex> getUpperNeighbors() {
-            return Collections.unmodifiableCollection(upperNeighbors);
-        }
+		public void removeNeighbor(Vertex vertex) {
+			neighbors.remove(vertex);
+		}
 
-        public Collection<Vertex> getNeighbors() {
-            return neighbors;
-        }
+		public void addLowerNeighbor(Vertex vertex) {
+			if (!lowerNeighbors.contains(vertex)) {
+				lowerNeighbors.add(vertex);
+			}
+		}
 
-        public N getNodeDesignElement() {
-            return node;
-        }
+		public void removeLowerNeighbor(Vertex vertex) {
+			lowerNeighbors.remove(vertex);
+		}
 
-        public int getDegree() {
-            return neighbors.size();
-        }
+		public Collection<Vertex> getLowerNeighbors() {
+			return Collections.unmodifiableCollection(lowerNeighbors);
+		}
 
-        public void setVertexData(Object data) {
-            this.vertexData = data;
-        }
+		public void addUpperNeighbor(Vertex vertex) {
+			if (!upperNeighbors.contains(vertex)) {
+				upperNeighbors.add(vertex);
+			}
+		}
 
-        public Object getVertexData() {
-            return vertexData;
-        }
+		public void removeUpperNeighbor(Vertex vertex) {
+			upperNeighbors.remove(vertex);
+		}
 
-        public String toString() {
-            return super.toString() + " : " + node;
-        }
-    }
+		public Collection<Vertex> getUpperNeighbors() {
+			return Collections.unmodifiableCollection(upperNeighbors);
+		}
+
+		public Collection<Vertex> getNeighbors() {
+			return neighbors;
+		}
+
+		public N getNodeDesignElement() {
+			return node;
+		}
+
+		public int getDegree() {
+			return neighbors.size();
+		}
+
+		public void setVertexData(Object data) {
+			this.vertexData = data;
+		}
+
+		public Object getVertexData() {
+			return vertexData;
+		}
+
+		public String toString() {
+			return super.toString() + " : " + node;
+		}
+	}
 }

@@ -44,6 +44,7 @@
 package org.netbeans.modules.visual.action;
 
 import java.awt.event.MouseEvent;
+
 import org.netbeans.api.visual.action.ConnectDecorator;
 import org.netbeans.api.visual.action.ConnectProvider;
 import org.netbeans.api.visual.action.WidgetAction;
@@ -56,45 +57,44 @@ import org.openide.util.Utilities;
  */
 public class ExtendedConnectAction extends ConnectAction {
 
-    private long modifiers;
-    private boolean macLocking;
+	private long modifiers;
+	private boolean macLocking;
 
-    public ExtendedConnectAction(ConnectDecorator decorator, Widget interractionLayer, ConnectProvider provider, long modifiers) {
-        super(decorator, interractionLayer, provider);
-        this.modifiers = modifiers;
-    }
+	public ExtendedConnectAction(ConnectDecorator decorator, Widget interractionLayer, ConnectProvider provider,
+			long modifiers) {
+		super(decorator, interractionLayer, provider);
+		this.modifiers = modifiers;
+	}
 
-    protected boolean isLocked () {
-        return super.isLocked ()  ||  macLocking;
-    }
+	protected boolean isLocked() {
+		return super.isLocked() || macLocking;
+	}
 
-    public WidgetAction.State mousePressed(Widget widget, WidgetAction.WidgetMouseEvent event) {
-        if (isLocked ())
-            return State.createLocked (widget, this);
-        
-        
-        if ((((modifiers&MouseEvent.CTRL_MASK) == MouseEvent.CTRL_MASK)&& event.isControlDown()) ||
-                (((modifiers&MouseEvent.ALT_MASK) == MouseEvent.ALT_MASK)&& event.isAltDown())
-                || 
-                (((modifiers&MouseEvent.SHIFT_MASK) == MouseEvent.SHIFT_MASK)&& event.isShiftDown())) {
-            if ((Utilities.getOperatingSystem () & Utilities.OS_MAC) != 0)
-                macLocking = true;
-            return super.mousePressedCore(widget,event);
-        }
-        return State.REJECTED;
-    }
+	public WidgetAction.State mousePressed(Widget widget, WidgetAction.WidgetMouseEvent event) {
+		if (isLocked())
+			return State.createLocked(widget, this);
 
-    public WidgetAction.State mouseReleased(Widget widget, WidgetAction.WidgetMouseEvent event) {
-        macLocking = false;
-        if (isLocked ())
-            return super.mouseReleased(widget,event);
-        else
-            return State.REJECTED;
-    }
+		if ((((modifiers & MouseEvent.CTRL_MASK) == MouseEvent.CTRL_MASK) && event.isControlDown())
+				|| (((modifiers & MouseEvent.ALT_MASK) == MouseEvent.ALT_MASK) && event.isAltDown())
+				|| (((modifiers & MouseEvent.SHIFT_MASK) == MouseEvent.SHIFT_MASK) && event.isShiftDown())) {
+			if ((Utilities.getOperatingSystem() & Utilities.OS_MAC) != 0)
+				macLocking = true;
+			return super.mousePressedCore(widget, event);
+		}
+		return State.REJECTED;
+	}
 
-    public State mouseMoved (Widget widget, WidgetMouseEvent event) {
-        if (macLocking)
-            return super.mouseDragged (widget, event);
-        return super.mouseMoved (widget, event);
-    }
+	public WidgetAction.State mouseReleased(Widget widget, WidgetAction.WidgetMouseEvent event) {
+		macLocking = false;
+		if (isLocked())
+			return super.mouseReleased(widget, event);
+		else
+			return State.REJECTED;
+	}
+
+	public State mouseMoved(Widget widget, WidgetMouseEvent event) {
+		if (macLocking)
+			return super.mouseDragged(widget, event);
+		return super.mouseMoved(widget, event);
+	}
 }

@@ -53,11 +53,14 @@ import org.netbeans.api.visual.widget.Scene;
  */
 public interface AlignWithMoveDecorator {
 
-    /**
-     * Creates a connection widget that will be used as a alignment lines for align-with effect.
-     * @param scene the scene where the widget is going to be used
-     * @return the connection widget
-     */
-    ConnectionWidget createLineWidget (Scene scene);
+	/**
+	 * Creates a connection widget that will be used as a alignment lines for
+	 * align-with effect.
+	 * 
+	 * @param scene
+	 *            the scene where the widget is going to be used
+	 * @return the connection widget
+	 */
+	ConnectionWidget createLineWidget(Scene scene);
 
 }

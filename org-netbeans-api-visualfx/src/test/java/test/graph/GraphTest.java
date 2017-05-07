@@ -18,26 +18,27 @@
  */
 package test.graph;
 
-import test.general.StringGraphPinScene;
-import test.SceneSupport;
 import org.netbeans.api.visual.widget.LabelWidget;
+
+import test.SceneSupport;
+import test.general.StringGraphPinScene;
 
 /**
  * @author David Kaspar
  */
 public class GraphTest {
 
-    public static void main (String[] args) {
-        StringGraphPinScene scene = new StringGraphPinScene ();
+	public static void main(String[] args) {
+		StringGraphPinScene scene = new StringGraphPinScene();
 
-        scene.addNode ("n1");
-        scene.addPin ("n1", "p1");
-        scene.addPin ("n1", "p2");
-        scene.removeNode ("n1");
+		scene.addNode("n1");
+		scene.addPin("n1", "p1");
+		scene.addPin("n1", "p2");
+		scene.removeNode("n1");
 
-        scene.addChild (new LabelWidget (scene, "This scene has to be empty (except this label)."));
+		scene.addChild(new LabelWidget(scene, "This scene has to be empty (except this label)."));
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
 }

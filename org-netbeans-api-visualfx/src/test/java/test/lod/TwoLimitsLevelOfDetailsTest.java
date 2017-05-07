@@ -19,42 +19,39 @@
 package test.lod;
 
 import org.netbeans.api.visual.action.ActionFactory;
-import org.netbeans.api.visual.action.TwoStateHoverProvider;
-import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.LevelOfDetailsWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class TwoLimitsLevelOfDetailsTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
-        scene.setZoomFactor(1);
-        scene.getActions().addAction(ActionFactory.createZoomAction (1.1, false));
+	public static void main(String[] args) {
+		Scene scene = new Scene();
+		scene.setZoomFactor(1);
+		scene.getActions().addAction(ActionFactory.createZoomAction(1.1, false));
 
-        Widget root = new LevelOfDetailsWidget (scene, 0.5, 0.99, 1.01, 2);
-        root.setBorder (BorderFactory.createLineBorder (10));
-        root.setLayout (LayoutFactory.createVerticalFlowLayout (LayoutFactory.SerialAlignment.JUSTIFY, 4));
-        scene.addChild (root);
+		Widget root = new LevelOfDetailsWidget(scene, 0.5, 0.99, 1.01, 2);
+		root.setBorder(BorderFactory.createLineBorder(10));
+		root.setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.JUSTIFY, 4));
+		scene.addChild(root);
 
-        root.addChild (createLabel (scene, "Zoom-in or -out to see the visibility limits", 20)); // NOI18N
+		root.addChild(createLabel(scene, "Zoom-in or -out to see the visibility limits", 20)); // NOI18N
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
-    private static Widget createLabel (Scene scene, String text, int size) {
-        LabelWidget label = new LabelWidget (scene, text);
-        label.setFont(scene.getDefaultFont().deriveFont((float) size));
-        return label;
-    }
+	private static Widget createLabel(Scene scene, String text, int size) {
+		LabelWidget label = new LabelWidget(scene, text);
+		label.setFont(scene.getDefaultFont().deriveFont((float) size));
+		return label;
+	}
 
 }

@@ -43,32 +43,42 @@
  */
 package org.netbeans.api.visual.graph.layout;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * @author David Kaspar
  */
-public interface GraphLayoutListener<N,E> {
+public interface GraphLayoutListener<N, E> {
 
-    /**
-     * Called when a graph layout is started.
-     * @param graph the universal graph
-     */
-    void graphLayoutStarted (UniversalGraph<N, E> graph);
+	/**
+	 * Called when a graph layout is started.
+	 * 
+	 * @param graph
+	 *            the universal graph
+	 */
+	void graphLayoutStarted(UniversalGraph<N, E> graph);
 
-    /**
-     * Called when a graph layout is finished.
-     * @param graph the universal graph
-     */
-    void graphLayoutFinished (UniversalGraph<N, E> graph);
+	/**
+	 * Called when a graph layout is finished.
+	 * 
+	 * @param graph
+	 *            the universal graph
+	 */
+	void graphLayoutFinished(UniversalGraph<N, E> graph);
 
-    /**
-     * Called when a graph layout resolves a new location for a node.
-     * @param graph the universal graph
-     * @param node the node with changed preferred location
-     * @param previousPreferredLocation the previous preferred location
-     * @param newPreferredLocation the new preferred location
-     */
-    void nodeLocationChanged (UniversalGraph<N,E> graph, N node, Point previousPreferredLocation, Point newPreferredLocation);
+	/**
+	 * Called when a graph layout resolves a new location for a node.
+	 * 
+	 * @param graph
+	 *            the universal graph
+	 * @param node
+	 *            the node with changed preferred location
+	 * @param previousPreferredLocation
+	 *            the previous preferred location
+	 * @param newPreferredLocation
+	 *            the new preferred location
+	 */
+	void nodeLocationChanged(UniversalGraph<N, E> graph, N node, Point previousPreferredLocation,
+			Point newPreferredLocation);
 
 }

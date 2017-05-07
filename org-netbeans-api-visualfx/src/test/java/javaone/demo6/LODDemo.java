@@ -23,6 +23,7 @@ import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Scene;
+
 import test.SceneSupport;
 
 /**
@@ -30,17 +31,17 @@ import test.SceneSupport;
  */
 public class LODDemo {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
-        scene.getActions().addAction(ActionFactory.createZoomAction (1.2, false));
-        scene.getActions().addAction(ActionFactory.createPanAction ());
+	public static void main(String[] args) {
+		Scene scene = new Scene();
+		scene.getActions().addAction(ActionFactory.createZoomAction(1.2, false));
+		scene.getActions().addAction(ActionFactory.createPanAction());
 
-        scene.setLayout (LayoutFactory.createVerticalFlowLayout (LayoutFactory.SerialAlignment.LEFT_TOP, 0));
-        scene.addChild(new LabelWidget (scene, "Zoom inside the rectangle"));
+		scene.setLayout(LayoutFactory.createVerticalFlowLayout(LayoutFactory.SerialAlignment.LEFT_TOP, 0));
+		scene.addChild(new LabelWidget(scene, "Zoom inside the rectangle"));
 
-        scene.addChild (new LODDemoWidget (scene, 5, 0.5));
+		scene.addChild(new LODDemoWidget(scene, 5, 0.5));
 
-        SceneSupport.show(scene);
-    }
+		SceneSupport.show(scene);
+	}
 
 }

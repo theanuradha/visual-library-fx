@@ -51,6 +51,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.PriorityQueue;
+
 import org.netbeans.modules.visual.graph.layout.orthogonalsupport.Face.Dart;
 import org.netbeans.modules.visual.graph.layout.orthogonalsupport.FlowNetwork.Arc;
 import org.netbeans.modules.visual.graph.layout.orthogonalsupport.FlowNetwork.Node;
@@ -66,244 +67,240 @@ import org.netbeans.modules.visual.graph.layout.orthogonalsupport.OrthogonalRepr
  */
 public class MinimumBendOrthogonalizer {
 
-    /** Creates a new instance of MinimumBendOrthogonalizer */
-    public MinimumBendOrthogonalizer() {
-    }
+	/** Creates a new instance of MinimumBendOrthogonalizer */
+	public MinimumBendOrthogonalizer() {
+	}
 
-    /**
-     * 
-     * @param epgs
-     * @return
-     */
-    public Collection<OrthogonalRepresentation> orthogonalize(
-            Collection<EmbeddedPlanarGraph> epgs) {
-        Collection<OrthogonalRepresentation> ors = new ArrayList<OrthogonalRepresentation>();
+	/**
+	 * 
+	 * @param epgs
+	 * @return
+	 */
+	public Collection<OrthogonalRepresentation> orthogonalize(Collection<EmbeddedPlanarGraph> epgs) {
+		Collection<OrthogonalRepresentation> ors = new ArrayList<OrthogonalRepresentation>();
 
-        for (EmbeddedPlanarGraph epg : epgs) {
-            FlowNetwork network = FlowNetwork.createGraph(epg);
+		for (EmbeddedPlanarGraph epg : epgs) {
+			FlowNetwork network = FlowNetwork.createGraph(epg);
 
-            computeMinimumCostFlowNetwork(network);
+			computeMinimumCostFlowNetwork(network);
 
-            network.removeSourceAndSink();
-            OrthogonalRepresentation or = computeOrthogonalRepresentation(network);
-            ors.add(or);
+			network.removeSourceAndSink();
+			OrthogonalRepresentation or = computeOrthogonalRepresentation(network);
+			ors.add(or);
 
-        }
+		}
 
-        return ors;
-    }
+		return ors;
+	}
 
-    /**
-     * 
-     * @param network
-     */
-    private void computeMinimumCostFlowNetwork(FlowNetwork network) {
-        ResidualFlowNetwork residualNetwork = new ResidualFlowNetwork(network);
+	/**
+	 * 
+	 * @param network
+	 */
+	private void computeMinimumCostFlowNetwork(FlowNetwork network) {
+		ResidualFlowNetwork residualNetwork = new ResidualFlowNetwork(network);
 
-        int totalFlow = 0;
-        int production = network.getSource().getProduction();
+		int totalFlow = 0;
+		int production = network.getSource().getProduction();
 
+		while (totalFlow < production) {
+			Collection<ResidualArc> path = computeDijkstraShortestPath(residualNetwork);
 
-        while (totalFlow < production) {
-            Collection<ResidualArc> path = computeDijkstraShortestPath(residualNetwork);
+			// Flow is blocked, we simply return;
+			if (path == null) {
+				return;
+			}
+			int minFlow = Integer.MAX_VALUE;
 
-            // Flow is blocked, we simply return;
-            if (path == null) {
-                return;
-            }
-            int minFlow = Integer.MAX_VALUE;
+			for (Arc arc : path) {
+				int capacity = arc.getCapacity();
+				if (capacity < minFlow) {
+					minFlow = capacity;
+				}
+			}
 
-            for (Arc arc : path) {
-                int capacity = arc.getCapacity();
-                if (capacity < minFlow) {
-                    minFlow = capacity;
-                }
-            }
+			totalFlow += minFlow;
 
-            totalFlow += minFlow;
+			for (ResidualArc ra : path) {
+				Arc arc = ra.getArc();
+				ResidualArc residualArc = null;
+				ResidualArc reverseResidualArc = null;
+				int flow = minFlow;
 
-            for (ResidualArc ra : path) {
-                Arc arc = ra.getArc();
-                ResidualArc residualArc = null;
-                ResidualArc reverseResidualArc = null;
-                int flow = minFlow;
+				if (!ra.isReverse()) {
+					residualArc = ra;
+					reverseResidualArc = residualNetwork.getReverseResidualArcFromArc(arc);
+				} else {
+					flow = -flow;
+					reverseResidualArc = ra;
+					residualArc = residualNetwork.getResidualArcFromArc(arc);
+				}
 
-                if (!ra.isReverse()) {
-                    residualArc = ra;
-                    reverseResidualArc = residualNetwork.getReverseResidualArcFromArc(arc);
-                } else {
-                    flow = -flow;
-                    reverseResidualArc = ra;
-                    residualArc = residualNetwork.getResidualArcFromArc(arc);
-                }
+				arc.addFlow(flow);
+				residualArc.substractCapacity(flow);
+				reverseResidualArc.addCapacity(flow);
+				reverseResidualArc.setFlow(arc.getFlow());
 
-                arc.addFlow(flow);
-                residualArc.substractCapacity(flow);
-                reverseResidualArc.addCapacity(flow);
-                reverseResidualArc.setFlow(arc.getFlow());
+			}
+		}
+	}
 
-            }
-        }
-    }
+	/**
+	 * 
+	 * @param network
+	 * @return
+	 */
+	private Collection<ResidualArc> computeDijkstraShortestPath(ResidualFlowNetwork network) {
+		Collection<Node> nodes = network.getNodes();
+		Map<Node, ResidualArc> paths = new HashMap<Node, ResidualArc>();
+		final Map<Node, Integer> distances = new HashMap<Node, Integer>();
+		Node sourceNode = network.getSource();
 
-    /**
-     * 
-     * @param network
-     * @return
-     */
-    private Collection<ResidualArc> computeDijkstraShortestPath(ResidualFlowNetwork network) {
-        Collection<Node> nodes = network.getNodes();
-        Map<Node, ResidualArc> paths = new HashMap<Node, ResidualArc>();
-        final Map<Node, Integer> distances = new HashMap<Node, Integer>();
-        Node sourceNode = network.getSource();
+		for (Node node : nodes) {
+			distances.put(node, Integer.MAX_VALUE);
+		}
+		distances.put(sourceNode, 0);
 
-        for (Node node : nodes) {
-            distances.put(node, Integer.MAX_VALUE);
-        }
-        distances.put(sourceNode, 0);
+		PriorityQueue<Node> priorityQueue = createPriorityQueue(distances);
+		for (Node node : nodes) {
+			priorityQueue.offer(node);
+		}
 
-        PriorityQueue<Node> priorityQueue = createPriorityQueue(distances);
-        for (Node node : nodes) {
-            priorityQueue.offer(node);
-        }
+		HashSet<Node> visitedNodes = new HashSet<Node>();
 
-        HashSet<Node> visitedNodes = new HashSet<Node>();
+		while (priorityQueue.size() > 0) {
+			Node node = priorityQueue.poll();
 
-        while (priorityQueue.size() > 0) {
-            Node node = priorityQueue.poll();
+			if (distances.get(node) == Integer.MAX_VALUE) {
+				continue;
+			}
+			if (visitedNodes.contains(node)) {
+				continue;
+			}
+			for (Arc arc : node.getOutputArcs()) {
+				if (arc.getCapacity() > 0) {
+					computeRelaxation(arc, paths, distances, priorityQueue);
+				}
+			}
 
-            if (distances.get(node) == Integer.MAX_VALUE) {
-                continue;
-            }
-            if (visitedNodes.contains(node)) {
-                continue;
-            }
-            for (Arc arc : node.getOutputArcs()) {
-                if (arc.getCapacity() > 0) {
-                    computeRelaxation(arc, paths, distances, priorityQueue);
-                }
-            }
+			visitedNodes.add(node);
+		}
 
-            visitedNodes.add(node);
-        }
+		Collection<ResidualArc> shortestPath = new ArrayList<ResidualArc>();
+		Node currentNode = network.getSink();
 
-        Collection<ResidualArc> shortestPath = new ArrayList<ResidualArc>();
-        Node currentNode = network.getSink();
+		while (currentNode != sourceNode) {
+			Arc arc = paths.get(currentNode);
 
-        while (currentNode != sourceNode) {
-            Arc arc = paths.get(currentNode);
+			if (arc == null) {
+				return null;
+			}
+			shortestPath.add((ResidualArc) arc);
+			currentNode = arc.getSourceNode();
+		}
 
-            if (arc == null) {
-                return null;
-            }
-            shortestPath.add((ResidualArc) arc);
-            currentNode = arc.getSourceNode();
-        }
+		return shortestPath;
+	}
 
-        return shortestPath;
-    }
+	/**
+	 * 
+	 * @param arc
+	 * @param paths
+	 * @param distances
+	 * @param queue
+	 */
+	private void computeRelaxation(Arc arc, Map<Node, ResidualArc> paths, Map<Node, Integer> distances,
+			PriorityQueue<Node> queue) {
+		Node srcNode = arc.getSourceNode();
+		Node destNode = arc.getDestinationNode();
+		int sd = distances.get(srcNode);
+		int dd = distances.get(destNode);
+		int cost = arc.getCost();
 
-    /**
-     * 
-     * @param arc
-     * @param paths
-     * @param distances
-     * @param queue
-     */
-    private void computeRelaxation(Arc arc, Map<Node, ResidualArc> paths,
-            Map<Node, Integer> distances, PriorityQueue<Node> queue) {
-        Node srcNode = arc.getSourceNode();
-        Node destNode = arc.getDestinationNode();
-        int sd = distances.get(srcNode);
-        int dd = distances.get(destNode);
-        int cost = arc.getCost();
+		if (dd > sd + cost) {
+			distances.put(destNode, sd + cost);
+			paths.put(destNode, (ResidualArc) arc);
 
-        if (dd > sd + cost) {
-            distances.put(destNode, sd + cost);
-            paths.put(destNode, (ResidualArc) arc);
+			// There can be multiple instance of the same node in the queue.
+			// This is the only way to update the queue.
+			queue.offer(destNode);
+		}
+	}
 
-            // There can be multiple instance of the same node in the queue.
-            // This is the only way to update the queue.
-            queue.offer(destNode);
-        }
-    }
+	/**
+	 * 
+	 * @param distances
+	 * @return
+	 */
+	private PriorityQueue<Node> createPriorityQueue(final Map<Node, Integer> distances) {
+		return new PriorityQueue<Node>(distances.size(), new Comparator<Node>() {
 
-    /**
-     * 
-     * @param distances
-     * @return
-     */
-    private PriorityQueue<Node> createPriorityQueue(final Map<Node, Integer> distances) {
-        return new PriorityQueue<Node>(
-                distances.size(),
-                new Comparator<Node>() {
+			public int compare(Node o1, Node o2) {
+				int d1 = distances.get(o1);
+				int d2 = distances.get(o2);
 
-                    public int compare(Node o1, Node o2) {
-                        int d1 = distances.get(o1);
-                        int d2 = distances.get(o2);
+				if (d1 < d2) {
+					return -1;
+				}
+				if (d1 == d2) {
+					return 0;
+				}
+				return 1;
+			}
 
-                        if (d1 < d2) {
-                            return -1;
-                        }
-                        if (d1 == d2) {
-                            return 0;
-                        }
-                        return 1;
-                    }
+			@Override
+			public boolean equals(Object obj) {
+				return this == obj;
+			}
+		});
+	}
 
-                    @Override
-                    public boolean equals(Object obj) {
-                        return this == obj;
-                    }
-                });
-    }
+	/**
+	 * 
+	 * @param network
+	 * @return
+	 */
+	private OrthogonalRepresentation computeOrthogonalRepresentation(FlowNetwork network) {
+		OrthogonalRepresentation or = OrthogonalRepresentation.createGraph(network.getOriginalGraph());
 
-    /**
-     * 
-     * @param network
-     * @return
-     */
-    private OrthogonalRepresentation computeOrthogonalRepresentation(FlowNetwork network) {
-        OrthogonalRepresentation or = OrthogonalRepresentation.createGraph(network.getOriginalGraph());
+		for (Arc arc : network.getArcs()) {
+			if (arc.isVertexArc()) {
+				Vertex v = arc.getSourceNode().getVertex();
+				Face f = arc.getDestinationNode().getFace();
+				OrthogonalShape shape = or.getShape(f);
+				Dart d = (Dart) arc.getDart();
 
-        for (Arc arc : network.getArcs()) {
-            if (arc.isVertexArc()) {
-                Vertex v = arc.getSourceNode().getVertex();
-                Face f = arc.getDestinationNode().getFace();
-                OrthogonalShape shape = or.getShape(f);
-                Dart d = (Dart) arc.getDart();
+				Tuple t = shape.getTuple(d);
+				t.setAngles(arc.getFlow() + 1);
+			} else if (arc.isFaceArc()) {
+				Node srcNode = arc.getSourceNode();
+				Node destNode = arc.getDestinationNode();
+				Face f = srcNode.getFace();
+				Arc reverseArc = destNode.getArcToVia(srcNode, arc.getDart());
+				OrthogonalShape shape = or.getShape(f);
+				Dart d = arc.getDart();
+				Tuple t = shape.getTuple(d);
+				BitSet bends = t.getBends();
 
-                Tuple t = shape.getTuple(d);
-                t.setAngles(arc.getFlow() + 1);
-            } else if (arc.isFaceArc()) {
-                Node srcNode = arc.getSourceNode();
-                Node destNode = arc.getDestinationNode();
-                Face f = srcNode.getFace();
-                Arc reverseArc = destNode.getArcToVia(srcNode, arc.getDart());
-                OrthogonalShape shape = or.getShape(f);
-                Dart d = arc.getDart();
-                Tuple t = shape.getTuple(d);
-                BitSet bends = t.getBends();
+				int forwardFlow = arc.getFlow();
+				int reverseFlow = reverseArc.getFlow();
+				int sum = forwardFlow + reverseFlow;
 
-                int forwardFlow = arc.getFlow();
-                int reverseFlow = reverseArc.getFlow();
-                int sum = forwardFlow + reverseFlow;
+				if (sum == 0) {
+					continue;
+				}
+				for (int i = 0; i < forwardFlow; i++) {
+					bends.clear(i);
+				}
 
-                if (sum == 0) {
-                    continue;
-                }
-                for (int i = 0; i < forwardFlow; i++) {
-                    bends.clear(i);
-                }
+				for (int i = forwardFlow; i < sum; i++) {
+					bends.set(i);
+				}
 
-                for (int i = forwardFlow; i < sum; i++) {
-                    bends.set(i);
-                }
+				bends.set(sum);
+			}
+		}
 
-                bends.set(sum);
-            }
-        }
-
-        return or;
-    }
+		return or;
+	}
 }

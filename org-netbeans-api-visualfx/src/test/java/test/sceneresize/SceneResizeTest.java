@@ -18,10 +18,10 @@
  */
 package test.sceneresize;
 
+import java.awt.Color;
+
 import org.netbeans.api.visual.widget.Scene;
 
-import javax.swing.*;
-import java.awt.*;
 import test.SceneSupport;
 
 /**
@@ -29,30 +29,33 @@ import test.SceneSupport;
  */
 public class SceneResizeTest {
 
-    private static int counter = 0;
+	private static int counter = 0;
 
-    public static void main (String[] args) {
-        final Scene scene = new Scene ();
-        scene.addSceneListener (new Scene.SceneListener() {
-            public void sceneRepaint () {
-                System.out.println ("Scene Repaint: Scene: " + scene.getBounds () + " - View: " + scene.getView ().getBoundsInLocal());
-            }
-            public void sceneValidating () {
-                counter = (counter + 64) & 255;
-                scene.setBackground (new Color (counter, counter, counter));
-                System.out.println ("Scene Validating: Scene: " + scene.getBounds () + " - View: " + scene.getView ().getBoundsInLocal ());
-                Thread.dumpStack ();
-            }
-            public void sceneValidated () {
-                System.out.println ("Scene Validated: Scene: " + scene.getBounds () + " - View: " + scene.getView ().getBoundsInLocal ());
-            }
-        });
-        scene.setOpaque (true);
-        scene.setBackground (Color.GREEN);
+	public static void main(String[] args) {
+		final Scene scene = new Scene();
+		scene.addSceneListener(new Scene.SceneListener() {
+			public void sceneRepaint() {
+				System.out.println("Scene Repaint: Scene: " + scene.getBounds() + " - View: "
+						+ scene.getView().getBoundsInLocal());
+			}
 
-      
+			public void sceneValidating() {
+				counter = (counter + 64) & 255;
+				scene.setBackground(new Color(counter, counter, counter));
+				System.out.println("Scene Validating: Scene: " + scene.getBounds() + " - View: "
+						+ scene.getView().getBoundsInLocal());
+				Thread.dumpStack();
+			}
 
-       SceneSupport.show (scene);
-    }
+			public void sceneValidated() {
+				System.out.println("Scene Validated: Scene: " + scene.getBounds() + " - View: "
+						+ scene.getView().getBoundsInLocal());
+			}
+		});
+		scene.setOpaque(true);
+		scene.setBackground(Color.GREEN);
+
+		SceneSupport.show(scene);
+	}
 
 }

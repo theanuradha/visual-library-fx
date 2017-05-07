@@ -18,114 +18,120 @@
  */
 package test.expand;
 
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.Rectangle;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.TwoStateHoverProvider;
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.LabelWidget;
+import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.api.visual.widget.LayerWidget;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class MouseOverExpandTest extends Scene {
 
-    private WidgetAction expandAction = ActionFactory.createHoverAction (new ExpandController ());
+	private WidgetAction expandAction = ActionFactory.createHoverAction(new ExpandController());
 
-    public MouseOverExpandTest () {
-        setBackground (Color.LIGHT_GRAY);
-        LayerWidget layer = new LayerWidget (this);
-        addChild (layer);
-        getActions ().addAction (expandAction); // required by MouseHoverAction for reseting the hover state
+	public MouseOverExpandTest() {
+		setBackground(Color.LIGHT_GRAY);
+		LayerWidget layer = new LayerWidget(this);
+		addChild(layer);
+		getActions().addAction(expandAction); // required by MouseHoverAction
+												// for reseting the hover state
 
-        Widget w;
+		Widget w;
 
-        w = new ExpandableWidget (this);
-        w.setPreferredLocation (new Point (300, 100));
-        w.getActions ().addAction (expandAction);
-        w.getActions ().addAction (ActionFactory.createMoveAction ());
-        layer.addChild (w);
+		w = new ExpandableWidget(this);
+		w.setPreferredLocation(new Point(300, 100));
+		w.getActions().addAction(expandAction);
+		w.getActions().addAction(ActionFactory.createMoveAction());
+		layer.addChild(w);
 
-        w = new ExpandableWidget (this);
-        w.setPreferredLocation (new Point (100, 200));
-        w.getActions ().addAction (expandAction);
-        w.getActions ().addAction (ActionFactory.createMoveAction ());
-        layer.addChild (w);
+		w = new ExpandableWidget(this);
+		w.setPreferredLocation(new Point(100, 200));
+		w.getActions().addAction(expandAction);
+		w.getActions().addAction(ActionFactory.createMoveAction());
+		layer.addChild(w);
 
-        w = new ExpandableWidget (this);
-        w.setPreferredLocation (new Point (300, 300));
-        w.getActions ().addAction (expandAction);
-        w.getActions ().addAction (ActionFactory.createMoveAction ());
-        layer.addChild (w);
-    }
+		w = new ExpandableWidget(this);
+		w.setPreferredLocation(new Point(300, 300));
+		w.getActions().addAction(expandAction);
+		w.getActions().addAction(ActionFactory.createMoveAction());
+		layer.addChild(w);
+	}
 
-    public static void main (String[] args) {
-        SceneSupport.show (()->{
-        
-       return new MouseOverExpandTest ();
-        });
-    }
+	public static void main(String[] args) {
+		SceneSupport.show(() -> {
 
-    private static class ExpandableWidget extends Widget {
+			return new MouseOverExpandTest();
+		});
+	}
 
-        private boolean expanded = true;
-        private Widget detailsWidget;
+	private static class ExpandableWidget extends Widget {
 
-        public ExpandableWidget (Scene scene) {
-            super (scene);
-            setLayout (LayoutFactory.createVerticalFlowLayout ());
-            setOpaque (true);
-            setBackground (Color.WHITE);
-            setBorder (BorderFactory.createLineBorder (10));
+		private boolean expanded = true;
+		private Widget detailsWidget;
 
-            addChild (new LabelWidget (scene, "Move mouse cursor over the rectangle to EXPAND it."));
+		public ExpandableWidget(Scene scene) {
+			super(scene);
+			setLayout(LayoutFactory.createVerticalFlowLayout());
+			setOpaque(true);
+			setBackground(Color.WHITE);
+			setBorder(BorderFactory.createLineBorder(10));
 
-            detailsWidget = new Widget (scene);
-            detailsWidget.setLayout (LayoutFactory.createVerticalFlowLayout ());
-            detailsWidget.addChild (new LabelWidget (scene, "Drag the rectangle to MOVE it."));
-            detailsWidget.addChild (new LabelWidget (scene, "Move mouse cursor out of the rectangle to COLLAPSE it."));
-            detailsWidget.setCheckClipping (true); // required to hide the content of details widget beyond its border
-            addChild (detailsWidget);
+			addChild(new LabelWidget(scene, "Move mouse cursor over the rectangle to EXPAND it."));
 
-            collapse ();
-        }
+			detailsWidget = new Widget(scene);
+			detailsWidget.setLayout(LayoutFactory.createVerticalFlowLayout());
+			detailsWidget.addChild(new LabelWidget(scene, "Drag the rectangle to MOVE it."));
+			detailsWidget.addChild(new LabelWidget(scene, "Move mouse cursor out of the rectangle to COLLAPSE it."));
+			detailsWidget.setCheckClipping(true); // required to hide the
+													// content of details widget
+													// beyond its border
+			addChild(detailsWidget);
 
-        public void collapse () {
-            if (! expanded)
-                return;
-            expanded = false;
-             detailsWidget.setPreferredBounds (new Rectangle ());
-            getScene ().getSceneAnimator ().animatePreferredBounds (detailsWidget, new Rectangle ());
-        }
+			collapse();
+		}
 
-        public void expand () {
-            if (expanded)
-                return;
-            expanded = true;
-             detailsWidget.setPreferredBounds (null);
-            getScene ().getSceneAnimator ().animatePreferredBounds (detailsWidget, null);
-        }
+		public void collapse() {
+			if (!expanded)
+				return;
+			expanded = false;
+			detailsWidget.setPreferredBounds(new Rectangle());
+			getScene().getSceneAnimator().animatePreferredBounds(detailsWidget, new Rectangle());
+		}
 
-    }
+		public void expand() {
+			if (expanded)
+				return;
+			expanded = true;
+			detailsWidget.setPreferredBounds(null);
+			getScene().getSceneAnimator().animatePreferredBounds(detailsWidget, null);
+		}
 
-    private class ExpandController implements TwoStateHoverProvider {
+	}
 
-        public void unsetHovering (Widget widget) {
-            if (widget instanceof ExpandableWidget)
-                ((ExpandableWidget) widget).collapse ();
-        }
+	private class ExpandController implements TwoStateHoverProvider {
 
-        public void setHovering (Widget widget) {
-            if (widget instanceof ExpandableWidget)
-                ((ExpandableWidget) widget).expand ();
-       }
+		public void unsetHovering(Widget widget) {
+			if (widget instanceof ExpandableWidget)
+				((ExpandableWidget) widget).collapse();
+		}
 
-    }
+		public void setHovering(Widget widget) {
+			if (widget instanceof ExpandableWidget)
+				((ExpandableWidget) widget).expand();
+		}
+
+	}
 
 }

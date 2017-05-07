@@ -43,23 +43,27 @@
  */
 package org.netbeans.api.visual.action;
 
-import org.netbeans.api.visual.widget.Widget;
-
-import java.awt.*;
+import java.awt.Rectangle;
 import java.util.Collection;
 
+import org.netbeans.api.visual.widget.Widget;
+
 /**
- * This interface is used for collecting regions for which the moving widget has to be checked.
+ * This interface is used for collecting regions for which the moving widget has
+ * to be checked.
  *
  * @author David Kaspar
  */
 public interface AlignWithWidgetCollector {
 
-    /**
-     * Returns a collection of regions (in scene coordination system) for a specified moving widget.
-     * @param movingWidget the moving widget
-     * @return the collection of regions
-     */
-    Collection<Rectangle> getRegions (Widget movingWidget);
+	/**
+	 * Returns a collection of regions (in scene coordination system) for a
+	 * specified moving widget.
+	 * 
+	 * @param movingWidget
+	 *            the moving widget
+	 * @return the collection of regions
+	 */
+	Collection<Rectangle> getRegions(Widget movingWidget);
 
 }

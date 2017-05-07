@@ -43,30 +43,40 @@
  */
 package org.netbeans.api.visual.router;
 
-import org.netbeans.api.visual.widget.ConnectionWidget;
-
-import java.awt.*;
+import java.awt.Rectangle;
 import java.util.List;
 
+import org.netbeans.api.visual.widget.ConnectionWidget;
+
 /**
- * This interface is used for collecting collision regions. There are two separate types of regions - vertical and horizontal.
- * The collector does receives context of currently routed connection widget.
- * Use <code>CollisionCollector</code> interface if you do not want to receive any context.
+ * This interface is used for collecting collision regions. There are two
+ * separate types of regions - vertical and horizontal. The collector does
+ * receives context of currently routed connection widget. Use
+ * <code>CollisionCollector</code> interface if you do not want to receive any
+ * context.
  *
  * @author David Kaspar
  * @since 2.2
  */
 public interface ConnectionWidgetCollisionsCollector {
 
-    /**
-     * Gathers collision collections and fills up the lists of vertical and horizontal collisions.
-     * This method is similar to <code>CollisionCollector.collectCollisions</code>
-     * but takes additional parameter of a connection widget for which the collisions are going to searched.
-     * @param connectionWidget the connection widget for which the collisions are going to be searched.
-     * @param verticalCollisions the list of vertical collisions
-     * @param horizontalCollisions the list of horizontal collisions
-     * @since 2.2
-     */
-    public void collectCollisions (ConnectionWidget connectionWidget, List<Rectangle> verticalCollisions, List<Rectangle> horizontalCollisions);
+	/**
+	 * Gathers collision collections and fills up the lists of vertical and
+	 * horizontal collisions. This method is similar to
+	 * <code>CollisionCollector.collectCollisions</code> but takes additional
+	 * parameter of a connection widget for which the collisions are going to
+	 * searched.
+	 * 
+	 * @param connectionWidget
+	 *            the connection widget for which the collisions are going to be
+	 *            searched.
+	 * @param verticalCollisions
+	 *            the list of vertical collisions
+	 * @param horizontalCollisions
+	 *            the list of horizontal collisions
+	 * @since 2.2
+	 */
+	public void collectCollisions(ConnectionWidget connectionWidget, List<Rectangle> verticalCollisions,
+			List<Rectangle> horizontalCollisions);
 
 }

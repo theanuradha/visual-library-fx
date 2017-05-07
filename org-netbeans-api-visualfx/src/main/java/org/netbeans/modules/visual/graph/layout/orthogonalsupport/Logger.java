@@ -49,12 +49,11 @@ package org.netbeans.modules.visual.graph.layout.orthogonalsupport;
  */
 public class Logger {
 
-    private static int logLevel = 111; // all on -1, some on 0
+	private static int logLevel = 111; // all on -1, some on 0
 
-
-    public static void log(int level, Object s) {
-        if (level > logLevel) {
-            System.out.println(s.toString());
-        }
-    }
+	public static void log(int level, Object s) {
+		if (level > logLevel) {
+			System.out.println(s.toString());
+		}
+	}
 }

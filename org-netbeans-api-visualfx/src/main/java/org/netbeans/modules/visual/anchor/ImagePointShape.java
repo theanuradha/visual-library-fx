@@ -43,35 +43,36 @@
  */
 package org.netbeans.modules.visual.anchor;
 
-import org.netbeans.api.visual.anchor.PointShape;
+import java.awt.Graphics2D;
+import java.awt.Image;
 
-import java.awt.*;
+import org.netbeans.api.visual.anchor.PointShape;
 
 /**
  * @author David Kaspar
  */
 public class ImagePointShape implements PointShape {
 
-    private Image image;
-    private int radius;
-    private int x, y;
+	private Image image;
+	private int radius;
+	private int x, y;
 
-    public ImagePointShape (Image image) {
-        assert image != null;
-        this.image = image;
-        x = image.getWidth (null);
-        y = image.getHeight (null);
-        radius = Math.max (x, y);
-        x = - (x / 2);
-        y = - (y / 2);
-    }
+	public ImagePointShape(Image image) {
+		assert image != null;
+		this.image = image;
+		x = image.getWidth(null);
+		y = image.getHeight(null);
+		radius = Math.max(x, y);
+		x = -(x / 2);
+		y = -(y / 2);
+	}
 
-    public int getRadius () {
-        return radius;
-    }
+	public int getRadius() {
+		return radius;
+	}
 
-    public void paint (Graphics2D graphics) {
-        graphics.drawImage (image, x, y, null);
-    }
+	public void paint(Graphics2D graphics) {
+		graphics.drawImage(image, x, y, null);
+	}
 
 }

@@ -44,25 +44,29 @@
 package org.netbeans.api.visual.action;
 
 /**
- * This enum is used in ConnectProvider and ReconnectProvider to hold a state of connector (acceptability and searching state).
+ * This enum is used in ConnectProvider and ReconnectProvider to hold a state of
+ * connector (acceptability and searching state).
  *
  * @author David Kaspar
  */
 public enum ConnectorState {
 
-    /**
-     * Accepted as a connection. Stops futher searching for a possible connection.
-     */
-    ACCEPT,
+	/**
+	 * Accepted as a connection. Stops futher searching for a possible
+	 * connection.
+	 */
+	ACCEPT,
 
-    /**
-     * Rejected as a connection. Does not step futher seaching for a possible connection.
-     */
-    REJECT,
+	/**
+	 * Rejected as a connection. Does not step futher seaching for a possible
+	 * connection.
+	 */
+	REJECT,
 
-    /**
-     * Rejected as a connection. Stops futher searching for a possible connection.
-     */
-    REJECT_AND_STOP
+	/**
+	 * Rejected as a connection. Stops futher searching for a possible
+	 * connection.
+	 */
+	REJECT_AND_STOP
 
 }

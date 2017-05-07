@@ -43,12 +43,10 @@
  */
 package org.netbeans.modules.visual.action;
 
-import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.action.EditProvider;
+import org.netbeans.api.visual.action.WidgetAction;
+import org.netbeans.api.visual.widget.Widget;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
@@ -57,26 +55,26 @@ import javafx.scene.input.MouseButton;
  */
 public final class EditAction extends WidgetAction.Adapter {
 
-    private EditProvider provider;
+	private EditProvider provider;
 
-    public EditAction (EditProvider provider) {
-        this.provider = provider;
-    }
+	public EditAction(EditProvider provider) {
+		this.provider = provider;
+	}
 
-    public State mouseClicked (Widget widget, WidgetMouseEvent event) {
-        if (event.getButton () == MouseButton.PRIMARY  &&  event.getClickCount () == 2) {
-            provider.edit (widget);
-            return State.CONSUMED;
-        }
-        return State.REJECTED;
-    }
+	public State mouseClicked(Widget widget, WidgetMouseEvent event) {
+		if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+			provider.edit(widget);
+			return State.CONSUMED;
+		}
+		return State.REJECTED;
+	}
 
-    public State keyTyped (Widget widget, WidgetKeyEvent event) {
-        if (event.getKeyCode() == KeyCode.ENTER) {
-            provider.edit (widget);
-            return State.CONSUMED;
-        }
-        return State.REJECTED;
-    }
+	public State keyTyped(Widget widget, WidgetKeyEvent event) {
+		if (event.getKeyCode() == KeyCode.ENTER) {
+			provider.edit(widget);
+			return State.CONSUMED;
+		}
+		return State.REJECTED;
+	}
 
 }

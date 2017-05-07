@@ -43,11 +43,12 @@
  */
 package org.netbeans.api.visual.action;
 
-import org.netbeans.api.visual.widget.Widget;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Rectangle;
 import java.util.EnumSet;
+
+import javax.swing.JComponent;
+
+import org.netbeans.api.visual.widget.Widget;
 
 /**
  * This interface controls an in-place editor of an in-place editor action.
@@ -56,150 +57,192 @@ import java.util.EnumSet;
  */
 public interface InplaceEditorProvider<C extends JComponent> {
 
-    /**
-     * Represents possible directions for expansion of an editor component.
-     */
-    public enum ExpansionDirection {
+	/**
+	 * Represents possible directions for expansion of an editor component.
+	 */
+	public enum ExpansionDirection {
 
-        /**
-         * Allow expansion to the left.
-         */
-        LEFT,
-        
-        /**
-         * Allow expansion to the right.
-         */
-        RIGHT,
-        
-        /**
-         * Allow expansion to the top.
-         */
-        TOP,
-        
-        /**
-         * Allow expansion to the bottom.
-         */
-        BOTTOM
+		/**
+		 * Allow expansion to the left.
+		 */
+		LEFT,
 
-    }
+		/**
+		 * Allow expansion to the right.
+		 */
+		RIGHT,
 
-    /**
-     * This is an interface of editor action supplied to the methods in the provider.
-     */
-    interface EditorController {
+		/**
+		 * Allow expansion to the top.
+		 */
+		TOP,
 
-        /**
-         * Returns whether an in-place editor is visible.
-         * @return true, if visible; false, if not visible
-         */
-        boolean isEditorVisible ();
+		/**
+		 * Allow expansion to the bottom.
+		 */
+		BOTTOM
 
-        /**
-         * Opens an in-place editor on a specified widget.
-         * @param widget the widget
-         * @return true, if the editor is really opened
-         */
-        boolean openEditor (Widget widget);
+	}
 
-        /**
-         * Closes the current in-place editor.
-         * @param commit whether the current value in the in-place editor is approved by an user
-         */
-        void closeEditor (boolean commit);
-        
-        /**
-         * Notify the boundary of an editor component is changed and auto-expansion should be recalculated.
-         */
-        void notifyEditorComponentBoundsChanged ();
+	/**
+	 * This is an interface of editor action supplied to the methods in the
+	 * provider.
+	 */
+	interface EditorController {
 
-    }
+		/**
+		 * Returns whether an in-place editor is visible.
+		 * 
+		 * @return true, if visible; false, if not visible
+		 */
+		boolean isEditorVisible();
 
-    /**
-     * This is an interface that extends EditorController for ability to query for invocation type.
-     * @since 2.16
-     */
-    interface TypedEditorController extends EditorController {
+		/**
+		 * Opens an in-place editor on a specified widget.
+		 * 
+		 * @param widget
+		 *            the widget
+		 * @return true, if the editor is really opened
+		 */
+		boolean openEditor(Widget widget);
 
-        /**
-         * Returns a type of editor invocation
-         * @return invocation type
-         * @since 2.16
-         */
-        EditorInvocationType getEditorInvocationType ();
+		/**
+		 * Closes the current in-place editor.
+		 * 
+		 * @param commit
+		 *            whether the current value in the in-place editor is
+		 *            approved by an user
+		 */
+		void closeEditor(boolean commit);
 
-    }
+		/**
+		 * Notify the boundary of an editor component is changed and
+		 * auto-expansion should be recalculated.
+		 */
+		void notifyEditorComponentBoundsChanged();
 
-    /**
-     * Represents a type of in-place editor action invocation.
-     * @since 2.16
-     */
-    enum EditorInvocationType {
+	}
 
-        /**
-         * Invoked by mouse.
-         * @since 2.16
-         */
-        MOUSE,
+	/**
+	 * This is an interface that extends EditorController for ability to query
+	 * for invocation type.
+	 * 
+	 * @since 2.16
+	 */
+	interface TypedEditorController extends EditorController {
 
-        /**
-         * Invoked by keyboard.
-         * @since 2.16
-         */
-        KEY,
+		/**
+		 * Returns a type of editor invocation
+		 * 
+		 * @return invocation type
+		 * @since 2.16
+		 */
+		EditorInvocationType getEditorInvocationType();
 
-        /**
-         * Invoked by <code>ActionFactory.getInplaceEditorController (inplaceEditorAction).openEditor(widget)</code> method.
-         * @since 2.16
-         */
-        CODE,
+	}
 
-    }
+	/**
+	 * Represents a type of in-place editor action invocation.
+	 * 
+	 * @since 2.16
+	 */
+	enum EditorInvocationType {
 
-    /**
-     * Called to notify about opening an in-place editor.
-     * @param controller the editor controller
-     * @param widget the widget where the editor is opened
-     * @param editor the editor component
-     */
-    void notifyOpened (EditorController controller, Widget widget, C editor);
+		/**
+		 * Invoked by mouse.
+		 * 
+		 * @since 2.16
+		 */
+		MOUSE,
 
-    /**
-     * Called to notify about closing an in-place editor.
-     * @param controller the editor controller
-     * @param widget the widget where the editor is opened
-     * @param editor the editor component
-     * @param commit true, if the current value is approved by user and
-     *     should be used; false if the current value is discarded by an user
-     */
-    void notifyClosing (EditorController controller, Widget widget, C editor, boolean commit);
+		/**
+		 * Invoked by keyboard.
+		 * 
+		 * @since 2.16
+		 */
+		KEY,
 
-    /**
-     * Creates an in-place editor component for a specified widget. Called to acquire the component which should be added into the scene.
-     * @param controller the editor controller
-     * @param widget the widget where the editor is going to be opened
-     * @return the editor component
-     */
-    C createEditorComponent (EditorController controller, Widget widget);
-    
-    /**
-     * Called to obtain the initial boundary editor component in view coordination system.
-     * @param controller the editor controller
-     * @param widget the widget where the editor is going to be opened
-     * @param editor the editor component
-     * @param viewBounds the precalculated boundary of the editor component
-     * @return the boundary of editor component in view coordination system;
-     *     if null, then the viewBounds are automatically used
-     */
-    public Rectangle getInitialEditorComponentBounds(EditorController controller, Widget widget, C editor, Rectangle viewBounds);
+		/**
+		 * Invoked by
+		 * <code>ActionFactory.getInplaceEditorController (inplaceEditorAction).openEditor(widget)</code>
+		 * method.
+		 * 
+		 * @since 2.16
+		 */
+		CODE,
 
-    /**
-     * Called to obtain directions where an editor component can expand to.
-     * @param controller the editor controller
-     * @param widget the widget where the editor is going to be opened
-     * @param editor the editor component
-     * @return the set of directions where the editor component can expand to;
-     *     if null, then the editor component is not expanded to any direction
-     */
-    public EnumSet<ExpansionDirection> getExpansionDirections (EditorController controller, Widget widget, C editor);
-    
+	}
+
+	/**
+	 * Called to notify about opening an in-place editor.
+	 * 
+	 * @param controller
+	 *            the editor controller
+	 * @param widget
+	 *            the widget where the editor is opened
+	 * @param editor
+	 *            the editor component
+	 */
+	void notifyOpened(EditorController controller, Widget widget, C editor);
+
+	/**
+	 * Called to notify about closing an in-place editor.
+	 * 
+	 * @param controller
+	 *            the editor controller
+	 * @param widget
+	 *            the widget where the editor is opened
+	 * @param editor
+	 *            the editor component
+	 * @param commit
+	 *            true, if the current value is approved by user and should be
+	 *            used; false if the current value is discarded by an user
+	 */
+	void notifyClosing(EditorController controller, Widget widget, C editor, boolean commit);
+
+	/**
+	 * Creates an in-place editor component for a specified widget. Called to
+	 * acquire the component which should be added into the scene.
+	 * 
+	 * @param controller
+	 *            the editor controller
+	 * @param widget
+	 *            the widget where the editor is going to be opened
+	 * @return the editor component
+	 */
+	C createEditorComponent(EditorController controller, Widget widget);
+
+	/**
+	 * Called to obtain the initial boundary editor component in view
+	 * coordination system.
+	 * 
+	 * @param controller
+	 *            the editor controller
+	 * @param widget
+	 *            the widget where the editor is going to be opened
+	 * @param editor
+	 *            the editor component
+	 * @param viewBounds
+	 *            the precalculated boundary of the editor component
+	 * @return the boundary of editor component in view coordination system; if
+	 *         null, then the viewBounds are automatically used
+	 */
+	public Rectangle getInitialEditorComponentBounds(EditorController controller, Widget widget, C editor,
+			Rectangle viewBounds);
+
+	/**
+	 * Called to obtain directions where an editor component can expand to.
+	 * 
+	 * @param controller
+	 *            the editor controller
+	 * @param widget
+	 *            the widget where the editor is going to be opened
+	 * @param editor
+	 *            the editor component
+	 * @return the set of directions where the editor component can expand to;
+	 *         if null, then the editor component is not expanded to any
+	 *         direction
+	 */
+	public EnumSet<ExpansionDirection> getExpansionDirections(EditorController controller, Widget widget, C editor);
+
 }

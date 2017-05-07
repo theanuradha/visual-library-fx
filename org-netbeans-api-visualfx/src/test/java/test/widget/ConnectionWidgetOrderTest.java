@@ -19,47 +19,50 @@
 
 package test.widget;
 
+import java.awt.Point;
+
 import org.netbeans.api.visual.anchor.AnchorFactory;
+import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.Scene;
-import org.netbeans.api.visual.layout.LayoutFactory;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class ConnectionWidgetOrderTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
-        scene.getActions ().addAction (scene.createWidgetHoverAction ());
+	public static void main(String[] args) {
+		Scene scene = new Scene();
+		scene.getActions().addAction(scene.createWidgetHoverAction());
 
-        ConnectionWidget conn1 = new ConnectionWidget (scene);
-        conn1.setSourceAnchor (AnchorFactory.createFixedAnchor (new Point (100, 100)));
-        conn1.setTargetAnchor (AnchorFactory.createFixedAnchor (new Point (200, 200)));
-        conn1.getActions ().addAction (scene.createWidgetHoverAction ());
-        scene.addChild (conn1);
+		ConnectionWidget conn1 = new ConnectionWidget(scene);
+		conn1.setSourceAnchor(AnchorFactory.createFixedAnchor(new Point(100, 100)));
+		conn1.setTargetAnchor(AnchorFactory.createFixedAnchor(new Point(200, 200)));
+		conn1.getActions().addAction(scene.createWidgetHoverAction());
+		scene.addChild(conn1);
 
-        LabelWidget label1 = new LabelWidget (scene, "First (= bottom-most) - should be always below the other connection");
-        conn1.addChild (label1);
-        conn1.setConstraint (label1, LayoutFactory.ConnectionWidgetLayoutAlignment.TOP_RIGHT, 0);
-        
-        ConnectionWidget conn2 = new ConnectionWidget (scene);
-        conn2.setSourceAnchor (AnchorFactory.createFixedAnchor (new Point (100, 200)));
-        conn2.setTargetAnchor (AnchorFactory.createFixedAnchor (new Point (200, 100)));
-        conn2.getActions ().addAction (scene.createWidgetHoverAction ());
-        scene.addChild (conn2);
+		LabelWidget label1 = new LabelWidget(scene,
+				"First (= bottom-most) - should be always below the other connection");
+		conn1.addChild(label1);
+		conn1.setConstraint(label1, LayoutFactory.ConnectionWidgetLayoutAlignment.TOP_RIGHT, 0);
 
-        LabelWidget label2 = new LabelWidget (scene, "Last (= top-most) - should be always above the other connection");
-        conn2.addChild (label2);
-        conn2.setConstraint (label2, LayoutFactory.ConnectionWidgetLayoutAlignment.BOTTOM_RIGHT, 0);
+		ConnectionWidget conn2 = new ConnectionWidget(scene);
+		conn2.setSourceAnchor(AnchorFactory.createFixedAnchor(new Point(100, 200)));
+		conn2.setTargetAnchor(AnchorFactory.createFixedAnchor(new Point(200, 100)));
+		conn2.getActions().addAction(scene.createWidgetHoverAction());
+		scene.addChild(conn2);
 
-//        conn1.bringToFront (); // uncommenting this line make the connection order opposite
+		LabelWidget label2 = new LabelWidget(scene, "Last (= top-most) - should be always above the other connection");
+		conn2.addChild(label2);
+		conn2.setConstraint(label2, LayoutFactory.ConnectionWidgetLayoutAlignment.BOTTOM_RIGHT, 0);
 
-        SceneSupport.show (scene);
-    }
+		// conn1.bringToFront (); // uncommenting this line make the connection
+		// order opposite
+
+		SceneSupport.show(scene);
+	}
 
 }

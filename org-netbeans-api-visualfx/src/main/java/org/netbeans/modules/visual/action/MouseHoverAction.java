@@ -50,32 +50,33 @@ import org.netbeans.api.visual.widget.Widget;
 /**
  * @author David Kaspar
  */
-// TODO - this action has to be calculated even if the mouse is not hovering any widget
+// TODO - this action has to be calculated even if the mouse is not hovering any
+// widget
 public final class MouseHoverAction extends WidgetAction.Adapter {
 
-    private long eventID = Integer.MIN_VALUE;
-    private HoverProvider provider;
+	private long eventID = Integer.MIN_VALUE;
+	private HoverProvider provider;
 
-    public MouseHoverAction (HoverProvider provider) {
-        this.provider = provider;
-    }
+	public MouseHoverAction(HoverProvider provider) {
+		this.provider = provider;
+	}
 
-    public State mouseMoved (Widget widget, WidgetMouseEvent event) {
-        long id = event.getEventID ();
-        if (id != eventID) {
-            eventID = id;
-            provider.widgetHovered (widget);
-        }
-        return State.REJECTED;
-    }
+	public State mouseMoved(Widget widget, WidgetMouseEvent event) {
+		long id = event.getEventID();
+		if (id != eventID) {
+			eventID = id;
+			provider.widgetHovered(widget);
+		}
+		return State.REJECTED;
+	}
 
-    public State mouseExited (Widget widget, WidgetMouseEvent event) {
-        long id = event.getEventID ();
-        if (id != eventID) {
-            eventID = id;
-            provider.widgetHovered (null);
-        }
-        return State.REJECTED;
-    }
+	public State mouseExited(Widget widget, WidgetMouseEvent event) {
+		long id = event.getEventID();
+		if (id != eventID) {
+			eventID = id;
+			provider.widgetHovered(null);
+		}
+		return State.REJECTED;
+	}
 
 }

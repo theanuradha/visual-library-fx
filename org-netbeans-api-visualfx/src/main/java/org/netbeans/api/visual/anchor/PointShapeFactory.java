@@ -43,38 +43,43 @@
  */
 package org.netbeans.api.visual.anchor;
 
+import java.awt.Image;
+
 import org.netbeans.modules.visual.anchor.ImagePointShape;
 import org.netbeans.modules.visual.anchor.SquarePointShape;
 
-import java.awt.*;
-
 /**
- * The factory class of all built-in point shapes.
- * The instances of all built-in point shapes can be used multiple connection widgets.
+ * The factory class of all built-in point shapes. The instances of all built-in
+ * point shapes can be used multiple connection widgets.
  *
  * @author David Kaspar
  */
 public class PointShapeFactory {
 
-    private PointShapeFactory () {
-    }
+	private PointShapeFactory() {
+	}
 
-    /**
-     * Creates a square shape.
-     * @param size the size
-     * @param filled if true, then the shape is filled
-     */
-    public static PointShape createPointShape (int size, boolean filled) {
-        return new SquarePointShape (size, filled);
-    }
+	/**
+	 * Creates a square shape.
+	 * 
+	 * @param size
+	 *            the size
+	 * @param filled
+	 *            if true, then the shape is filled
+	 */
+	public static PointShape createPointShape(int size, boolean filled) {
+		return new SquarePointShape(size, filled);
+	}
 
-    /**
-     * Creates an image point shape.
-     * @param image the image
-     * @return the point shape
-     */
-    public static PointShape createImagePointShape (Image image) {
-        return new ImagePointShape (image);
-    }
+	/**
+	 * Creates an image point shape.
+	 * 
+	 * @param image
+	 *            the image
+	 * @return the point shape
+	 */
+	public static PointShape createImagePointShape(Image image) {
+		return new ImagePointShape(image);
+	}
 
 }

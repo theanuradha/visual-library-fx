@@ -18,39 +18,44 @@
  */
 package test.action;
 
+import java.awt.Point;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.PopupMenuProvider;
-import org.netbeans.api.visual.widget.*;
-import test.SceneSupport;
+import org.netbeans.api.visual.widget.EventProcessingType;
+import org.netbeans.api.visual.widget.LabelWidget;
+import org.netbeans.api.visual.widget.LayerWidget;
+import org.netbeans.api.visual.widget.Scene;
+import org.netbeans.api.visual.widget.Widget;
 
-import javax.swing.*;
-import java.awt.*;
 import javafx.scene.control.ContextMenu;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class PopupMenuActionTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
-        scene.setKeyEventProcessingType (EventProcessingType.FOCUSED_WIDGET_AND_ITS_PARENTS);
-        LayerWidget layer = new LayerWidget (scene);
-        scene.addChild (layer);
+	public static void main(String[] args) {
+		Scene scene = new Scene();
+		scene.setKeyEventProcessingType(EventProcessingType.FOCUSED_WIDGET_AND_ITS_PARENTS);
+		LayerWidget layer = new LayerWidget(scene);
+		scene.addChild(layer);
 
-        LabelWidget label = new LabelWidget (scene, "Invoke Popup Menu using ContextMenu or Shift+F10 key or right-click");
-        label.setPreferredLocation (new Point (100, 100));
-        label.getActions ().addAction (ActionFactory.createPopupMenuAction (new PopupMenuProvider() {
-            public ContextMenu getPopupMenu (Widget widget, Point localLocation) {
-                ContextMenu popup = new ContextMenu ();
-                popup.getItems().add(new javafx.scene.control.MenuItem("Menu Item 1"));
-                return popup;
-            }
-        }));
-        layer.addChild (label);
-        scene.setFocusedWidget (label);
+		LabelWidget label = new LabelWidget(scene,
+				"Invoke Popup Menu using ContextMenu or Shift+F10 key or right-click");
+		label.setPreferredLocation(new Point(100, 100));
+		label.getActions().addAction(ActionFactory.createPopupMenuAction(new PopupMenuProvider() {
+			public ContextMenu getPopupMenu(Widget widget, Point localLocation) {
+				ContextMenu popup = new ContextMenu();
+				popup.getItems().add(new javafx.scene.control.MenuItem("Menu Item 1"));
+				return popup;
+			}
+		}));
+		layer.addChild(label);
+		scene.setFocusedWidget(label);
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
 }

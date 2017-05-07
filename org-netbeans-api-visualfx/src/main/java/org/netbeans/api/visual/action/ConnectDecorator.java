@@ -43,12 +43,12 @@
  */
 package org.netbeans.api.visual.action;
 
+import java.awt.Point;
+
 import org.netbeans.api.visual.anchor.Anchor;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
-
-import java.awt.*;
 
 /**
  * This interface decorates a connect action.
@@ -57,32 +57,47 @@ import java.awt.*;
  */
 public interface ConnectDecorator {
 
-    /**
-     * Creates a connection widget that is temporarily used for visualization of a connection while user is dragging (creating) it.
-     * @param scene the scene where the connection widget will be used
-     * @return the connection widget
-     */
-    ConnectionWidget createConnectionWidget (Scene scene);
+	/**
+	 * Creates a connection widget that is temporarily used for visualization of
+	 * a connection while user is dragging (creating) it.
+	 * 
+	 * @param scene
+	 *            the scene where the connection widget will be used
+	 * @return the connection widget
+	 */
+	ConnectionWidget createConnectionWidget(Scene scene);
 
-    /**
-     * Creates a source anchor for a specified source widget. The anchor will be used at the temporary connection widget created by the createConnectionWidget method.
-     * @param sourceWidget the source widget
-     * @return the source anchor
-     */
-    Anchor createSourceAnchor (Widget sourceWidget);
+	/**
+	 * Creates a source anchor for a specified source widget. The anchor will be
+	 * used at the temporary connection widget created by the
+	 * createConnectionWidget method.
+	 * 
+	 * @param sourceWidget
+	 *            the source widget
+	 * @return the source anchor
+	 */
+	Anchor createSourceAnchor(Widget sourceWidget);
 
-    /**
-     * Creates a target anchor for a specified target widget. The anchor will be used at the temporary connection widget created by the createConnectionWidget method.
-     * @param targetWidget the source widget
-     * @return the target anchor
-     */
-    Anchor createTargetAnchor (Widget targetWidget);
+	/**
+	 * Creates a target anchor for a specified target widget. The anchor will be
+	 * used at the temporary connection widget created by the
+	 * createConnectionWidget method.
+	 * 
+	 * @param targetWidget
+	 *            the source widget
+	 * @return the target anchor
+	 */
+	Anchor createTargetAnchor(Widget targetWidget);
 
-    /**
-     * Creates a floating anchor which will be used when the connection target is not attached to any widget. The anchor will be used at the temporary connection widget created by the createConnectionWidget method.
-     * @param location the scene location of the mouse cursor
-     * @return the floating anchor; usually FixedAnchor
-     */
-    Anchor createFloatAnchor (Point location);
+	/**
+	 * Creates a floating anchor which will be used when the connection target
+	 * is not attached to any widget. The anchor will be used at the temporary
+	 * connection widget created by the createConnectionWidget method.
+	 * 
+	 * @param location
+	 *            the scene location of the mouse cursor
+	 * @return the floating anchor; usually FixedAnchor
+	 */
+	Anchor createFloatAnchor(Point location);
 
 }

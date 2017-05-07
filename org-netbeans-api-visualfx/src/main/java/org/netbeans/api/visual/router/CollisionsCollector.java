@@ -43,25 +43,31 @@
  */
 package org.netbeans.api.visual.router;
 
-import java.awt.*;
+import java.awt.Rectangle;
 import java.util.List;
 
 /**
- * This interface is used for collecting collision regions. There are two separate types of regions - vertical and horizontal.
- * The collector does not use any context. Use <code>ConnectionWidgetCollisionCollector</code> interface
- * if you want to receive context of currently routed connection widget.
+ * This interface is used for collecting collision regions. There are two
+ * separate types of regions - vertical and horizontal. The collector does not
+ * use any context. Use <code>ConnectionWidgetCollisionCollector</code>
+ * interface if you want to receive context of currently routed connection
+ * widget.
  *
  * @author David Kaspar
  */
 public interface CollisionsCollector {
 
-    /**
-     * Gathers collision collections and fills up the lists of vertical and horizontal collisions.
-     * This method is similar to <code>ConnectionWidgetCollisionCollector.collectCollisions</code>
-     * but does not take any paramter of a collector context.
-     * @param verticalCollisions the list of vertical collisions
-     * @param horizontalCollisions the list of horizontal collisions
-     */
-    public void collectCollisions (List<Rectangle> verticalCollisions, List<Rectangle> horizontalCollisions);
+	/**
+	 * Gathers collision collections and fills up the lists of vertical and
+	 * horizontal collisions. This method is similar to
+	 * <code>ConnectionWidgetCollisionCollector.collectCollisions</code> but
+	 * does not take any paramter of a collector context.
+	 * 
+	 * @param verticalCollisions
+	 *            the list of vertical collisions
+	 * @param horizontalCollisions
+	 *            the list of horizontal collisions
+	 */
+	public void collectCollisions(List<Rectangle> verticalCollisions, List<Rectangle> horizontalCollisions);
 
 }

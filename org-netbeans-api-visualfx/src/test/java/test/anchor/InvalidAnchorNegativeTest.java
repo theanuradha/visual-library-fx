@@ -18,44 +18,45 @@
  */
 package test.anchor;
 
+import java.awt.Point;
+
 import org.netbeans.api.visual.anchor.AnchorFactory;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class InvalidAnchorNegativeTest {
 
-    public static void main (String[] args) {
-        System.out.println ("This test must fail because the target widget is not added into scene");
-        Scene scene = new Scene ();
+	public static void main(String[] args) {
+		System.out.println("This test must fail because the target widget is not added into scene");
+		Scene scene = new Scene();
 
-        LayerWidget mainLayer = new LayerWidget (scene);
-        scene.addChild (mainLayer);
+		LayerWidget mainLayer = new LayerWidget(scene);
+		scene.addChild(mainLayer);
 
-        LayerWidget connLayer = new LayerWidget (scene);
-        scene.addChild (connLayer);
+		LayerWidget connLayer = new LayerWidget(scene);
+		scene.addChild(connLayer);
 
-        LabelWidget source = new LabelWidget (scene, "The source of a connection.");
-        source.setPreferredLocation (new Point (100, 100));
-        mainLayer.addChild (source);
+		LabelWidget source = new LabelWidget(scene, "The source of a connection.");
+		source.setPreferredLocation(new Point(100, 100));
+		mainLayer.addChild(source);
 
-        LabelWidget target = new LabelWidget (scene, "The target of a connection that is not placed into a scene.");
-        target.setPreferredLocation (new Point (300, 200));
-//        mainLayer.addChild (target); // target is not at scene
+		LabelWidget target = new LabelWidget(scene, "The target of a connection that is not placed into a scene.");
+		target.setPreferredLocation(new Point(300, 200));
+		// mainLayer.addChild (target); // target is not at scene
 
-        ConnectionWidget connection = new ConnectionWidget (scene);
-        connection.setSourceAnchor (AnchorFactory.createCenterAnchor (source));
-        connection.setTargetAnchor (AnchorFactory.createCenterAnchor (target));
-        connLayer.addChild (connection);
+		ConnectionWidget connection = new ConnectionWidget(scene);
+		connection.setSourceAnchor(AnchorFactory.createCenterAnchor(source));
+		connection.setTargetAnchor(AnchorFactory.createCenterAnchor(target));
+		connLayer.addChild(connection);
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
 }

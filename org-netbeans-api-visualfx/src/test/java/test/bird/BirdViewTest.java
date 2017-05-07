@@ -18,38 +18,41 @@
  */
 package test.bird;
 
+import java.awt.Point;
+
 import org.netbeans.api.visual.widget.BirdViewController;
+
 import test.SceneSupport;
 import test.general.StringGraphScene;
-
-import java.awt.*;
 
 /**
  * @author David Kaspar
  */
 public class BirdViewTest {
 
-    public static void main (String[] args) {
-        StringGraphScene scene = new StringGraphScene ();
-        for (int a = 0; a < 100; a ++)
-            scene.addNode ("node" + String.valueOf (a)).setPreferredLocation (new Point (SceneSupport.randInt (1000), SceneSupport.randInt (1000)));
+	public static void main(String[] args) {
+		StringGraphScene scene = new StringGraphScene();
+		for (int a = 0; a < 100; a++)
+			scene.addNode("node" + String.valueOf(a))
+					.setPreferredLocation(new Point(SceneSupport.randInt(1000), SceneSupport.randInt(1000)));
 
-        BirdViewController birdViewController = scene.createBirdView ();
+		BirdViewController birdViewController = scene.createBirdView();
 
-        scene.createView (); // main view has to be created before showing the bird view
-        birdViewController.show ();
+		scene.createView(); // main view has to be created before showing the
+							// bird view
+		birdViewController.show();
 
-        SceneSupport.show (scene);
+		SceneSupport.show(scene);
 
-//        SceneSupport.sleep (2000);
-//        birdViewController.setZoomFactor (5.0);
-//        birdViewController.setWindowSize (new Dimension (400, 400));
-//
-//        SceneSupport.sleep (2000);
-//        birdViewController.hide ();
-//
-//        SceneSupport.sleep (2000);
-//        birdViewController.show ();
-    }
+		// SceneSupport.sleep (2000);
+		// birdViewController.setZoomFactor (5.0);
+		// birdViewController.setWindowSize (new Dimension (400, 400));
+		//
+		// SceneSupport.sleep (2000);
+		// birdViewController.hide ();
+		//
+		// SceneSupport.sleep (2000);
+		// birdViewController.show ();
+	}
 
 }

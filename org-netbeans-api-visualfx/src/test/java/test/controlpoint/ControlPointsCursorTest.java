@@ -18,67 +18,69 @@
  */
 package test.controlpoint;
 
+import java.awt.Cursor;
+import java.awt.Point;
+
 import org.netbeans.api.visual.anchor.AnchorFactory;
 import org.netbeans.api.visual.anchor.PointShape;
+import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.router.RouterFactory;
 import org.netbeans.api.visual.widget.ConnectionWidget;
-import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.LabelWidget;
-import org.netbeans.api.visual.layout.LayoutFactory;
-import test.SceneSupport;
+import org.netbeans.api.visual.widget.Scene;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class ControlPointsCursorTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
+	public static void main(String[] args) {
+		Scene scene = new Scene();
 
-        ConnectionWidget conn1 = new ConnectionWidget (scene);
-        conn1.setSourceAnchor (AnchorFactory.createFixedAnchor (new Point(100, 100)));
-        conn1.setTargetAnchor (AnchorFactory.createFixedAnchor (new Point(200, 150)));
-        conn1.setRouter (RouterFactory.createOrthogonalSearchRouter ());
-        conn1.setControlPointShape (PointShape.SQUARE_FILLED_SMALL);
-        conn1.setEndPointShape (PointShape.SQUARE_FILLED_BIG);
-        conn1.setCursor (Cursor.getPredefinedCursor (Cursor.CROSSHAIR_CURSOR));
-        conn1.setControlPointsCursor (Cursor.getPredefinedCursor (Cursor.MOVE_CURSOR));
-        conn1.setPaintControlPoints (true);
-        scene.addChild (conn1);
-        LabelWidget label1 = new LabelWidget (scene, "both connection widget and control points cursors should be used");
-        conn1.addChild (label1);
-        conn1.setConstraint (label1, LayoutFactory.ConnectionWidgetLayoutAlignment.TOP_RIGHT, 0.5f);
+		ConnectionWidget conn1 = new ConnectionWidget(scene);
+		conn1.setSourceAnchor(AnchorFactory.createFixedAnchor(new Point(100, 100)));
+		conn1.setTargetAnchor(AnchorFactory.createFixedAnchor(new Point(200, 150)));
+		conn1.setRouter(RouterFactory.createOrthogonalSearchRouter());
+		conn1.setControlPointShape(PointShape.SQUARE_FILLED_SMALL);
+		conn1.setEndPointShape(PointShape.SQUARE_FILLED_BIG);
+		conn1.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		conn1.setControlPointsCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+		conn1.setPaintControlPoints(true);
+		scene.addChild(conn1);
+		LabelWidget label1 = new LabelWidget(scene, "both connection widget and control points cursors should be used");
+		conn1.addChild(label1);
+		conn1.setConstraint(label1, LayoutFactory.ConnectionWidgetLayoutAlignment.TOP_RIGHT, 0.5f);
 
-        ConnectionWidget conn2 = new ConnectionWidget (scene);
-        conn2.setSourceAnchor (AnchorFactory.createFixedAnchor (new Point(100, 200)));
-        conn2.setTargetAnchor (AnchorFactory.createFixedAnchor (new Point(200, 250)));
-        conn2.setRouter (RouterFactory.createOrthogonalSearchRouter ());
-        conn2.setControlPointShape (PointShape.SQUARE_FILLED_SMALL);
-        conn2.setEndPointShape (PointShape.SQUARE_FILLED_BIG);
-        conn2.setCursor (Cursor.getPredefinedCursor (Cursor.CROSSHAIR_CURSOR));
-        conn2.setControlPointsCursor (null);
-        conn2.setPaintControlPoints (true);
-        scene.addChild (conn2);
-        LabelWidget label2 = new LabelWidget (scene, "connection widget cursor should be used only");
-        conn2.addChild (label2);
-        conn2.setConstraint (label2, LayoutFactory.ConnectionWidgetLayoutAlignment.TOP_RIGHT, 0.5f);
+		ConnectionWidget conn2 = new ConnectionWidget(scene);
+		conn2.setSourceAnchor(AnchorFactory.createFixedAnchor(new Point(100, 200)));
+		conn2.setTargetAnchor(AnchorFactory.createFixedAnchor(new Point(200, 250)));
+		conn2.setRouter(RouterFactory.createOrthogonalSearchRouter());
+		conn2.setControlPointShape(PointShape.SQUARE_FILLED_SMALL);
+		conn2.setEndPointShape(PointShape.SQUARE_FILLED_BIG);
+		conn2.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		conn2.setControlPointsCursor(null);
+		conn2.setPaintControlPoints(true);
+		scene.addChild(conn2);
+		LabelWidget label2 = new LabelWidget(scene, "connection widget cursor should be used only");
+		conn2.addChild(label2);
+		conn2.setConstraint(label2, LayoutFactory.ConnectionWidgetLayoutAlignment.TOP_RIGHT, 0.5f);
 
-        ConnectionWidget conn3 = new ConnectionWidget (scene);
-        conn3.setSourceAnchor (AnchorFactory.createFixedAnchor (new Point(100, 300)));
-        conn3.setTargetAnchor (AnchorFactory.createFixedAnchor (new Point(200, 350)));
-        conn3.setRouter (RouterFactory.createOrthogonalSearchRouter ());
-        conn3.setControlPointShape (PointShape.SQUARE_FILLED_SMALL);
-        conn3.setEndPointShape (PointShape.SQUARE_FILLED_BIG);
-        conn3.setControlPointsCursor (Cursor.getPredefinedCursor (Cursor.MOVE_CURSOR));
-        conn3.setPaintControlPoints (false);
-        scene.addChild (conn3);
-        LabelWidget label3 = new LabelWidget (scene, "none of cursors should be used");
-        conn3.addChild (label3);
-        conn3.setConstraint (label3, LayoutFactory.ConnectionWidgetLayoutAlignment.TOP_RIGHT, 0.5f);
+		ConnectionWidget conn3 = new ConnectionWidget(scene);
+		conn3.setSourceAnchor(AnchorFactory.createFixedAnchor(new Point(100, 300)));
+		conn3.setTargetAnchor(AnchorFactory.createFixedAnchor(new Point(200, 350)));
+		conn3.setRouter(RouterFactory.createOrthogonalSearchRouter());
+		conn3.setControlPointShape(PointShape.SQUARE_FILLED_SMALL);
+		conn3.setEndPointShape(PointShape.SQUARE_FILLED_BIG);
+		conn3.setControlPointsCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+		conn3.setPaintControlPoints(false);
+		scene.addChild(conn3);
+		LabelWidget label3 = new LabelWidget(scene, "none of cursors should be used");
+		conn3.addChild(label3);
+		conn3.setConstraint(label3, LayoutFactory.ConnectionWidgetLayoutAlignment.TOP_RIGHT, 0.5f);
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
 }

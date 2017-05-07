@@ -43,45 +43,46 @@
  */
 package org.netbeans.modules.visual.anchor;
 
-import org.netbeans.api.visual.anchor.AnchorShape;
+import java.awt.Graphics2D;
+import java.awt.Image;
 
-import java.awt.*;
+import org.netbeans.api.visual.anchor.AnchorShape;
 
 /**
  * @author David Kaspar
  */
 public class ImageAnchorShape implements AnchorShape {
 
-    private Image image;
-    private boolean lineOriented;
-    private int radius;
-    private int x, y;
+	private Image image;
+	private boolean lineOriented;
+	private int radius;
+	private int x, y;
 
-    public ImageAnchorShape (Image image, boolean lineOriented) {
-        this.lineOriented = lineOriented;
-        assert image != null;
-        this.image = image;
-        x = image.getWidth (null);
-        y = image.getHeight (null);
-        radius = Math.max (x, y);
-        x = - (x / 2);
-        y = - (y / 2);
-    }
+	public ImageAnchorShape(Image image, boolean lineOriented) {
+		this.lineOriented = lineOriented;
+		assert image != null;
+		this.image = image;
+		x = image.getWidth(null);
+		y = image.getHeight(null);
+		radius = Math.max(x, y);
+		x = -(x / 2);
+		y = -(y / 2);
+	}
 
-    public boolean isLineOriented () {
-        return lineOriented;
-    }
+	public boolean isLineOriented() {
+		return lineOriented;
+	}
 
-    public int getRadius () {
-        return radius;
-    }
+	public int getRadius() {
+		return radius;
+	}
 
-    public double getCutDistance () {
-        return 0.0;
-    }
+	public double getCutDistance() {
+		return 0.0;
+	}
 
-    public void paint (Graphics2D graphics, boolean source) {
-        graphics.drawImage (image, x, y, null);
-    }
+	public void paint(Graphics2D graphics, boolean source) {
+		graphics.drawImage(image, x, y, null);
+	}
 
 }

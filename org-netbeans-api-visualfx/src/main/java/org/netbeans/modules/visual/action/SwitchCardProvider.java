@@ -43,47 +43,47 @@
  */
 package org.netbeans.modules.visual.action;
 
+import java.awt.Point;
+import java.util.List;
+
 import org.netbeans.api.visual.action.SelectProvider;
 import org.netbeans.api.visual.layout.LayoutFactory;
 import org.netbeans.api.visual.widget.Widget;
-
-import java.awt.*;
-import java.util.List;
 
 /**
  * @author David Kaspar
  */
 public final class SwitchCardProvider implements SelectProvider {
 
-    private Widget cardLayoutWidget;
+	private Widget cardLayoutWidget;
 
-    public SwitchCardProvider (Widget cardLayoutWidget) {
-        this.cardLayoutWidget = cardLayoutWidget;
-    }
+	public SwitchCardProvider(Widget cardLayoutWidget) {
+		this.cardLayoutWidget = cardLayoutWidget;
+	}
 
-    public boolean isAimingAllowed (Widget widget, Point localLocation, boolean invertSelection) {
-        return false;
-    }
+	public boolean isAimingAllowed(Widget widget, Point localLocation, boolean invertSelection) {
+		return false;
+	}
 
-    public boolean isSelectionAllowed (Widget widget, Point localLocation, boolean invertSelection) {
-        return true;
-    }
+	public boolean isSelectionAllowed(Widget widget, Point localLocation, boolean invertSelection) {
+		return true;
+	}
 
-    public void select (Widget widget, Point localLocation, boolean invertSelection) {
-        Widget currentActiveCard = LayoutFactory.getActiveCard (cardLayoutWidget);
+	public void select(Widget widget, Point localLocation, boolean invertSelection) {
+		Widget currentActiveCard = LayoutFactory.getActiveCard(cardLayoutWidget);
 
-        List<Widget> children = cardLayoutWidget.getChildren ();
-        int i = children.indexOf (currentActiveCard);
-        i ++;
-        if (i >= children.size ())
-            i = 0;
-        Widget newActiveCard = children.get (i);
+		List<Widget> children = cardLayoutWidget.getChildren();
+		int i = children.indexOf(currentActiveCard);
+		i++;
+		if (i >= children.size())
+			i = 0;
+		Widget newActiveCard = children.get(i);
 
-        if (currentActiveCard == newActiveCard)
-            return;
+		if (currentActiveCard == newActiveCard)
+			return;
 
-        LayoutFactory.setActiveCard (cardLayoutWidget, newActiveCard);
-//        notifyCardSwitched (currentActiveCard, newActiveCard);
-    }
+		LayoutFactory.setActiveCard(cardLayoutWidget, newActiveCard);
+		// notifyCardSwitched (currentActiveCard, newActiveCard);
+	}
 
 }

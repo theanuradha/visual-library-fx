@@ -52,10 +52,12 @@ import org.netbeans.api.visual.widget.Widget;
  */
 public interface HoverProvider {
 
-    /**
-     * Called to notify that a specified widget is hovered.
-     * @param widget the hovered widget
-     */
-    void widgetHovered (Widget widget);
+	/**
+	 * Called to notify that a specified widget is hovered.
+	 * 
+	 * @param widget
+	 *            the hovered widget
+	 */
+	void widgetHovered(Widget widget);
 
 }

@@ -44,46 +44,57 @@
 package org.netbeans.api.visual.animator;
 
 /**
- * This interface is used for notifying about important events on <code>Animator</code>.
+ * This interface is used for notifying about important events on
+ * <code>Animator</code>.
  *
  * @author David Kaspar
  * @since 2.2
  */
 public interface AnimatorListener {
 
-    /**
-     * Called when an animator is invoked to be started.
-     * @param event the animator event
-     * @since 2.2
-     */
-    void animatorStarted (AnimatorEvent event);
+	/**
+	 * Called when an animator is invoked to be started.
+	 * 
+	 * @param event
+	 *            the animator event
+	 * @since 2.2
+	 */
+	void animatorStarted(AnimatorEvent event);
 
-    /**
-     * Called when an animator is changed, so the animation has to be restarted.
-     * @param event the animator event
-     * @since 2.2
-     */
-    void animatorReset (AnimatorEvent event);
+	/**
+	 * Called when an animator is changed, so the animation has to be restarted.
+	 * 
+	 * @param event
+	 *            the animator event
+	 * @since 2.2
+	 */
+	void animatorReset(AnimatorEvent event);
 
-    /**
-     * Called when an animator is finished - means it was running for 500+ms.
-     * @param event the animator event
-     * @since 2.2
-     */
-    void animatorFinished (AnimatorEvent event);
+	/**
+	 * Called when an animator is finished - means it was running for 500+ms.
+	 * 
+	 * @param event
+	 *            the animator event
+	 * @since 2.2
+	 */
+	void animatorFinished(AnimatorEvent event);
 
-    /**
-     * Called immediately before the animator performs a tick of an animation.
-     * @param event the animator event
-     * @since 2.2
-     */
-    void animatorPreTick (AnimatorEvent event);
+	/**
+	 * Called immediately before the animator performs a tick of an animation.
+	 * 
+	 * @param event
+	 *            the animator event
+	 * @since 2.2
+	 */
+	void animatorPreTick(AnimatorEvent event);
 
-    /**
-     * Called immediately after the animator performs a tick of an animation.
-     * @param event the animator event
-     * @since 2.2
-     */
-    void animatorPostTick (AnimatorEvent event);
+	/**
+	 * Called immediately after the animator performs a tick of an animation.
+	 * 
+	 * @param event
+	 *            the animator event
+	 * @since 2.2
+	 */
+	void animatorPostTick(AnimatorEvent event);
 
 }

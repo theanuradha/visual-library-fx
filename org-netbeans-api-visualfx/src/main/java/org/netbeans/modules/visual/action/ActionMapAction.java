@@ -44,72 +44,72 @@
 package org.netbeans.modules.visual.action;
 
 import org.netbeans.api.visual.action.WidgetAction;
-import org.netbeans.api.visual.widget.Widget;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 
 /**
  * @author David Kaspar
  */
 public class ActionMapAction extends WidgetAction.Adapter {
 
-//    private InputMap inputMap;
-//    private ActionMap actionMap;
-//
-//    public ActionMapAction (InputMap inputMap, ActionMap actionMap) {
-//        this.inputMap = inputMap;
-//        this.actionMap = actionMap;
-//    }
-//
-//    public State keyPressed (Widget widget, WidgetKeyEvent event) {
-//        int mod = 0;
-//        
-//        if(event.isAltDown())
-//        {
-//            mod = mod|InputEvent.ALT_DOWN_MASK;
-//        }
-//        if(event.isControlDown())
-//        {
-//            mod = mod|InputEvent.CTRL_DOWN_MASK;
-//        }
-//        if(event.isShiftDown())
-//        {
-//            mod = mod|InputEvent.SHIFT_DOWN_MASK;
-//        }
-//        if(event.isMetaDown())
-//        {
-//            mod = mod|InputEvent.META_DOWN_MASK;
-//        }
-//        
-//        return handleKeyEvent (widget, event, KeyStroke.getKeyStroke (event.getKeyCode ().impl_getCode(), mod));
-//    }
-//
-//    public State keyReleased (Widget widget, WidgetKeyEvent event) {
-//        return handleKeyEvent (widget, event, KeyStroke.getKeyStroke (event.getKeyCode ().impl_getCode(), event.getModifiers (), true));
-//    }
-//
-//    public State keyTyped (Widget widget, WidgetKeyEvent event) {
-//        return handleKeyEvent (widget, event, KeyStroke.getKeyStroke (event.getKeyCode (), event.getModifiers ()));
-//    }
-//
-//    private State handleKeyEvent (Widget widget, WidgetKeyEvent event, KeyStroke keyStroke) {
-//        if (keyStroke == null)
-//            return State.REJECTED;
-//        ActionListener action;
-//        if (actionMap != null && inputMap != null) {
-//            Object o = inputMap.get (keyStroke);
-//            action = o != null ? actionMap.get (o) : null;
-//        } else {
-//            JComponent view = widget.getScene ().getView ();
-//            action = view != null ? view.getActionForKeyStroke (keyStroke) : null;
-//        }
-//        if (action != null) {
-//            action.actionPerformed (new ActionEvent (widget, (int) event.getEventID (), null)); // TODO - action-event command
-//            return State.CONSUMED;
-//        }
-//        return State.REJECTED;
-//    }
+	// private InputMap inputMap;
+	// private ActionMap actionMap;
+	//
+	// public ActionMapAction (InputMap inputMap, ActionMap actionMap) {
+	// this.inputMap = inputMap;
+	// this.actionMap = actionMap;
+	// }
+	//
+	// public State keyPressed (Widget widget, WidgetKeyEvent event) {
+	// int mod = 0;
+	//
+	// if(event.isAltDown())
+	// {
+	// mod = mod|InputEvent.ALT_DOWN_MASK;
+	// }
+	// if(event.isControlDown())
+	// {
+	// mod = mod|InputEvent.CTRL_DOWN_MASK;
+	// }
+	// if(event.isShiftDown())
+	// {
+	// mod = mod|InputEvent.SHIFT_DOWN_MASK;
+	// }
+	// if(event.isMetaDown())
+	// {
+	// mod = mod|InputEvent.META_DOWN_MASK;
+	// }
+	//
+	// return handleKeyEvent (widget, event, KeyStroke.getKeyStroke
+	// (event.getKeyCode ().impl_getCode(), mod));
+	// }
+	//
+	// public State keyReleased (Widget widget, WidgetKeyEvent event) {
+	// return handleKeyEvent (widget, event, KeyStroke.getKeyStroke
+	// (event.getKeyCode ().impl_getCode(), event.getModifiers (), true));
+	// }
+	//
+	// public State keyTyped (Widget widget, WidgetKeyEvent event) {
+	// return handleKeyEvent (widget, event, KeyStroke.getKeyStroke
+	// (event.getKeyCode (), event.getModifiers ()));
+	// }
+	//
+	// private State handleKeyEvent (Widget widget, WidgetKeyEvent event,
+	// KeyStroke keyStroke) {
+	// if (keyStroke == null)
+	// return State.REJECTED;
+	// ActionListener action;
+	// if (actionMap != null && inputMap != null) {
+	// Object o = inputMap.get (keyStroke);
+	// action = o != null ? actionMap.get (o) : null;
+	// } else {
+	// JComponent view = widget.getScene ().getView ();
+	// action = view != null ? view.getActionForKeyStroke (keyStroke) : null;
+	// }
+	// if (action != null) {
+	// action.actionPerformed (new ActionEvent (widget, (int) event.getEventID
+	// (), null)); // TODO - action-event command
+	// return State.CONSUMED;
+	// }
+	// return State.REJECTED;
+	// }
 
 }

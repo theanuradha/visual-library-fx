@@ -43,18 +43,17 @@ package org.netbeans.api.visual.anchor;
 
 /**
  * The AnchorShapeLocationResolver is used to resolve an AnchorShapes cut
- * distance.  
+ * distance.
  * 
  * @author treyspiva
  */
-public interface AnchorShapeLocationResolver
-{
-    /**
-     * Retrieves the location of the Anchor shape a long the connection widgets 
-     * route. The connection widget will stop drawing when it reaches the 
-     * AnchorShape.
-     * 
-     * @return The AnchorShapes location.
-     */
-    public int getEndLocation();
+public interface AnchorShapeLocationResolver {
+	/**
+	 * Retrieves the location of the Anchor shape a long the connection widgets
+	 * route. The connection widget will stop drawing when it reaches the
+	 * AnchorShape.
+	 * 
+	 * @return The AnchorShapes location.
+	 */
+	public int getEndLocation();
 }

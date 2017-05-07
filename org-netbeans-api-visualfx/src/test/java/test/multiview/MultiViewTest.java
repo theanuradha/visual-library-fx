@@ -18,67 +18,73 @@
  */
 package test.multiview;
 
-import org.netbeans.api.visual.widget.Scene;
-import test.object.ObjectTest;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JPopupMenu;
+
+import org.netbeans.api.visual.widget.Scene;
+
+import test.object.ObjectTest;
 
 /**
  * @author David Kaspar
  */
 public class MultiViewTest {
 
-    public static void main (String[] args) {
-        final ObjectTest scene = new ObjectTest ();
-        scene.addNode ("form [Form]");
-        scene.addNode ("list [List]");
-        scene.addNode ("canvas [Canvas]");
-        scene.addNode ("alert [Alert]");
-        scene.moveTo (null);
+	public static void main(String[] args) {
+		final ObjectTest scene = new ObjectTest();
+		scene.addNode("form [Form]");
+		scene.addNode("list [List]");
+		scene.addNode("canvas [Canvas]");
+		scene.addNode("alert [Alert]");
+		scene.moveTo(null);
 
-        show (scene);
-    }
+		show(scene);
+	}
 
-    public static void show (final Scene scene) {
-        int width = 800, height = 600;
-        JFrame frame = new JFrame ();//new JDialog (), true);
-        Container contentPane = frame.getContentPane ();
-        contentPane.setLayout (new BorderLayout ());
+	public static void show(final Scene scene) {
+		int width = 800, height = 600;
+		JFrame frame = new JFrame();// new JDialog (), true);
+		Container contentPane = frame.getContentPane();
+		contentPane.setLayout(new BorderLayout());
 
-        //JComponent sceneView = scene.createView ();
+		// JComponent sceneView = scene.createView ();
 
-       // JScrollPane panel = new JScrollPane (sceneView);
-//        panel.getHorizontalScrollBar ().setUnitIncrement (32);
-//        panel.getHorizontalScrollBar ().setBlockIncrement (256);
-//        panel.getVerticalScrollBar ().setUnitIncrement (32);
-//        panel.getVerticalScrollBar ().setBlockIncrement (256);
-//        contentPane.add (panel, BorderLayout.CENTER);
+		// JScrollPane panel = new JScrollPane (sceneView);
+		// panel.getHorizontalScrollBar ().setUnitIncrement (32);
+		// panel.getHorizontalScrollBar ().setBlockIncrement (256);
+		// panel.getVerticalScrollBar ().setUnitIncrement (32);
+		// panel.getVerticalScrollBar ().setBlockIncrement (256);
+		// contentPane.add (panel, BorderLayout.CENTER);
 
-//        contentPane.add (scene.createSatelliteView (), BorderLayout.NORTH);
-//        contentPane.add (scene.createSatelliteView (), BorderLayout.SOUTH);
-        contentPane.add (scene.createSatelliteView (), BorderLayout.WEST);
-//        contentPane.add (scene.createSatelliteView (), BorderLayout.EAST);
+		// contentPane.add (scene.createSatelliteView (), BorderLayout.NORTH);
+		// contentPane.add (scene.createSatelliteView (), BorderLayout.SOUTH);
+		contentPane.add(scene.createSatelliteView(), BorderLayout.WEST);
+		// contentPane.add (scene.createSatelliteView (), BorderLayout.EAST);
 
-        final JButton button = new JButton ("Preview");
-        button.addActionListener (new ActionListener() {
-            public void actionPerformed (ActionEvent e) {
-                JPopupMenu popup = new JPopupMenu ();
-                popup.setLayout (new BorderLayout ());
-                JComponent satelliteView = scene.createSatelliteView ();
-                popup.add (satelliteView, BorderLayout.CENTER);
-                popup.show (button, (button.getSize ().width - satelliteView.getPreferredSize ().width) / 2, button.getSize ().height);
-            }
-        });
-        contentPane.add (button, BorderLayout.NORTH);
+		final JButton button = new JButton("Preview");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JPopupMenu popup = new JPopupMenu();
+				popup.setLayout(new BorderLayout());
+				JComponent satelliteView = scene.createSatelliteView();
+				popup.add(satelliteView, BorderLayout.CENTER);
+				popup.show(button, (button.getSize().width - satelliteView.getPreferredSize().width) / 2,
+						button.getSize().height);
+			}
+		});
+		contentPane.add(button, BorderLayout.NORTH);
 
-
-        frame.setDefaultCloseOperation (JFrame.DISPOSE_ON_CLOSE);
-        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit ().getScreenSize ();
-        frame.setBounds ((screenSize.width - width) / 2, (screenSize.height - height) / 2, width, height);
-        frame.setVisible (true);
-    }
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setBounds((screenSize.width - width) / 2, (screenSize.height - height) / 2, width, height);
+		frame.setVisible(true);
+	}
 
 }

@@ -43,69 +43,69 @@
  */
 package org.netbeans.modules.visual.anchor;
 
+import java.awt.Point;
+
+import org.netbeans.api.visual.anchor.Anchor;
 import org.netbeans.api.visual.model.StateModel;
 import org.netbeans.api.visual.widget.Widget;
-import org.netbeans.api.visual.anchor.Anchor;
-
-import java.awt.*;
 
 /**
  * @author David Kaspar
  */
 public final class ProxyAnchor extends Anchor implements StateModel.Listener {
 
-    private StateModel model;
-    private Anchor[] anchors;
-    private int index;
+	private StateModel model;
+	private Anchor[] anchors;
+	private int index;
 
-    public ProxyAnchor(StateModel model, Anchor... anchors) {
-        super (null);
-//        assert model != null  &&  model.getMaxStates () == anchors.length;
-        this.model = model;
-        this.anchors = anchors;
-        this.index = model.getState ();
-    }
+	public ProxyAnchor(StateModel model, Anchor... anchors) {
+		super(null);
+		// assert model != null && model.getMaxStates () == anchors.length;
+		this.model = model;
+		this.anchors = anchors;
+		this.index = model.getState();
+	}
 
-    public StateModel getModel () {
-        return model;
-    }
+	public StateModel getModel() {
+		return model;
+	}
 
-    protected void notifyEntryAdded (Entry entry) {
-        anchors[index].addEntry (entry);
-    }
+	protected void notifyEntryAdded(Entry entry) {
+		anchors[index].addEntry(entry);
+	}
 
-    protected void notifyEntryRemoved (Entry entry) {
-        anchors[index].removeEntry (entry);
-    }
+	protected void notifyEntryRemoved(Entry entry) {
+		anchors[index].removeEntry(entry);
+	}
 
-    protected void notifyUsed () {
-        model.addListener (this);
-    }
+	protected void notifyUsed() {
+		model.addListener(this);
+	}
 
-    protected void notifyUnused () {
-        model.removeListener (this);
-    }
+	protected void notifyUnused() {
+		model.removeListener(this);
+	}
 
-    public void stateChanged () {
-        int state = getModel ().getState ();
-        if (index == state)
-            return;
-        anchors[index].removeEntries (getEntries ());
-        index = state;
-        anchors[index].addEntries (getEntries ());
-        revalidateDependency ();
-    }
+	public void stateChanged() {
+		int state = getModel().getState();
+		if (index == state)
+			return;
+		anchors[index].removeEntries(getEntries());
+		index = state;
+		anchors[index].addEntries(getEntries());
+		revalidateDependency();
+	}
 
-    public Point getRelatedSceneLocation () {
-        return anchors[index].getRelatedSceneLocation ();
-    }
+	public Point getRelatedSceneLocation() {
+		return anchors[index].getRelatedSceneLocation();
+	}
 
-    public Widget getRelatedWidget () {
-        return anchors[index].getRelatedWidget();
-    }
+	public Widget getRelatedWidget() {
+		return anchors[index].getRelatedWidget();
+	}
 
-    public Anchor.Result compute (Anchor.Entry entry) {
-        return anchors[index].compute (entry);
-    }
+	public Anchor.Result compute(Anchor.Entry entry) {
+		return anchors[index].compute(entry);
+	}
 
 }

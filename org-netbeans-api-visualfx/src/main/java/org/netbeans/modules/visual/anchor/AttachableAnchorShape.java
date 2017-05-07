@@ -41,96 +41,81 @@
  */
 package org.netbeans.modules.visual.anchor;
 
-import org.netbeans.api.visual.anchor.AnchorShapeLocationResolver;
 import java.awt.Graphics2D;
+
 import org.netbeans.api.visual.anchor.AnchorShape;
+import org.netbeans.api.visual.anchor.AnchorShapeLocationResolver;
 
 /**
  *
  * @author treyspiva
  */
-public class AttachableAnchorShape implements AnchorShape
-{
-    private AnchorShape shape = null;
-    private AnchorShapeLocationResolver locationResolver = null;
-    
-    public AttachableAnchorShape()
-    {
-        this(AnchorShape.NONE);
-    }
-    
-    public AttachableAnchorShape(AnchorShapeLocationResolver resolver)
-    {
-        this(AnchorShape.NONE, resolver);
-    }
-    
-    public AttachableAnchorShape(AnchorShape shape)
-    {
-        this(shape, null);
-    }
-    
-    public AttachableAnchorShape(AnchorShape shape, 
-                                 AnchorShapeLocationResolver resolver)
-    {
-        this.shape = shape;
-        this.locationResolver = resolver;
-    }
+public class AttachableAnchorShape implements AnchorShape {
+	private AnchorShape shape = null;
+	private AnchorShapeLocationResolver locationResolver = null;
 
-    public AnchorShape getShape()
-    {
-        return shape;
-    }
+	public AttachableAnchorShape() {
+		this(AnchorShape.NONE);
+	}
 
-    public void setShape(AnchorShape shape)
-    {
-        this.shape = shape;
-    }
+	public AttachableAnchorShape(AnchorShapeLocationResolver resolver) {
+		this(AnchorShape.NONE, resolver);
+	}
 
-    public AnchorShapeLocationResolver getLocationResolver()
-    {
-        return locationResolver;
-    }
+	public AttachableAnchorShape(AnchorShape shape) {
+		this(shape, null);
+	}
 
-    public void setLocationResolver(AnchorShapeLocationResolver locationResolver)
-    {
-        this.locationResolver = locationResolver;
-    }
-    
-    public boolean isLineOriented()
-    {
-        return shape.isLineOriented();
-    }
+	public AttachableAnchorShape(AnchorShape shape, AnchorShapeLocationResolver resolver) {
+		this.shape = shape;
+		this.locationResolver = resolver;
+	}
 
-    public int getRadius()
-    {
-        return shape.getRadius();
-    }
+	public AnchorShape getShape() {
+		return shape;
+	}
 
-    public double getCutDistance()
-    {
-        
-        return shape.getCutDistance() + getAdditionalDistance();
-    }
+	public void setShape(AnchorShape shape) {
+		this.shape = shape;
+	}
 
-    public void paint(Graphics2D graphics, boolean source)
-    {
-        int distance = getAdditionalDistance();
-        graphics.translate(distance, 0);
-        
-        shape.paint(graphics, source);
-        
-        graphics.translate(-distance, 0);
-    }
+	public AnchorShapeLocationResolver getLocationResolver() {
+		return locationResolver;
+	}
 
-    protected int getAdditionalDistance()
-    {
-        int retVal = 0;
+	public void setLocationResolver(AnchorShapeLocationResolver locationResolver) {
+		this.locationResolver = locationResolver;
+	}
 
-        if (locationResolver != null)
-        {
-            retVal = locationResolver.getEndLocation();
-        }
+	public boolean isLineOriented() {
+		return shape.isLineOriented();
+	}
 
-        return retVal;
-    }
+	public int getRadius() {
+		return shape.getRadius();
+	}
+
+	public double getCutDistance() {
+
+		return shape.getCutDistance() + getAdditionalDistance();
+	}
+
+	public void paint(Graphics2D graphics, boolean source) {
+		int distance = getAdditionalDistance();
+		graphics.translate(distance, 0);
+
+		shape.paint(graphics, source);
+
+		graphics.translate(-distance, 0);
+	}
+
+	protected int getAdditionalDistance() {
+		int retVal = 0;
+
+		if (locationResolver != null) {
+			retVal = locationResolver.getEndLocation();
+		}
+
+		return retVal;
+	}
 }

@@ -18,6 +18,9 @@
  */
 package test.alignwith;
 
+import java.awt.Color;
+import java.awt.Point;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.border.Border;
@@ -25,46 +28,46 @@ import org.netbeans.api.visual.border.BorderFactory;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class AlignWithClientAreaTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
+	public static void main(String[] args) {
+		Scene scene = new Scene();
 
-        LayerWidget mainLayer = new LayerWidget (scene);
-        scene.addChild (mainLayer);
-        LayerWidget interractionLayer = new LayerWidget (scene);
-        scene.addChild (interractionLayer);
+		LayerWidget mainLayer = new LayerWidget(scene);
+		scene.addChild(mainLayer);
+		LayerWidget interractionLayer = new LayerWidget(scene);
+		scene.addChild(interractionLayer);
 
-        Border resizeBorder = BorderFactory.createResizeBorder (8);
-        WidgetAction moveAction = ActionFactory.createAlignWithMoveAction (mainLayer, interractionLayer, null, false);
-        WidgetAction resizeAction = ActionFactory.createAlignWithResizeAction (mainLayer, interractionLayer, null, false);
+		Border resizeBorder = BorderFactory.createResizeBorder(8);
+		WidgetAction moveAction = ActionFactory.createAlignWithMoveAction(mainLayer, interractionLayer, null, false);
+		WidgetAction resizeAction = ActionFactory.createAlignWithResizeAction(mainLayer, interractionLayer, null,
+				false);
 
-        createWidget (mainLayer, 100, 100, "Label 1 - Move, Resize", resizeBorder, resizeAction, moveAction);
-        createWidget (mainLayer, 200, 150, "Label 2 - Move, Resize", resizeBorder, resizeAction, moveAction);
-        createWidget (mainLayer, 100, 200, "Label 3 - Move, Resize", resizeBorder, resizeAction, moveAction);
+		createWidget(mainLayer, 100, 100, "Label 1 - Move, Resize", resizeBorder, resizeAction, moveAction);
+		createWidget(mainLayer, 200, 150, "Label 2 - Move, Resize", resizeBorder, resizeAction, moveAction);
+		createWidget(mainLayer, 100, 200, "Label 3 - Move, Resize", resizeBorder, resizeAction, moveAction);
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
-
-    private static void createWidget (LayerWidget mainLayer, int x, int y, String label, Border resizeBorder, WidgetAction resizeAction, WidgetAction moveAction) {
-        LabelWidget widget = new LabelWidget (mainLayer.getScene (), label);
-        widget.setAlignment (LabelWidget.Alignment.CENTER);
-        widget.setVerticalAlignment (LabelWidget.VerticalAlignment.CENTER);
-        widget.setPreferredLocation (new Point (x, y));
-        widget.setOpaque (true);
-        widget.setBackground (Color.YELLOW);
-        widget.setBorder (resizeBorder);
-        widget.getActions ().addAction (resizeAction);
-        widget.getActions ().addAction (moveAction);
-        mainLayer.addChild (widget);
-    }
+	private static void createWidget(LayerWidget mainLayer, int x, int y, String label, Border resizeBorder,
+			WidgetAction resizeAction, WidgetAction moveAction) {
+		LabelWidget widget = new LabelWidget(mainLayer.getScene(), label);
+		widget.setAlignment(LabelWidget.Alignment.CENTER);
+		widget.setVerticalAlignment(LabelWidget.VerticalAlignment.CENTER);
+		widget.setPreferredLocation(new Point(x, y));
+		widget.setOpaque(true);
+		widget.setBackground(Color.YELLOW);
+		widget.setBorder(resizeBorder);
+		widget.getActions().addAction(resizeAction);
+		widget.getActions().addAction(moveAction);
+		mainLayer.addChild(widget);
+	}
 
 }

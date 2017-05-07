@@ -18,6 +18,11 @@
  */
 package test.object;
 
+import java.awt.Image;
+import java.awt.Point;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.MoveProvider;
 import org.netbeans.api.visual.action.WidgetAction;
@@ -26,104 +31,100 @@ import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
 import org.netbeans.api.visual.widget.general.IconNodeWidget;
 import org.openide.util.Utilities;
-import test.SceneSupport;
 
-import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
-public class MultiMoveActionTest extends GraphScene<String,String> {
+public class MultiMoveActionTest extends GraphScene<String, String> {
 
-    private static final Image IMAGE = Utilities.loadImage ("test/resources/displayable_64.png"); // NOI18N
+	private static final Image IMAGE = Utilities.loadImage("test/resources/displayable_64.png"); // NOI18N
 
-    private LayerWidget backgroundLayer;
-    private LayerWidget mainLayer;
+	private LayerWidget backgroundLayer;
+	private LayerWidget mainLayer;
 
-    private WidgetAction moveAction = ActionFactory.createMoveAction (null, new MultiMoveProvider ());
+	private WidgetAction moveAction = ActionFactory.createMoveAction(null, new MultiMoveProvider());
 
-    public MultiMoveActionTest () {
-        addChild (backgroundLayer = new LayerWidget (this));
-        addChild (mainLayer = new LayerWidget (this));
+	public MultiMoveActionTest() {
+		addChild(backgroundLayer = new LayerWidget(this));
+		addChild(mainLayer = new LayerWidget(this));
 
-        getActions ().addAction (ActionFactory.createZoomAction ());
-        getActions ().addAction (ActionFactory.createPanAction ());
-        getActions ().addAction (ActionFactory.createRectangularSelectAction (this, backgroundLayer));
-    }
+		getActions().addAction(ActionFactory.createZoomAction());
+		getActions().addAction(ActionFactory.createPanAction());
+		getActions().addAction(ActionFactory.createRectangularSelectAction(this, backgroundLayer));
+	}
 
-    protected Widget attachNodeWidget (String node) {
-        IconNodeWidget widget = new IconNodeWidget (this);
-        widget.setImage (IMAGE);
-        widget.setLabel (node);
-        mainLayer.addChild (widget);
+	protected Widget attachNodeWidget(String node) {
+		IconNodeWidget widget = new IconNodeWidget(this);
+		widget.setImage(IMAGE);
+		widget.setLabel(node);
+		mainLayer.addChild(widget);
 
-        widget.getActions ().addAction (createSelectAction ());
-        widget.getActions ().addAction (createObjectHoverAction ());
-        widget.getActions ().addAction (moveAction);
+		widget.getActions().addAction(createSelectAction());
+		widget.getActions().addAction(createObjectHoverAction());
+		widget.getActions().addAction(moveAction);
 
-        return widget;
-    }
+		return widget;
+	}
 
-    protected Widget attachEdgeWidget (String edge) {
-        return null;
-    }
+	protected Widget attachEdgeWidget(String edge) {
+		return null;
+	}
 
-    protected void attachEdgeSourceAnchor (String edge, String oldSourceNode, String sourceNode) {
-    }
+	protected void attachEdgeSourceAnchor(String edge, String oldSourceNode, String sourceNode) {
+	}
 
-    protected void attachEdgeTargetAnchor (String edge, String oldTargetNode, String targetNode) {
-    }
+	protected void attachEdgeTargetAnchor(String edge, String oldTargetNode, String targetNode) {
+	}
 
-    public static void main (String[] args) {
-        MultiMoveActionTest scene = new MultiMoveActionTest ();
-        scene.addNode ("Try to select").setPreferredLocation (new Point (100, 100));
-        scene.addNode ("multiple objects").setPreferredLocation (new Point (200, 200));
-        scene.addNode ("and move them all").setPreferredLocation (new Point (300, 300));
-        scene.addNode ("with a single drag").setPreferredLocation (new Point (400, 400));
-        SceneSupport.show (scene);
-    }
+	public static void main(String[] args) {
+		MultiMoveActionTest scene = new MultiMoveActionTest();
+		scene.addNode("Try to select").setPreferredLocation(new Point(100, 100));
+		scene.addNode("multiple objects").setPreferredLocation(new Point(200, 200));
+		scene.addNode("and move them all").setPreferredLocation(new Point(300, 300));
+		scene.addNode("with a single drag").setPreferredLocation(new Point(400, 400));
+		SceneSupport.show(scene);
+	}
 
-    private class MultiMoveProvider implements MoveProvider {
+	private class MultiMoveProvider implements MoveProvider {
 
-        private HashMap<Widget, Point> originals = new HashMap<Widget, Point> ();
-        private Point original;
+		private HashMap<Widget, Point> originals = new HashMap<Widget, Point>();
+		private Point original;
 
-        public void movementStarted (Widget widget) {
-            Object object = findObject (widget);
-            if (isNode (object)) {
-                for (Object o : getSelectedObjects ())
-                    if (isNode (o)) {
-                        Widget w = findWidget (o);
-                        if (w != null)
-                            originals.put (w, w.getPreferredLocation ());
-                    }
-            } else {
-                originals.put (widget, widget.getPreferredLocation ());
-            }
-        }
+		public void movementStarted(Widget widget) {
+			Object object = findObject(widget);
+			if (isNode(object)) {
+				for (Object o : getSelectedObjects())
+					if (isNode(o)) {
+						Widget w = findWidget(o);
+						if (w != null)
+							originals.put(w, w.getPreferredLocation());
+					}
+			} else {
+				originals.put(widget, widget.getPreferredLocation());
+			}
+		}
 
-        public void movementFinished (Widget widget) {
-            originals.clear ();
-            original = null;
-        }
+		public void movementFinished(Widget widget) {
+			originals.clear();
+			original = null;
+		}
 
-        public Point getOriginalLocation (Widget widget) {
-            original = widget.getPreferredLocation ();
-            return original;
-        }
+		public Point getOriginalLocation(Widget widget) {
+			original = widget.getPreferredLocation();
+			return original;
+		}
 
-        public void setNewLocation (Widget widget, Point location) {
-            int dx = location.x - original.x;
-            int dy = location.y - original.y;
-            for (Map.Entry<Widget, Point> entry : originals.entrySet ()) {
-                Point point = entry.getValue ();
-                entry.getKey ().setPreferredLocation (new Point (point.x + dx, point.y + dy));
-            }
-        }
+		public void setNewLocation(Widget widget, Point location) {
+			int dx = location.x - original.x;
+			int dy = location.y - original.y;
+			for (Map.Entry<Widget, Point> entry : originals.entrySet()) {
+				Point point = entry.getValue();
+				entry.getKey().setPreferredLocation(new Point(point.x + dx, point.y + dy));
+			}
+		}
 
-    }
+	}
 
 }
-

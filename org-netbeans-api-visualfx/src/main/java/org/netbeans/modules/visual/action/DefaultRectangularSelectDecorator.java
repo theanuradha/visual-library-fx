@@ -53,16 +53,16 @@ import org.netbeans.api.visual.widget.Widget;
  */
 public final class DefaultRectangularSelectDecorator implements RectangularSelectDecorator {
 
-    private Scene scene;
+	private Scene scene;
 
-    public DefaultRectangularSelectDecorator (Scene scene) {
-        this.scene = scene;
-    }
+	public DefaultRectangularSelectDecorator(Scene scene) {
+		this.scene = scene;
+	}
 
-    public Widget createSelectionWidget () {
-        Widget widget = new Widget (scene);
-        widget.setBorder (scene.getLookFeel ().getMiniBorder (ObjectState.createNormal ().deriveSelected (true)));
-        return widget;
-    }
+	public Widget createSelectionWidget() {
+		Widget widget = new Widget(scene);
+		widget.setBorder(scene.getLookFeel().getMiniBorder(ObjectState.createNormal().deriveSelected(true)));
+		return widget;
+	}
 
 }

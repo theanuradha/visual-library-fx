@@ -43,6 +43,10 @@
  */
 package org.netbeans.modules.visual.action;
 
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+
 import org.netbeans.api.visual.action.AlignWithMoveDecorator;
 import org.netbeans.api.visual.action.AlignWithWidgetCollector;
 import org.netbeans.api.visual.action.ResizeProvider;
@@ -50,173 +54,184 @@ import org.netbeans.api.visual.action.ResizeStrategy;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Widget;
 
-import java.awt.*;
-
 /**
  * @author David Kaspar
  */
 public final class AlignWithResizeStrategyProvider extends AlignWithSupport implements ResizeStrategy, ResizeProvider {
 
-    private boolean outerBounds;
+	private boolean outerBounds;
 
-    public AlignWithResizeStrategyProvider (AlignWithWidgetCollector collector, LayerWidget interractionLayer, AlignWithMoveDecorator decorator, boolean outerBounds) {
-        super (collector, interractionLayer, decorator);
-        this.outerBounds = outerBounds;
-    }
+	public AlignWithResizeStrategyProvider(AlignWithWidgetCollector collector, LayerWidget interractionLayer,
+			AlignWithMoveDecorator decorator, boolean outerBounds) {
+		super(collector, interractionLayer, decorator);
+		this.outerBounds = outerBounds;
+	}
 
-    public Rectangle boundsSuggested (Widget widget, Rectangle originalBounds, Rectangle suggestedBounds, ControlPoint controlPoint) {
-        Insets insets = widget.getBorder ().getInsets ();
-        int minx = insets.left + insets.right;
-        int miny = insets.top + insets.bottom;
+	public Rectangle boundsSuggested(Widget widget, Rectangle originalBounds, Rectangle suggestedBounds,
+			ControlPoint controlPoint) {
+		Insets insets = widget.getBorder().getInsets();
+		int minx = insets.left + insets.right;
+		int miny = insets.top + insets.bottom;
 
-        suggestedBounds = widget.convertLocalToScene (suggestedBounds);
+		suggestedBounds = widget.convertLocalToScene(suggestedBounds);
 
-        Point suggestedLocation, point;
-        int tempx, tempy;
+		Point suggestedLocation, point;
+		int tempx, tempy;
 
-        switch (controlPoint) {
-            case BOTTOM_CENTER:
-                suggestedLocation = new Point (suggestedBounds.x + suggestedBounds.width / 2, suggestedBounds.y + suggestedBounds.height);
-                if (! outerBounds)
-                    suggestedLocation.y -= insets.bottom;
+		switch (controlPoint) {
+		case BOTTOM_CENTER:
+			suggestedLocation = new Point(suggestedBounds.x + suggestedBounds.width / 2,
+					suggestedBounds.y + suggestedBounds.height);
+			if (!outerBounds)
+				suggestedLocation.y -= insets.bottom;
 
-                point = super.locationSuggested (widget, new Rectangle (suggestedLocation), suggestedLocation, false, true, false, false);
+			point = super.locationSuggested(widget, new Rectangle(suggestedLocation), suggestedLocation, false, true,
+					false, false);
 
-                if (! outerBounds)
-                    point.y += insets.bottom;
+			if (!outerBounds)
+				point.y += insets.bottom;
 
-                suggestedBounds.height = Math.max (miny, point.y - suggestedBounds.y);
-                break;
-            case BOTTOM_LEFT:
-                suggestedLocation = new Point (suggestedBounds.x, suggestedBounds.y + suggestedBounds.height);
-                if (! outerBounds) {
-                    suggestedLocation.y -= insets.bottom;
-                    suggestedLocation.x += insets.left;
-                }
+			suggestedBounds.height = Math.max(miny, point.y - suggestedBounds.y);
+			break;
+		case BOTTOM_LEFT:
+			suggestedLocation = new Point(suggestedBounds.x, suggestedBounds.y + suggestedBounds.height);
+			if (!outerBounds) {
+				suggestedLocation.y -= insets.bottom;
+				suggestedLocation.x += insets.left;
+			}
 
-                point = super.locationSuggested (widget, new Rectangle (suggestedLocation), suggestedLocation, true, true, false, false);
+			point = super.locationSuggested(widget, new Rectangle(suggestedLocation), suggestedLocation, true, true,
+					false, false);
 
-                if (! outerBounds) {
-                    point.y += insets.bottom;
-                    point.x -= insets.left;
-                }
+			if (!outerBounds) {
+				point.y += insets.bottom;
+				point.x -= insets.left;
+			}
 
-                suggestedBounds.height = Math.max (miny, point.y - suggestedBounds.y);
+			suggestedBounds.height = Math.max(miny, point.y - suggestedBounds.y);
 
-                tempx = Math.min (point.x, suggestedBounds.x + suggestedBounds.width - minx);
-                suggestedBounds.width = suggestedBounds.x + suggestedBounds.width - tempx;
-                suggestedBounds.x = tempx;
-                break;
-            case BOTTOM_RIGHT:
-                suggestedLocation = new Point (suggestedBounds.x + suggestedBounds.width, suggestedBounds.y + suggestedBounds.height);
-                if (! outerBounds) {
-                    suggestedLocation.y -= insets.bottom;
-                    suggestedLocation.x -= insets.right;
-                }
+			tempx = Math.min(point.x, suggestedBounds.x + suggestedBounds.width - minx);
+			suggestedBounds.width = suggestedBounds.x + suggestedBounds.width - tempx;
+			suggestedBounds.x = tempx;
+			break;
+		case BOTTOM_RIGHT:
+			suggestedLocation = new Point(suggestedBounds.x + suggestedBounds.width,
+					suggestedBounds.y + suggestedBounds.height);
+			if (!outerBounds) {
+				suggestedLocation.y -= insets.bottom;
+				suggestedLocation.x -= insets.right;
+			}
 
-                point = super.locationSuggested (widget, new Rectangle (suggestedLocation), suggestedLocation, true, true, false, false);
+			point = super.locationSuggested(widget, new Rectangle(suggestedLocation), suggestedLocation, true, true,
+					false, false);
 
-                if (! outerBounds) {
-                    point.y += insets.bottom;
-                    point.x += insets.right;
-                }
+			if (!outerBounds) {
+				point.y += insets.bottom;
+				point.x += insets.right;
+			}
 
-                suggestedBounds.height = Math.max (miny, point.y - suggestedBounds.y);
+			suggestedBounds.height = Math.max(miny, point.y - suggestedBounds.y);
 
-                suggestedBounds.width = Math.max (minx, point.x - suggestedBounds.x);
-                break;
-            case CENTER_LEFT:
-                suggestedLocation = new Point (suggestedBounds.x, suggestedBounds.y + suggestedBounds.height / 2);
-                if (! outerBounds)
-                    suggestedLocation.x += insets.left;
+			suggestedBounds.width = Math.max(minx, point.x - suggestedBounds.x);
+			break;
+		case CENTER_LEFT:
+			suggestedLocation = new Point(suggestedBounds.x, suggestedBounds.y + suggestedBounds.height / 2);
+			if (!outerBounds)
+				suggestedLocation.x += insets.left;
 
-                point = super.locationSuggested (widget, new Rectangle (suggestedLocation), suggestedLocation, true, false, false, false);
+			point = super.locationSuggested(widget, new Rectangle(suggestedLocation), suggestedLocation, true, false,
+					false, false);
 
-                if (! outerBounds)
-                    point.x -= insets.left;
-                
-                tempx = Math.min (point.x, suggestedBounds.x + suggestedBounds.width - minx);
-                suggestedBounds.width = suggestedBounds.x + suggestedBounds.width - tempx;
-                suggestedBounds.x = tempx;
-                break;
-            case CENTER_RIGHT:
-                suggestedLocation = new Point (suggestedBounds.x + suggestedBounds.width, suggestedBounds.y + suggestedBounds.height / 2);
-                if (! outerBounds)
-                    suggestedLocation.x -= insets.right;
+			if (!outerBounds)
+				point.x -= insets.left;
 
-                point = super.locationSuggested (widget, new Rectangle (suggestedLocation), suggestedLocation, true, false, false, false);
+			tempx = Math.min(point.x, suggestedBounds.x + suggestedBounds.width - minx);
+			suggestedBounds.width = suggestedBounds.x + suggestedBounds.width - tempx;
+			suggestedBounds.x = tempx;
+			break;
+		case CENTER_RIGHT:
+			suggestedLocation = new Point(suggestedBounds.x + suggestedBounds.width,
+					suggestedBounds.y + suggestedBounds.height / 2);
+			if (!outerBounds)
+				suggestedLocation.x -= insets.right;
 
-                if (! outerBounds)
-                    point.x += insets.right;
-                
-                suggestedBounds.width = Math.max (minx, point.x - suggestedBounds.x);
-                break;
-            case TOP_CENTER:
-                suggestedLocation = new Point (suggestedBounds.x + suggestedBounds.width / 2, suggestedBounds.y);
-                if (! outerBounds)
-                    suggestedLocation.y += insets.top;
+			point = super.locationSuggested(widget, new Rectangle(suggestedLocation), suggestedLocation, true, false,
+					false, false);
 
-                point = super.locationSuggested (widget, new Rectangle (suggestedLocation), suggestedLocation, false, true, false, false);
+			if (!outerBounds)
+				point.x += insets.right;
 
-                if (! outerBounds)
-                    point.y -= insets.top;
+			suggestedBounds.width = Math.max(minx, point.x - suggestedBounds.x);
+			break;
+		case TOP_CENTER:
+			suggestedLocation = new Point(suggestedBounds.x + suggestedBounds.width / 2, suggestedBounds.y);
+			if (!outerBounds)
+				suggestedLocation.y += insets.top;
 
-                tempy = Math.min (point.y, suggestedBounds.y + suggestedBounds.height - miny);
-                suggestedBounds.height = suggestedBounds.y + suggestedBounds.height - tempy;
-                suggestedBounds.y = tempy;
-                break;
-            case TOP_LEFT:
-                suggestedLocation = new Point (suggestedBounds.x, suggestedBounds.y);
-                if (! outerBounds) {
-                    suggestedLocation.y += insets.top;
-                    suggestedLocation.x += insets.left;
-                }
+			point = super.locationSuggested(widget, new Rectangle(suggestedLocation), suggestedLocation, false, true,
+					false, false);
 
-                point = super.locationSuggested (widget, new Rectangle (suggestedLocation), suggestedLocation, true, true, false, false);
+			if (!outerBounds)
+				point.y -= insets.top;
 
-                if (! outerBounds) {
-                    point.y -= insets.top;
-                    point.x -= insets.left;
-                }
+			tempy = Math.min(point.y, suggestedBounds.y + suggestedBounds.height - miny);
+			suggestedBounds.height = suggestedBounds.y + suggestedBounds.height - tempy;
+			suggestedBounds.y = tempy;
+			break;
+		case TOP_LEFT:
+			suggestedLocation = new Point(suggestedBounds.x, suggestedBounds.y);
+			if (!outerBounds) {
+				suggestedLocation.y += insets.top;
+				suggestedLocation.x += insets.left;
+			}
 
-                tempy = Math.min (point.y, suggestedBounds.y + suggestedBounds.height - miny);
-                suggestedBounds.height = suggestedBounds.y + suggestedBounds.height - tempy;
-                suggestedBounds.y = tempy;
+			point = super.locationSuggested(widget, new Rectangle(suggestedLocation), suggestedLocation, true, true,
+					false, false);
 
-                tempx = Math.min (point.x, suggestedBounds.x + suggestedBounds.width - minx);
-                suggestedBounds.width = suggestedBounds.x + suggestedBounds.width - tempx;
-                suggestedBounds.x = tempx;
-                break;
-            case TOP_RIGHT:
-                suggestedLocation = new Point (suggestedBounds.x + suggestedBounds.width, suggestedBounds.y);
-                if (! outerBounds) {
-                    suggestedLocation.y += insets.top;
-                    suggestedLocation.x -= insets.right;
-                }
+			if (!outerBounds) {
+				point.y -= insets.top;
+				point.x -= insets.left;
+			}
 
-                point = super.locationSuggested (widget, new Rectangle (suggestedLocation), suggestedLocation, true, true, false, false);
+			tempy = Math.min(point.y, suggestedBounds.y + suggestedBounds.height - miny);
+			suggestedBounds.height = suggestedBounds.y + suggestedBounds.height - tempy;
+			suggestedBounds.y = tempy;
 
-                if (! outerBounds) {
-                    point.y -= insets.top;
-                    point.x += insets.right;
-                }
+			tempx = Math.min(point.x, suggestedBounds.x + suggestedBounds.width - minx);
+			suggestedBounds.width = suggestedBounds.x + suggestedBounds.width - tempx;
+			suggestedBounds.x = tempx;
+			break;
+		case TOP_RIGHT:
+			suggestedLocation = new Point(suggestedBounds.x + suggestedBounds.width, suggestedBounds.y);
+			if (!outerBounds) {
+				suggestedLocation.y += insets.top;
+				suggestedLocation.x -= insets.right;
+			}
 
-                tempy = Math.min (point.y, suggestedBounds.y + suggestedBounds.height - miny);
-                suggestedBounds.height = suggestedBounds.y + suggestedBounds.height - tempy;
-                suggestedBounds.y = tempy;
+			point = super.locationSuggested(widget, new Rectangle(suggestedLocation), suggestedLocation, true, true,
+					false, false);
 
-                suggestedBounds.width = Math.max (minx, point.x - suggestedBounds.x);
-                break;
-        }
-        return widget.convertSceneToLocal (suggestedBounds);
-    }
+			if (!outerBounds) {
+				point.y -= insets.top;
+				point.x += insets.right;
+			}
 
-    public void resizingStarted (Widget widget) {
-        show ();
-    }
+			tempy = Math.min(point.y, suggestedBounds.y + suggestedBounds.height - miny);
+			suggestedBounds.height = suggestedBounds.y + suggestedBounds.height - tempy;
+			suggestedBounds.y = tempy;
 
-    public void resizingFinished (Widget widget) {
-        hide ();
-    }
+			suggestedBounds.width = Math.max(minx, point.x - suggestedBounds.x);
+			break;
+		}
+		return widget.convertSceneToLocal(suggestedBounds);
+	}
+
+	public void resizingStarted(Widget widget) {
+		show();
+	}
+
+	public void resizingFinished(Widget widget) {
+		hide();
+	}
 
 }

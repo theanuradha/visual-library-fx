@@ -43,47 +43,50 @@
  */
 package org.netbeans.modules.visual.layout;
 
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Rectangle;
+
 import org.netbeans.api.visual.layout.Layout;
 import org.netbeans.api.visual.widget.Widget;
-
-import java.awt.*;
 
 /**
  * @author David Kaspar
  */
 public final class OverlayLayout implements Layout {
 
-    public void layout (Widget widget) {
-        Dimension total = new Dimension ();
-        for (Widget child : widget.getChildren ()) {
-            if (! child.isVisible ())
-                continue;
-            Dimension size = child.getPreferredBounds ().getSize ();
-            if (size.width > total.width)
-                total.width = size.width;
-            if (size.height > total.height)
-                total.height = size.height;
-        }
-        for (Widget child : widget.getChildren ()) {
-            Point location = child.getPreferredBounds ().getLocation ();
-            child.resolveBounds (new Point (- location.x, - location.y), new Rectangle (location, total));
-        }
-    }
+	public void layout(Widget widget) {
+		Dimension total = new Dimension();
+		for (Widget child : widget.getChildren()) {
+			if (!child.isVisible())
+				continue;
+			Dimension size = child.getPreferredBounds().getSize();
+			if (size.width > total.width)
+				total.width = size.width;
+			if (size.height > total.height)
+				total.height = size.height;
+		}
+		for (Widget child : widget.getChildren()) {
+			Point location = child.getPreferredBounds().getLocation();
+			child.resolveBounds(new Point(-location.x, -location.y), new Rectangle(location, total));
+		}
+	}
 
-    public boolean requiresJustification (Widget widget) {
-        return true;
-    }
+	public boolean requiresJustification(Widget widget) {
+		return true;
+	}
 
-    public void justify (Widget widget) {
-        Rectangle clientArea = widget.getClientArea ();
-        for (Widget child : widget.getChildren ()) {
-            if (child.isVisible ()) {
-                Point location = child.getPreferredBounds ().getLocation ();
-                child.resolveBounds (new Point (clientArea.x - location.x, clientArea.y - location.y), new Rectangle (location, clientArea.getSize ()));
-            } else {
-                child.resolveBounds (clientArea.getLocation (), new Rectangle ());
-            }
-        }
-    }
+	public void justify(Widget widget) {
+		Rectangle clientArea = widget.getClientArea();
+		for (Widget child : widget.getChildren()) {
+			if (child.isVisible()) {
+				Point location = child.getPreferredBounds().getLocation();
+				child.resolveBounds(new Point(clientArea.x - location.x, clientArea.y - location.y),
+						new Rectangle(location, clientArea.getSize()));
+			} else {
+				child.resolveBounds(clientArea.getLocation(), new Rectangle());
+			}
+		}
+	}
 
 }

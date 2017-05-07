@@ -48,6 +48,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+
 import org.netbeans.modules.visual.graph.layout.orthogonalsupport.MGraph.Edge;
 import org.netbeans.modules.visual.graph.layout.orthogonalsupport.MGraph.Vertex;
 
@@ -57,365 +58,364 @@ import org.netbeans.modules.visual.graph.layout.orthogonalsupport.MGraph.Vertex;
  */
 public class DualGraph {
 
-    private EmbeddedPlanarGraph originalGraph;
-    private Map<Face, FaceVertex> vertexMap;
-    private Collection<FaceVertex> vertices;
-    private Map<Edge, FaceEdge> edgeMap;
-    private Collection<FaceEdge> edges;
-    private Collection<Edge> edgesToIgnore;
-    private Collection<Face> facesToIgnore;
+	private EmbeddedPlanarGraph originalGraph;
+	private Map<Face, FaceVertex> vertexMap;
+	private Collection<FaceVertex> vertices;
+	private Map<Edge, FaceEdge> edgeMap;
+	private Collection<FaceEdge> edges;
+	private Collection<Edge> edgesToIgnore;
+	private Collection<Face> facesToIgnore;
 
-    /**
-     * 
-     * @param graph
-     * @param facesToIgnore
-     * @param edgesToIgnore
-     * @return
-     */
-    public static DualGraph createGraph(EmbeddedPlanarGraph graph,
-            Collection<Face> facesToIgnore,
-            Collection<Edge> edgesToIgnore) {
-        DualGraph dualGraph = new DualGraph(graph, facesToIgnore, edgesToIgnore);
-        dualGraph.createGraph();
+	/**
+	 * 
+	 * @param graph
+	 * @param facesToIgnore
+	 * @param edgesToIgnore
+	 * @return
+	 */
+	public static DualGraph createGraph(EmbeddedPlanarGraph graph, Collection<Face> facesToIgnore,
+			Collection<Edge> edgesToIgnore) {
+		DualGraph dualGraph = new DualGraph(graph, facesToIgnore, edgesToIgnore);
+		dualGraph.createGraph();
 
-        return dualGraph;
-    }
+		return dualGraph;
+	}
 
-    /**
-     * 
-     * @param graph
-     * @param facesToIgnore
-     * @param edgesToIgnore
-     */
-    private DualGraph(EmbeddedPlanarGraph graph, Collection<Face> facesToIgnore,
-            Collection<Edge> edgesToIgnore) {
-        this.originalGraph = graph;
-        this.facesToIgnore = facesToIgnore;
-        this.edgesToIgnore = edgesToIgnore;
+	/**
+	 * 
+	 * @param graph
+	 * @param facesToIgnore
+	 * @param edgesToIgnore
+	 */
+	private DualGraph(EmbeddedPlanarGraph graph, Collection<Face> facesToIgnore, Collection<Edge> edgesToIgnore) {
+		this.originalGraph = graph;
+		this.facesToIgnore = facesToIgnore;
+		this.edgesToIgnore = edgesToIgnore;
 
-        vertexMap = new HashMap<Face, FaceVertex>();
-        vertices = new ArrayList<FaceVertex>();
-        edgeMap = new HashMap<Edge, FaceEdge>();
-        edges = new ArrayList<FaceEdge>();
-    }
+		vertexMap = new HashMap<Face, FaceVertex>();
+		vertices = new ArrayList<FaceVertex>();
+		edgeMap = new HashMap<Edge, FaceEdge>();
+		edges = new ArrayList<FaceEdge>();
+	}
 
-    /**
-     * 
-     */
-    private void createGraph() {
-        createFaces();
-        createEdges();
-    }
+	/**
+	 * 
+	 */
+	private void createGraph() {
+		createFaces();
+		createEdges();
+	}
 
-    /**
-     * 
-     */
-    private void createFaces() {
-        for (Face f : originalGraph.getFaces()) {
-            // never ignore the outer face
-            if (!facesToIgnore.contains(f) || f.isOuterFace()) {
-                getVertex(f);
-            }
-        }
-    }
+	/**
+	 * 
+	 */
+	private void createFaces() {
+		for (Face f : originalGraph.getFaces()) {
+			// never ignore the outer face
+			if (!facesToIgnore.contains(f) || f.isOuterFace()) {
+				getVertex(f);
+			}
+		}
+	}
 
-    /**
-     * 
-     */
-    private void createEdges() {
-        for (FaceVertex fv : getVertices()) {
-            for (FaceVertex gv : getVertices()) {
-                if (fv == gv) {
-                    continue;
-                }
-                for (Edge e : fv.getFace().getEdges()) {
-                    if (edgesToIgnore.contains(e)) {
-                        continue;
-                    }
-                    if (gv.getFace().containsEdge(e)) {
-                        FaceEdge faceEdge = getEdge(fv, gv, e);
-                        fv.addEdge(faceEdge);
-                    }
-                }
-            }
-        }
-    }
+	/**
+	 * 
+	 */
+	private void createEdges() {
+		for (FaceVertex fv : getVertices()) {
+			for (FaceVertex gv : getVertices()) {
+				if (fv == gv) {
+					continue;
+				}
+				for (Edge e : fv.getFace().getEdges()) {
+					if (edgesToIgnore.contains(e)) {
+						continue;
+					}
+					if (gv.getFace().containsEdge(e)) {
+						FaceEdge faceEdge = getEdge(fv, gv, e);
+						fv.addEdge(faceEdge);
+					}
+				}
+			}
+		}
+	}
 
-    /**
-     * 
-     */
-    public void updateFaces() {
-        int faceCount = originalGraph.getFaces().size();
-        int vertexCount = vertices.size();
+	/**
+	 * 
+	 */
+	public void updateFaces() {
+		int faceCount = originalGraph.getFaces().size();
+		int vertexCount = vertices.size();
 
-        if (faceCount > vertexCount) {
-            createFaces();
-        } else if (faceCount < vertexCount) {
-            vertices.clear();
-            vertexMap.clear();
-            createFaces();
-        }
-    }
+		if (faceCount > vertexCount) {
+			createFaces();
+		} else if (faceCount < vertexCount) {
+			vertices.clear();
+			vertexMap.clear();
+			createFaces();
+		}
+	}
 
-    /**
-     * 
-     */
-    public void updateEdges() {
-        edges.clear();
-        edgeMap.clear();
+	/**
+	 * 
+	 */
+	public void updateEdges() {
+		edges.clear();
+		edgeMap.clear();
 
-        for (FaceVertex fv : getVertices()) {
-            fv.getEdges().clear();
-        }
+		for (FaceVertex fv : getVertices()) {
+			fv.getEdges().clear();
+		}
 
-        createEdges();
-    }
+		createEdges();
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public EmbeddedPlanarGraph getOriginalGraph() {
-        return originalGraph;
-    }
+	/**
+	 * 
+	 * @return
+	 */
+	public EmbeddedPlanarGraph getOriginalGraph() {
+		return originalGraph;
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public Collection<FaceVertex> getVertices() {
-        return vertices;
-    }
+	/**
+	 * 
+	 * @return
+	 */
+	public Collection<FaceVertex> getVertices() {
+		return vertices;
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public Collection<FaceEdge> getEdges() {
-        return edges;
-    }
+	/**
+	 * 
+	 * @return
+	 */
+	public Collection<FaceEdge> getEdges() {
+		return edges;
+	}
 
-    /**
-     * 
-     * @param face
-     * @return
-     */
-    private FaceVertex getVertex(Face face) {
-        FaceVertex vertex = vertexMap.get(face);
+	/**
+	 * 
+	 * @param face
+	 * @return
+	 */
+	private FaceVertex getVertex(Face face) {
+		FaceVertex vertex = vertexMap.get(face);
 
-        if (vertex == null) {
-            vertex = new FaceVertex(face);
-            vertexMap.put(face, vertex);
-            vertices.add(vertex);
-        }
+		if (vertex == null) {
+			vertex = new FaceVertex(face);
+			vertexMap.put(face, vertex);
+			vertices.add(vertex);
+		}
 
-        return vertex;
-    }
+		return vertex;
+	}
 
-    /**
-     * 
-     * @param f
-     * @param g
-     * @param e
-     * @return
-     */
-    private FaceEdge getEdge(FaceVertex f, FaceVertex g, Edge e) {
-        FaceEdge edge = edgeMap.get(e);
+	/**
+	 * 
+	 * @param f
+	 * @param g
+	 * @param e
+	 * @return
+	 */
+	private FaceEdge getEdge(FaceVertex f, FaceVertex g, Edge e) {
+		FaceEdge edge = edgeMap.get(e);
 
-        if (edge == null) {
-            edge = new FaceEdge(f, g, e);
-            edgeMap.put(e, edge);
-            edges.add(edge);
-        }
+		if (edge == null) {
+			edge = new FaceEdge(f, g, e);
+			edgeMap.put(e, edge);
+			edges.add(edge);
+		}
 
-        return edge;
-    }
+		return edge;
+	}
 
-    /**
-     * TODO: need to optimize
-     * @param e
-     * @return
-     */
-    public Collection<FaceVertex> getVerticesBorderingEdge(Edge e) {
-        Collection<FaceVertex> result = new ArrayList<FaceVertex>();
+	/**
+	 * TODO: need to optimize
+	 * 
+	 * @param e
+	 * @return
+	 */
+	public Collection<FaceVertex> getVerticesBorderingEdge(Edge e) {
+		Collection<FaceVertex> result = new ArrayList<FaceVertex>();
 
-        for (FaceVertex v : getVertices()) {
-            if (v.getFace().containsEdge(e)) {
-                result.add(v);
-            }
-        }
+		for (FaceVertex v : getVertices()) {
+			if (v.getFace().containsEdge(e)) {
+				result.add(v);
+			}
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public String toString() {
-        String s = "DualGraph:\n";
+	/**
+	 * 
+	 * @return
+	 */
+	public String toString() {
+		String s = "DualGraph:\n";
 
-        s = s + "vertices:\n";
-        for (FaceVertex fv : vertices) {
-            s = s + "\t" + fv + "\n";
-        }
+		s = s + "vertices:\n";
+		for (FaceVertex fv : vertices) {
+			s = s + "\t" + fv + "\n";
+		}
 
-        s = s + "edges\n";
-        for (FaceEdge fe : edges) {
-            s = s + "\t" + fe + "\n";
-        }
+		s = s + "edges\n";
+		for (FaceEdge fe : edges) {
+			s = s + "\t" + fe + "\n";
+		}
 
-        return s;
-    }
+		return s;
+	}
 
-    /**
-     * 
-     */
-    public class FaceVertex {
+	/**
+	 * 
+	 */
+	public class FaceVertex {
 
-        private Face face;
-        private Collection<FaceEdge> edges;
+		private Face face;
+		private Collection<FaceEdge> edges;
 
-        /**
-         * 
-         * @param face
-         */
-        public FaceVertex(Face face) {
-            this.face = face;
-            edges = new LinkedHashSet<FaceEdge>();
-        }
+		/**
+		 * 
+		 * @param face
+		 */
+		public FaceVertex(Face face) {
+			this.face = face;
+			edges = new LinkedHashSet<FaceEdge>();
+		}
 
-        /**
-         * 
-         * @return
-         */
-        public Face getFace() {
-            return face;
-        }
+		/**
+		 * 
+		 * @return
+		 */
+		public Face getFace() {
+			return face;
+		}
 
-        /**
-         * 
-         * @return
-         */
-        public Collection<FaceEdge> getEdges() {
-            return edges;
-        }
+		/**
+		 * 
+		 * @return
+		 */
+		public Collection<FaceEdge> getEdges() {
+			return edges;
+		}
 
-        /**
-         * 
-         * @param edge
-         */
-        public void addEdge(FaceEdge edge) {
-            if (!edges.contains(edge)) {
-                edges.add(edge);
-            }
-        }
+		/**
+		 * 
+		 * @param edge
+		 */
+		public void addEdge(FaceEdge edge) {
+			if (!edges.contains(edge)) {
+				edges.add(edge);
+			}
+		}
 
-        /**
-         * 
-         * @return
-         */
-        public String toString() {
-            return "FaceVertex: " + face.toString();
-        }
-    }
+		/**
+		 * 
+		 * @return
+		 */
+		public String toString() {
+			return "FaceVertex: " + face.toString();
+		}
+	}
 
-    /**
-     * 
-     */
-    public class FaceEdge {
+	/**
+	 * 
+	 */
+	public class FaceEdge {
 
-        private FaceVertex f;
-        private FaceVertex g;
-        private Edge edge;
+		private FaceVertex f;
+		private FaceVertex g;
+		private Edge edge;
 
-        /**
-         * 
-         * @param f
-         * @param g
-         * @param e
-         */
-        public FaceEdge(FaceVertex f, FaceVertex g, Edge e) {
-            this.f = f;
-            this.g = g;
-            this.edge = e;
-        }
+		/**
+		 * 
+		 * @param f
+		 * @param g
+		 * @param e
+		 */
+		public FaceEdge(FaceVertex f, FaceVertex g, Edge e) {
+			this.f = f;
+			this.g = g;
+			this.edge = e;
+		}
 
-        /**
-         * 
-         * @return
-         */
-        public FaceVertex getF() {
-            return f;
-        }
+		/**
+		 * 
+		 * @return
+		 */
+		public FaceVertex getF() {
+			return f;
+		}
 
-        /**
-         * 
-         * @return
-         */
-        public FaceVertex getG() {
-            return g;
-        }
+		/**
+		 * 
+		 * @return
+		 */
+		public FaceVertex getG() {
+			return g;
+		}
 
-        /**
-         * 
-         * @return
-         */
-        public Edge getEdge() {
-            return edge;
-        }
+		/**
+		 * 
+		 * @return
+		 */
+		public Edge getEdge() {
+			return edge;
+		}
 
-        /**
-         * 
-         * @param v
-         * @return
-         */
-        public boolean contains(FaceVertex v) {
-            return (f == v) || (g == v);
-        }
+		/**
+		 * 
+		 * @param v
+		 * @return
+		 */
+		public boolean contains(FaceVertex v) {
+			return (f == v) || (g == v);
+		}
 
-        /**
-         * 
-         * @param v
-         * @return
-         */
-        public FaceVertex getOppositeVertex(FaceVertex v) {
-            if (v == f) {
-                return g;
-            } else if (v == g) {
-                return f;
-            }
+		/**
+		 * 
+		 * @param v
+		 * @return
+		 */
+		public FaceVertex getOppositeVertex(FaceVertex v) {
+			if (v == f) {
+				return g;
+			} else if (v == g) {
+				return f;
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        /**
-         * 
-         * @param v
-         * @return
-         */
-        public FaceVertex getVertex(Vertex v) {
-            if (f.face.containsVertex(v)) {
-                return f;
-            }
-            if (g.face.containsVertex(v)) {
-                return g;
-            }
-            return null;
-        }
+		/**
+		 * 
+		 * @param v
+		 * @return
+		 */
+		public FaceVertex getVertex(Vertex v) {
+			if (f.face.containsVertex(v)) {
+				return f;
+			}
+			if (g.face.containsVertex(v)) {
+				return g;
+			}
+			return null;
+		}
 
-        /**
-         * 
-         * @return
-         */
-        @Override
-        public String toString() {
-            String s = "FaceEdge:\n";
-            s = s + "\t" + f + "\n";
-            s = s + "\t" + g + "\n";
-            s = s + "\t" + edge + "\n";
+		/**
+		 * 
+		 * @return
+		 */
+		@Override
+		public String toString() {
+			String s = "FaceEdge:\n";
+			s = s + "\t" + f + "\n";
+			s = s + "\t" + g + "\n";
+			s = s + "\t" + edge + "\n";
 
-            return s;
-        }
-    }
+			return s;
+		}
+	}
 }

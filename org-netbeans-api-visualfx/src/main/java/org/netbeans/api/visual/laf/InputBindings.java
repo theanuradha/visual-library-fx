@@ -45,7 +45,7 @@
 package org.netbeans.api.visual.laf;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
+
 import javafx.scene.input.MouseButton;
 
 /**
@@ -56,55 +56,63 @@ import javafx.scene.input.MouseButton;
  */
 public final class InputBindings {
 
-    private int zoomActionModifiers = KeyEvent.CTRL_MASK;
-    private MouseButton panActionButton = MouseButton.SECONDARY;
-    
-    private InputBindings () {
-    }
+	private int zoomActionModifiers = KeyEvent.CTRL_MASK;
+	private MouseButton panActionButton = MouseButton.SECONDARY;
 
-    /**
-     * Returns InputEvent modifiers of all zoom actions.
-     * @return the modifiers
-     * @since 2.4
-     */
-    public int getZoomActionModifiers () {
-        return zoomActionModifiers;
-    }
+	private InputBindings() {
+	}
 
-    /**
-     * Sets InputEvent modifiers for all zoom actions.
-     * @param zoomActionModifiers the modifiers
-     * @since 2.4
-     */
-    public void setZoomActionModifiers (int zoomActionModifiers) {
-        this.zoomActionModifiers = zoomActionModifiers;
-    }
+	/**
+	 * Returns InputEvent modifiers of all zoom actions.
+	 * 
+	 * @return the modifiers
+	 * @since 2.4
+	 */
+	public int getZoomActionModifiers() {
+		return zoomActionModifiers;
+	}
 
-    /**
-     * Returns mouse button for pan action.
-     * @return the MouseEvent button code
-     * @since 2.40
-     */
-    public MouseButton getPanActionButton () {
-        return panActionButton;
-    }
+	/**
+	 * Sets InputEvent modifiers for all zoom actions.
+	 * 
+	 * @param zoomActionModifiers
+	 *            the modifiers
+	 * @since 2.4
+	 */
+	public void setZoomActionModifiers(int zoomActionModifiers) {
+		this.zoomActionModifiers = zoomActionModifiers;
+	}
 
-    /**
-     * Sets mouse button for pan action.
-     * @param panActionButton MouseButton button code
-     * @since 2.40
-     */
-    public void setPanActionButton (MouseButton panActionButton) {
-        this.panActionButton = panActionButton;
-    }
+	/**
+	 * Returns mouse button for pan action.
+	 * 
+	 * @return the MouseEvent button code
+	 * @since 2.40
+	 */
+	public MouseButton getPanActionButton() {
+		return panActionButton;
+	}
 
-    /**
-     * Creates a new input bindings. This is usually used by the Scene class only.
-     * @return the input bindings
-     * @since 2.4
-     */
-    public static InputBindings create () {
-        return new InputBindings ();
-    }
+	/**
+	 * Sets mouse button for pan action.
+	 * 
+	 * @param panActionButton
+	 *            MouseButton button code
+	 * @since 2.40
+	 */
+	public void setPanActionButton(MouseButton panActionButton) {
+		this.panActionButton = panActionButton;
+	}
+
+	/**
+	 * Creates a new input bindings. This is usually used by the Scene class
+	 * only.
+	 * 
+	 * @return the input bindings
+	 * @since 2.4
+	 */
+	public static InputBindings create() {
+		return new InputBindings();
+	}
 
 }

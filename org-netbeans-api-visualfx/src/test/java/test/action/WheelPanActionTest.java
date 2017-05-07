@@ -18,27 +18,28 @@
  */
 package test.action;
 
+import java.awt.Point;
+
 import org.netbeans.api.visual.action.ActionFactory;
+
 import test.SceneSupport;
 import test.general.StringGraphScene;
-
-import java.awt.*;
 
 /**
  * @author David Kaspar
  */
 public class WheelPanActionTest {
 
-    public static void main (String[] args) {
-        StringGraphScene scene = new StringGraphScene ();
+	public static void main(String[] args) {
+		StringGraphScene scene = new StringGraphScene();
 
-        for (int a = 1; a <= 100; a ++)
-            scene.addNode (String.valueOf(a)).setPreferredLocation (new Point (a * 10, a * 10));
+		for (int a = 1; a <= 100; a++)
+			scene.addNode(String.valueOf(a)).setPreferredLocation(new Point(a * 10, a * 10));
 
-        scene.getActions ().addAction (ActionFactory.createWheelPanAction ());
-        scene.getActions ().addAction (ActionFactory.createMouseCenteredZoomAction (1.5));
+		scene.getActions().addAction(ActionFactory.createWheelPanAction());
+		scene.getActions().addAction(ActionFactory.createMouseCenteredZoomAction(1.5));
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
 }

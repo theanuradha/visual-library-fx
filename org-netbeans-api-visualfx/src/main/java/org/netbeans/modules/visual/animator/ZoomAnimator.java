@@ -51,25 +51,25 @@ import org.netbeans.api.visual.animator.SceneAnimator;
  */
 public final class ZoomAnimator extends Animator {
 
-    private volatile double sourceZoom;
-    private volatile double targetZoom;
+	private volatile double sourceZoom;
+	private volatile double targetZoom;
 
-    public ZoomAnimator (SceneAnimator sceneAnimator) {
-        super (sceneAnimator);
-    }
+	public ZoomAnimator(SceneAnimator sceneAnimator) {
+		super(sceneAnimator);
+	}
 
-    public void setZoomFactor (double zoomFactor) {
-        sourceZoom = getScene ().getZoomFactor ();
-        targetZoom = zoomFactor;
-        start ();
-    }
+	public void setZoomFactor(double zoomFactor) {
+		sourceZoom = getScene().getZoomFactor();
+		targetZoom = zoomFactor;
+		start();
+	}
 
-    public double getTargetZoom () {
-        return targetZoom;
-    }
+	public double getTargetZoom() {
+		return targetZoom;
+	}
 
-    public void tick (double progress) {
-        getScene ().setZoomFactor (progress >= 1.0 ? targetZoom : (sourceZoom + progress * (targetZoom - sourceZoom)));
-    }
+	public void tick(double progress) {
+		getScene().setZoomFactor(progress >= 1.0 ? targetZoom : (sourceZoom + progress * (targetZoom - sourceZoom)));
+	}
 
 }

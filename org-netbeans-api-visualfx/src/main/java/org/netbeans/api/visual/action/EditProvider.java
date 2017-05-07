@@ -52,10 +52,12 @@ import org.netbeans.api.visual.widget.Widget;
  */
 public interface EditProvider {
 
-    /**
-     * Called when an editing is invoked by an user on a specified widget.
-     * @param widget the widget
-     */
-    void edit (Widget widget);
+	/**
+	 * Called when an editing is invoked by an user on a specified widget.
+	 * 
+	 * @param widget
+	 *            the widget
+	 */
+	void edit(Widget widget);
 
 }

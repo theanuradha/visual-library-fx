@@ -18,6 +18,10 @@
  */
 package test.resize;
 
+import java.awt.Color;
+import java.awt.Insets;
+import java.awt.Point;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.border.BorderFactory;
@@ -25,50 +29,50 @@ import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.openide.util.Utilities;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class ResizeTest extends Scene {
 
-    private LayerWidget layer;
-    private WidgetAction resizeAction;
-    private WidgetAction moveAction;
+	private LayerWidget layer;
+	private WidgetAction resizeAction;
+	private WidgetAction moveAction;
 
-    public ResizeTest () {
-        setBackground (Color.LIGHT_GRAY);
+	public ResizeTest() {
+		setBackground(Color.LIGHT_GRAY);
 
-        layer = new LayerWidget (this);
-        addChild (layer);
+		layer = new LayerWidget(this);
+		addChild(layer);
 
-        resizeAction = ActionFactory.createResizeAction ();
-        moveAction = ActionFactory.createMoveAction ();
+		resizeAction = ActionFactory.createResizeAction();
+		moveAction = ActionFactory.createMoveAction();
 
-        createLabel (100, 100).setBorder (BorderFactory.createResizeBorder (5));
-        createLabel (200, 200).setBorder (BorderFactory.createResizeBorder (8, Color.BLACK, true));
-        createLabel (300, 300).setBorder (BorderFactory.createBevelBorder (true));
-        createLabel (400, 400).setBorder (BorderFactory.createImageBorder (new Insets (5, 5, 5, 5), Utilities.loadImage ("test/resources/shadow_normal.png"))); // NOI18N
-    }
+		createLabel(100, 100).setBorder(BorderFactory.createResizeBorder(5));
+		createLabel(200, 200).setBorder(BorderFactory.createResizeBorder(8, Color.BLACK, true));
+		createLabel(300, 300).setBorder(BorderFactory.createBevelBorder(true));
+		createLabel(400, 400).setBorder(BorderFactory.createImageBorder(new Insets(5, 5, 5, 5),
+				Utilities.loadImage("test/resources/shadow_normal.png"))); // NOI18N
+	}
 
-    public LabelWidget createLabel (int x, int y) {
-        LabelWidget label = new LabelWidget (this, "Drag border to resize me. Drag inner area to move me.");
-        label.setOpaque (true);
-        label.setBackground (Color.WHITE);
-        label.setCheckClipping (true);
-        label.setAlignment (LabelWidget.Alignment.CENTER);
-        label.setVerticalAlignment (LabelWidget.VerticalAlignment.CENTER);
-        label.setPreferredLocation (new Point (x, y));
-        label.getActions ().addAction (resizeAction);
-        label.getActions ().addAction (moveAction);
-        layer.addChild (label);
-        return label;
-    }
+	public LabelWidget createLabel(int x, int y) {
+		LabelWidget label = new LabelWidget(this, "Drag border to resize me. Drag inner area to move me.");
+		label.setOpaque(true);
+		label.setBackground(Color.WHITE);
+		label.setCheckClipping(true);
+		label.setAlignment(LabelWidget.Alignment.CENTER);
+		label.setVerticalAlignment(LabelWidget.VerticalAlignment.CENTER);
+		label.setPreferredLocation(new Point(x, y));
+		label.getActions().addAction(resizeAction);
+		label.getActions().addAction(moveAction);
+		layer.addChild(label);
+		return label;
+	}
 
-    public static void main (String[] args) {
-        SceneSupport.show (new ResizeTest ());
-    }
+	public static void main(String[] args) {
+		SceneSupport.show(new ResizeTest());
+	}
 
 }

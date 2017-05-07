@@ -6,8 +6,10 @@
 package org.netbeans.modules.visual.action;
 
 import java.awt.Point;
-import javafx.stage.Window;
+
 import org.netbeans.api.visual.widget.SceneNode;
+
+import javafx.stage.Window;
 
 /**
  *
@@ -15,19 +17,19 @@ import org.netbeans.api.visual.widget.SceneNode;
  */
 class NodeUtilities {
 
-    static void convertPointToScreen(Point p, SceneNode view) {
+	static void convertPointToScreen(Point p, SceneNode view) {
 
-        //TODO: Dummy IMPL
-        
-        int x, y;
-        final Window window = view.getScene().getWindow();
+		// TODO: Dummy IMPL
 
-        x = (int) window.getX();
-        y = (int) window.getY();
+		int x, y;
+		final Window window = view.getScene().getWindow();
 
-        p.x += x;
-        p.y += y;
+		x = (int) window.getX();
+		y = (int) window.getY();
 
-    }
+		p.x += x;
+		p.y += y;
+
+	}
 
 }

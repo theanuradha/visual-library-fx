@@ -19,72 +19,68 @@
 package test;
 
 import org.netbeans.api.visual.widget.Scene;
+import org.openide.util.RequestProcessor;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javax.swing.SwingUtilities;
-import org.openide.util.RequestProcessor;
 
 /**
  * @author David Kaspar
  */
-public class SceneSupport extends javafx.application.Application{
-    private static Scene scene;
-    private static SceneProvider provider;
-    public static void show(final Scene scene) {
+public class SceneSupport extends javafx.application.Application {
+	private static Scene scene;
+	private static SceneProvider provider;
 
-       SceneSupport.scene = scene;
-        Application.launch();
+	public static void show(final Scene scene) {
 
-    }
-    public static void show(final SceneProvider provider) {
+		SceneSupport.scene = scene;
+		Application.launch();
 
-       SceneSupport.provider = provider;
-        Application.launch();
+	}
 
-    }
-    
-    public static interface  SceneProvider
-    {
-        Scene createScene();
-    
-    }
-    
+	public static void show(final SceneProvider provider) {
 
-   
-    public static int randInt (int max) {
-        return (int) (Math.random () * max);
-    }
+		SceneSupport.provider = provider;
+		Application.launch();
 
-    public static void invokeLater (final Runnable runnable, int delay) {
-        RequestProcessor.getDefault ().post (new Runnable() {
-            public void run () {
-                Platform.runLater(runnable);
-            }
-        }, delay);
-    }
+	}
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        
-        
-       final Node sceneView = provider!=null ?provider.createScene().createView():scene.createView();
+	public static interface SceneProvider {
+		Scene createScene();
 
-                javafx.scene.control.ScrollPane scrollPane = new javafx.scene.control.ScrollPane(sceneView);
-                scrollPane.setPrefSize(300, 300);
-                scrollPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-                scrollPane.setFitToWidth(true);
-                scrollPane.setFitToHeight(true);
-                scrollPane.setStyle("-fx-focus-color: transparent;");
-                BorderPane pane = new BorderPane(scrollPane);
-                javafx.scene.Scene scene = new javafx.scene.Scene(pane, 1000, 1000);
+	}
 
-                primaryStage.setScene(scene);
-                primaryStage.show();
-    }
+	public static int randInt(int max) {
+		return (int) (Math.random() * max);
+	}
 
-   
+	public static void invokeLater(final Runnable runnable, int delay) {
+		RequestProcessor.getDefault().post(new Runnable() {
+			public void run() {
+				Platform.runLater(runnable);
+			}
+		}, delay);
+	}
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+
+		final Node sceneView = provider != null ? provider.createScene().createView() : scene.createView();
+
+		javafx.scene.control.ScrollPane scrollPane = new javafx.scene.control.ScrollPane(sceneView);
+		scrollPane.setPrefSize(300, 300);
+		scrollPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		scrollPane.setFitToWidth(true);
+		scrollPane.setFitToHeight(true);
+		scrollPane.setStyle("-fx-focus-color: transparent;");
+		BorderPane pane = new BorderPane(scrollPane);
+		javafx.scene.Scene scene = new javafx.scene.Scene(pane, 1000, 1000);
+
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
 
 }

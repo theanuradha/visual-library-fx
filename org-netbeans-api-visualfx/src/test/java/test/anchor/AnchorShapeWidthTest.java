@@ -18,33 +18,35 @@
  */
 package test.anchor;
 
+import java.awt.BasicStroke;
+import java.awt.Point;
+
+import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.anchor.AnchorFactory;
 import org.netbeans.api.visual.anchor.AnchorShape;
 import org.netbeans.api.visual.anchor.AnchorShapeFactory;
 import org.netbeans.api.visual.widget.ConnectionWidget;
 import org.netbeans.api.visual.widget.Scene;
-import org.netbeans.api.visual.action.ActionFactory;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class AnchorShapeWidthTest {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
-        scene.getActions ().addAction (ActionFactory.createZoomAction ());
-        AnchorShape shape = AnchorShapeFactory.createTriangleAnchorShape(18, true, false, 17);
-        ConnectionWidget connection = new ConnectionWidget (scene);
-        connection.setStroke (new BasicStroke (3.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND));
-        connection.setSourceAnchor (AnchorFactory.createFixedAnchor (new Point (100, 100)));
-        connection.setTargetAnchor (AnchorFactory.createFixedAnchor (new Point (200, 100)));
-        connection.setSourceAnchorShape (shape);
-        connection.setTargetAnchorShape (shape);
-        scene.addChild (connection);
-        SceneSupport.show (scene);
-    }
+	public static void main(String[] args) {
+		Scene scene = new Scene();
+		scene.getActions().addAction(ActionFactory.createZoomAction());
+		AnchorShape shape = AnchorShapeFactory.createTriangleAnchorShape(18, true, false, 17);
+		ConnectionWidget connection = new ConnectionWidget(scene);
+		connection.setStroke(new BasicStroke(3.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND));
+		connection.setSourceAnchor(AnchorFactory.createFixedAnchor(new Point(100, 100)));
+		connection.setTargetAnchor(AnchorFactory.createFixedAnchor(new Point(200, 100)));
+		connection.setSourceAnchorShape(shape);
+		connection.setTargetAnchorShape(shape);
+		scene.addChild(connection);
+		SceneSupport.show(scene);
+	}
 
 }

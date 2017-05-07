@@ -18,6 +18,9 @@
  */
 package test.alignwith;
 
+import java.awt.Color;
+import java.awt.Point;
+
 import org.netbeans.api.visual.action.ActionFactory;
 import org.netbeans.api.visual.action.SelectProvider;
 import org.netbeans.api.visual.action.TextFieldInplaceEditor;
@@ -27,109 +30,108 @@ import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
-import test.SceneSupport;
 
-import java.awt.*;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class AlignWithResizeTest extends Scene {
 
-    private LayerWidget mainLayer;
-    private WidgetAction moveAction;
-    private WidgetAction resizeAction;
-    private WidgetAction renameAction;
-    private WidgetAction eatAction;
+	private LayerWidget mainLayer;
+	private WidgetAction moveAction;
+	private WidgetAction resizeAction;
+	private WidgetAction renameAction;
+	private WidgetAction eatAction;
 
-    public AlignWithResizeTest () {
-        setBackground (Color.WHITE);
+	public AlignWithResizeTest() {
+		setBackground(Color.WHITE);
 
-        mainLayer = new LayerWidget (this);
-        addChild (mainLayer);
+		mainLayer = new LayerWidget(this);
+		addChild(mainLayer);
 
-        LayerWidget interractionLayer = new LayerWidget (this);
-        addChild (interractionLayer);
+		LayerWidget interractionLayer = new LayerWidget(this);
+		addChild(interractionLayer);
 
-        resizeAction = ActionFactory.createAlignWithResizeAction (mainLayer, interractionLayer, null);
-        moveAction = ActionFactory.createAlignWithMoveAction (mainLayer, interractionLayer, null);
-        renameAction = ActionFactory.createInplaceEditorAction (new RenameEditor ());
-        eatAction = ActionFactory.createSelectAction (new EatEventSelectProvider ());
+		resizeAction = ActionFactory.createAlignWithResizeAction(mainLayer, interractionLayer, null);
+		moveAction = ActionFactory.createAlignWithMoveAction(mainLayer, interractionLayer, null);
+		renameAction = ActionFactory.createInplaceEditorAction(new RenameEditor());
+		eatAction = ActionFactory.createSelectAction(new EatEventSelectProvider());
 
-        getActions ().addAction (ActionFactory.createSelectAction (new CreateProvider ()));
+		getActions().addAction(ActionFactory.createSelectAction(new CreateProvider()));
 
-        createLabel ("Click on the scene to create a new label", new Point (10, 40));
-        createLabel ("Drag a label to move it", new Point (20, 80));
-        createLabel ("Drag a label border to resize it", new Point (30, 120));
-        createLabel ("Try to align it with other ones", new Point (40, 160));
-    }
+		createLabel("Click on the scene to create a new label", new Point(10, 40));
+		createLabel("Drag a label to move it", new Point(20, 80));
+		createLabel("Drag a label border to resize it", new Point(30, 120));
+		createLabel("Try to align it with other ones", new Point(40, 160));
+	}
 
-    private void createLabel (String label, Point location) {
-        Scene scene = mainLayer.getScene ();
-        Widget widget = new LabelWidget (scene, label);
+	private void createLabel(String label, Point location) {
+		Scene scene = mainLayer.getScene();
+		Widget widget = new LabelWidget(scene, label);
 
-        widget.setOpaque (true);
-        widget.setBackground (Color.LIGHT_GRAY);
-        widget.setBorder (BorderFactory.createResizeBorder (8));
-        widget.setPreferredLocation (location);
+		widget.setOpaque(true);
+		widget.setBackground(Color.LIGHT_GRAY);
+		widget.setBorder(BorderFactory.createResizeBorder(8));
+		widget.setPreferredLocation(location);
 
-        widget.getActions ().addAction (eatAction);
-        widget.getActions ().addAction (renameAction);
-        widget.getActions ().addAction (resizeAction);
-        widget.getActions ().addAction (moveAction);
+		widget.getActions().addAction(eatAction);
+		widget.getActions().addAction(renameAction);
+		widget.getActions().addAction(resizeAction);
+		widget.getActions().addAction(moveAction);
 
-        mainLayer.addChild (widget);
-    }
+		mainLayer.addChild(widget);
+	}
 
-    private class CreateProvider implements SelectProvider {
+	private class CreateProvider implements SelectProvider {
 
-        public boolean isAimingAllowed (Widget widget, Point localLocation, boolean invertSelection) {
-            return false;
-        }
+		public boolean isAimingAllowed(Widget widget, Point localLocation, boolean invertSelection) {
+			return false;
+		}
 
-        public boolean isSelectionAllowed (Widget widget, Point localLocation, boolean invertSelection) {
-            return true;
-        }
+		public boolean isSelectionAllowed(Widget widget, Point localLocation, boolean invertSelection) {
+			return true;
+		}
 
-        public void select (Widget widget, Point localLocation, boolean invertSelection) {
-            createLabel ("Double-click to rename me", localLocation);
-        }
+		public void select(Widget widget, Point localLocation, boolean invertSelection) {
+			createLabel("Double-click to rename me", localLocation);
+		}
 
-    }
+	}
 
-    private class EatEventSelectProvider implements SelectProvider {
+	private class EatEventSelectProvider implements SelectProvider {
 
-        public boolean isAimingAllowed (Widget widget, Point localLocation, boolean invertSelection) {
-            return false;
-        }
+		public boolean isAimingAllowed(Widget widget, Point localLocation, boolean invertSelection) {
+			return false;
+		}
 
-        public boolean isSelectionAllowed (Widget widget, Point localLocation, boolean invertSelection) {
-            return true;
-        }
+		public boolean isSelectionAllowed(Widget widget, Point localLocation, boolean invertSelection) {
+			return true;
+		}
 
-        public void select (Widget widget, Point localLocation, boolean invertSelection) {
-        }
+		public void select(Widget widget, Point localLocation, boolean invertSelection) {
+		}
 
-    }
+	}
 
-    private static class RenameEditor implements TextFieldInplaceEditor {
+	private static class RenameEditor implements TextFieldInplaceEditor {
 
-        public boolean isEnabled (Widget widget) {
-            return true;
-        }
+		public boolean isEnabled(Widget widget) {
+			return true;
+		}
 
-        public String getText (Widget widget) {
-            return ((LabelWidget) widget).getLabel ();
-        }
+		public String getText(Widget widget) {
+			return ((LabelWidget) widget).getLabel();
+		}
 
-        public void setText (Widget widget, String text) {
-            ((LabelWidget) widget).setLabel (text);
-        }
+		public void setText(Widget widget, String text) {
+			((LabelWidget) widget).setLabel(text);
+		}
 
-    }
+	}
 
-    public static void main (String[] args) {
-        SceneSupport.show (new AlignWithResizeTest ());
-    }
+	public static void main(String[] args) {
+		SceneSupport.show(new AlignWithResizeTest());
+	}
 
 }

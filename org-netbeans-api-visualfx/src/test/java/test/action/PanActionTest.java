@@ -18,43 +18,44 @@
  */
 package test.action;
 
-import org.netbeans.api.visual.widget.Scene;
-import org.netbeans.api.visual.widget.LayerWidget;
-import org.netbeans.api.visual.widget.LabelWidget;
-import org.netbeans.api.visual.action.ActionFactory;
-import test.SceneSupport;
+import java.awt.Point;
 
-import java.awt.*;
+import org.netbeans.api.visual.action.ActionFactory;
+import org.netbeans.api.visual.widget.LabelWidget;
+import org.netbeans.api.visual.widget.LayerWidget;
+import org.netbeans.api.visual.widget.Scene;
+
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class PanActionTest {
 
-    private static final String MESSAGE = "The scene should be panned within the scene boundary only. You should not be able to get beyond [0,0] point or label.";
+	private static final String MESSAGE = "The scene should be panned within the scene boundary only. You should not be able to get beyond [0,0] point or label.";
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
+	public static void main(String[] args) {
+		Scene scene = new Scene();
 
-        LayerWidget layer = new LayerWidget (scene);
-        scene.addChild (layer);
+		LayerWidget layer = new LayerWidget(scene);
+		scene.addChild(layer);
 
-        LabelWidget label1 = new LabelWidget (scene, MESSAGE);
-        label1.setPreferredLocation (new Point (100, 200));
-        layer.addChild (label1);
+		LabelWidget label1 = new LabelWidget(scene, MESSAGE);
+		label1.setPreferredLocation(new Point(100, 200));
+		layer.addChild(label1);
 
-        LabelWidget label2 = new LabelWidget (scene, MESSAGE);
-        label2.setPreferredLocation (new Point (100, 400));
-        layer.addChild (label2);
+		LabelWidget label2 = new LabelWidget(scene, MESSAGE);
+		label2.setPreferredLocation(new Point(100, 400));
+		layer.addChild(label2);
 
-        LabelWidget label3 = new LabelWidget (scene, MESSAGE);
-        label3.setPreferredLocation (new Point (100, 600));
-        layer.addChild (label3);
+		LabelWidget label3 = new LabelWidget(scene, MESSAGE);
+		label3.setPreferredLocation(new Point(100, 600));
+		layer.addChild(label3);
 
-        scene.getActions ().addAction (ActionFactory.createZoomAction ());
-        scene.getActions ().addAction (ActionFactory.createPanAction ());
+		scene.getActions().addAction(ActionFactory.createZoomAction());
+		scene.getActions().addAction(ActionFactory.createPanAction());
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
 }

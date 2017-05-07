@@ -19,85 +19,89 @@
 
 package javaone.demo2;
 
-import org.netbeans.api.visual.action.*;
+import java.awt.Color;
+import java.awt.Point;
+
+import org.netbeans.api.visual.action.ActionFactory;
+import org.netbeans.api.visual.action.PopupMenuProvider;
+import org.netbeans.api.visual.action.TwoStateHoverProvider;
+import org.netbeans.api.visual.action.WidgetAction;
 import org.netbeans.api.visual.widget.LabelWidget;
 import org.netbeans.api.visual.widget.LayerWidget;
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
-import test.SceneSupport;
 
-import javax.swing.*;
-import java.awt.*;
 import javafx.scene.control.ContextMenu;
+import test.SceneSupport;
 
 /**
  * @author David Kaspar
  */
 public class ActionDemo {
 
-    public static void main (String[] args) {
-        Scene scene = new Scene ();
+	public static void main(String[] args) {
+		Scene scene = new Scene();
 
-        LayerWidget layer = new LayerWidget (scene);
-        scene.addChild(layer);
+		LayerWidget layer = new LayerWidget(scene);
+		scene.addChild(layer);
 
-        LabelWidget hello1 = createLabel (scene, "Hello", 100, 100);
-        layer.addChild (hello1);
-        LabelWidget hello2 = createLabel (scene, "NetBeans", 300, 200);
-        layer.addChild (hello2);
+		LabelWidget hello1 = createLabel(scene, "Hello", 100, 100);
+		layer.addChild(hello1);
+		LabelWidget hello2 = createLabel(scene, "NetBeans", 300, 200);
+		layer.addChild(hello2);
 
-        scene.getActions().addAction (ActionFactory.createZoomAction ());
-       // scene.getActions().addAction (ActionFactory.createPanAction ());
+		scene.getActions().addAction(ActionFactory.createZoomAction());
+		// scene.getActions().addAction (ActionFactory.createPanAction ());
 
-        hello1.getActions().addAction (ActionFactory.createMoveAction ());
-        hello2.getActions().addAction (ActionFactory.createMoveAction ());
+		hello1.getActions().addAction(ActionFactory.createMoveAction());
+		hello2.getActions().addAction(ActionFactory.createMoveAction());
 
-        WidgetAction hoverAction = ActionFactory.createHoverAction (new MyHoverProvider ());
-        scene.getActions().addAction (hoverAction);
-        hello1.getActions().addAction (hoverAction);
-        hello2.getActions().addAction (hoverAction);
+		WidgetAction hoverAction = ActionFactory.createHoverAction(new MyHoverProvider());
+		scene.getActions().addAction(hoverAction);
+		hello1.getActions().addAction(hoverAction);
+		hello2.getActions().addAction(hoverAction);
 
-        WidgetAction popupMenuAction = ActionFactory.createPopupMenuAction (new MyPopupProvider ());
-        hello1.getActions().addAction (popupMenuAction);
-        hello2.getActions().addAction (popupMenuAction);
+		WidgetAction popupMenuAction = ActionFactory.createPopupMenuAction(new MyPopupProvider());
+		hello1.getActions().addAction(popupMenuAction);
+		hello2.getActions().addAction(popupMenuAction);
 
-        SceneSupport.show (scene);
-    }
+		SceneSupport.show(scene);
+	}
 
-    private static LabelWidget createLabel (Scene scene, String text, int x, int y) {
-        LabelWidget widget = new LabelWidget (scene, text);
-        widget.setFont(scene.getDefaultFont().deriveFont(24.0f));
-        widget.setOpaque(true);
-        widget.setPreferredLocation (new Point (x, y));
-        return widget;
-    }
+	private static LabelWidget createLabel(Scene scene, String text, int x, int y) {
+		LabelWidget widget = new LabelWidget(scene, text);
+		widget.setFont(scene.getDefaultFont().deriveFont(24.0f));
+		widget.setOpaque(true);
+		widget.setPreferredLocation(new Point(x, y));
+		return widget;
+	}
 
-    private static class MyHoverProvider implements TwoStateHoverProvider {
+	private static class MyHoverProvider implements TwoStateHoverProvider {
 
-        public void unsetHovering(Widget widget) {
-            if (widget != null) {
-                widget.setBackground (Color.WHITE);
-                widget.setForeground (Color.BLACK);
-            }
-        }
+		public void unsetHovering(Widget widget) {
+			if (widget != null) {
+				widget.setBackground(Color.WHITE);
+				widget.setForeground(Color.BLACK);
+			}
+		}
 
-        public void setHovering(Widget widget) {
-            if (widget != null) {
-                widget.setBackground (new Color (52, 124, 150));
-                widget.setForeground (Color.WHITE);
-            }
-        }
+		public void setHovering(Widget widget) {
+			if (widget != null) {
+				widget.setBackground(new Color(52, 124, 150));
+				widget.setForeground(Color.WHITE);
+			}
+		}
 
-    }
+	}
 
-    private static class MyPopupProvider implements PopupMenuProvider {
+	private static class MyPopupProvider implements PopupMenuProvider {
 
-        public ContextMenu getPopupMenu(Widget widget, Point localLocation) {
-            ContextMenu menu = new ContextMenu ();
-            menu.getItems().add(new javafx.scene.control.MenuItem("Open"));
-            return menu;
-        }
+		public ContextMenu getPopupMenu(Widget widget, Point localLocation) {
+			ContextMenu menu = new ContextMenu();
+			menu.getItems().add(new javafx.scene.control.MenuItem("Open"));
+			return menu;
+		}
 
-    }
+	}
 
 }

@@ -43,53 +43,55 @@
  */
 package org.netbeans.modules.visual.anchor;
 
-import org.netbeans.api.visual.anchor.AnchorShape;
-
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
+
+import org.netbeans.api.visual.anchor.AnchorShape;
 
 /**
  * @author Antonio
  */
 public class ArrowAnchorShape implements AnchorShape {
 
-    private static final Stroke STROKE = new BasicStroke (1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+	private static final Stroke STROKE = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
-    private GeneralPath path;
-    private int size;
+	private GeneralPath path;
+	private int size;
 
-    public ArrowAnchorShape (int degrees, int size) {
-        this.size = size;
-        path = new GeneralPath ();
+	public ArrowAnchorShape(int degrees, int size) {
+		this.size = size;
+		path = new GeneralPath();
 
-        double radians = Math.PI * degrees / 180.0;
-        double cos = Math.cos (radians / 2.0);
-        double sin = -size * Math.sqrt (1 - cos * cos);
-        cos *= size;
+		double radians = Math.PI * degrees / 180.0;
+		double cos = Math.cos(radians / 2.0);
+		double sin = -size * Math.sqrt(1 - cos * cos);
+		cos *= size;
 
-        path.moveTo (0.0f, 0.0f);
-        path.lineTo ((float) cos, (float) -sin);
-        path.moveTo (0.0f, 0.0f);
-        path.lineTo ((float) cos, (float) sin);
-    }
+		path.moveTo(0.0f, 0.0f);
+		path.lineTo((float) cos, (float) -sin);
+		path.moveTo(0.0f, 0.0f);
+		path.lineTo((float) cos, (float) sin);
+	}
 
-    public boolean isLineOriented () {
-        return true;
-    }
+	public boolean isLineOriented() {
+		return true;
+	}
 
-    public int getRadius () {
-        return size + 1;
-    }
+	public int getRadius() {
+		return size + 1;
+	}
 
-    public double getCutDistance () {
-        return 0;
-    }
+	public double getCutDistance() {
+		return 0;
+	}
 
-    public void paint (Graphics2D graphics, boolean source) {
-        Stroke previousStroke = graphics.getStroke ();
-        graphics.setStroke (STROKE);
-        graphics.draw (path);
-        graphics.setStroke (previousStroke);
-    }
+	public void paint(Graphics2D graphics, boolean source) {
+		Stroke previousStroke = graphics.getStroke();
+		graphics.setStroke(STROKE);
+		graphics.draw(path);
+		graphics.setStroke(previousStroke);
+	}
 
 }

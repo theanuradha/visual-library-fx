@@ -43,270 +43,310 @@
  */
 package org.netbeans.api.visual.animator;
 
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+
 import org.netbeans.api.visual.widget.Scene;
 import org.netbeans.api.visual.widget.Widget;
+import org.netbeans.modules.visual.animator.ColorAnimator;
 import org.netbeans.modules.visual.animator.PreferredBoundsAnimator;
 import org.netbeans.modules.visual.animator.PreferredLocationAnimator;
 import org.netbeans.modules.visual.animator.ZoomAnimator;
-import org.netbeans.modules.visual.animator.ColorAnimator;
-import org.openide.util.RequestProcessor;
 import org.openide.ErrorManager;
+import org.openide.util.RequestProcessor;
 
-import javax.swing.*;
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
-import java.awt.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
 import javafx.application.Platform;
-import org.openide.util.Exceptions;
 
 /**
- * Manages all animations on a scene. An animation can be registered and started by calling Animator.start method.
- * The class contains a few built-in animators: preferredLocation, preferredBounds, background, foreground, zoomFactor.
+ * Manages all animations on a scene. An animation can be registered and started
+ * by calling Animator.start method. The class contains a few built-in
+ * animators: preferredLocation, preferredBounds, background, foreground,
+ * zoomFactor.
  * 
  * @author David Kaspar
  */
 public final class SceneAnimator {
 
-    private static final long TIME_PERIOD = 500;
-    private static final int SLEEP = 16;
+	private static final long TIME_PERIOD = 500;
+	private static final int SLEEP = 16;
 
-    private Scene scene;
+	private Scene scene;
 
-    private final HashMap<Animator, Long> animators = new HashMap<Animator, Long> ();
-    private HashMap<Animator, Double> cache;
-    private final Runnable task = new UpdateTask ();
-    private volatile boolean taskAlive;
+	private final HashMap<Animator, Long> animators = new HashMap<Animator, Long>();
+	private HashMap<Animator, Double> cache;
+	private final Runnable task = new UpdateTask();
+	private volatile boolean taskAlive;
 
-    private PreferredLocationAnimator preferredLocationAnimator = new PreferredLocationAnimator (this);
-    private PreferredBoundsAnimator preferredBoundsAnimator = new PreferredBoundsAnimator (this);
-    private ZoomAnimator zoomAnimator = new ZoomAnimator (this);
-    private ColorAnimator colorAnimator = new ColorAnimator (this);
-    
-    private static final RequestProcessor RP = new RequestProcessor(SceneAnimator.class.toString(), 50);
+	private PreferredLocationAnimator preferredLocationAnimator = new PreferredLocationAnimator(this);
+	private PreferredBoundsAnimator preferredBoundsAnimator = new PreferredBoundsAnimator(this);
+	private ZoomAnimator zoomAnimator = new ZoomAnimator(this);
+	private ColorAnimator colorAnimator = new ColorAnimator(this);
 
-    /**
-     * Creates a scene animator.
-     * @param scene the scene
-     */
-    public SceneAnimator (Scene scene) {
-        this.scene = scene;
-    }
+	private static final RequestProcessor RP = new RequestProcessor(SceneAnimator.class.toString(), 50);
 
-    /**
-     * Returns an assigned scene.
-     * @return the scene
-     */
-    public Scene getScene () {
-        return scene;
-    }
-    
-    void start (Animator animator) {
-        synchronized (animators) {
-            animators.put (animator, System.currentTimeMillis ());
-            animator.reset ();
-            if (! taskAlive) {
-                taskAlive = true;
-                RP.post (task);
-            }
-        }
-    }
+	/**
+	 * Creates a scene animator.
+	 * 
+	 * @param scene
+	 *            the scene
+	 */
+	public SceneAnimator(Scene scene) {
+		this.scene = scene;
+	}
 
-    boolean isRunning (Animator animator) {
-        synchronized (animators) {
-            if (animators.containsKey (animator))
-                return true;
-            if (cache != null  &&  cache.containsKey (animator))
-                return true;
-        }
-        return false;
-    }
+	/**
+	 * Returns an assigned scene.
+	 * 
+	 * @return the scene
+	 */
+	public Scene getScene() {
+		return scene;
+	}
 
-    /**
-     * Returns whether a preferredLocation animator for a specified widget is running.
-     * @param widget the widget
-     * @return true if running
-     */
-    public boolean isAnimatingPreferredLocation (Widget widget) {
-        return isRunning (preferredLocationAnimator);
-    }
+	void start(Animator animator) {
+		synchronized (animators) {
+			animators.put(animator, System.currentTimeMillis());
+			animator.reset();
+			if (!taskAlive) {
+				taskAlive = true;
+				RP.post(task);
+			}
+		}
+	}
 
-    /**
-     * Starts preferredLocation animation for a specified widget.
-     * @param widget the widget
-     * @param targetPreferredLocation the target preferred location
-     */
-    public void animatePreferredLocation (Widget widget, Point targetPreferredLocation) {
-        preferredLocationAnimator.setPreferredLocation (widget, targetPreferredLocation);
-    }
+	boolean isRunning(Animator animator) {
+		synchronized (animators) {
+			if (animators.containsKey(animator))
+				return true;
+			if (cache != null && cache.containsKey(animator))
+				return true;
+		}
+		return false;
+	}
 
-    /**
-     * Returns whether a preferredBounds animator for a specified widget is running.
-     * @param widget the widget
-     * @return true if running
-     */
-    public boolean isAnimatingPreferredBounds (Widget widget) {
-        return isRunning (preferredBoundsAnimator);
-    }
+	/**
+	 * Returns whether a preferredLocation animator for a specified widget is
+	 * running.
+	 * 
+	 * @param widget
+	 *            the widget
+	 * @return true if running
+	 */
+	public boolean isAnimatingPreferredLocation(Widget widget) {
+		return isRunning(preferredLocationAnimator);
+	}
 
-    /**
-     * Starts preferredBounds animation for a specified widget.
-     * @param widget the widget
-     * @param targetPreferredBounds the target preferred bounds
-     */
-    public void animatePreferredBounds (Widget widget, Rectangle targetPreferredBounds) {
-        preferredBoundsAnimator.setPreferredBounds (widget, targetPreferredBounds);
-    }
+	/**
+	 * Starts preferredLocation animation for a specified widget.
+	 * 
+	 * @param widget
+	 *            the widget
+	 * @param targetPreferredLocation
+	 *            the target preferred location
+	 */
+	public void animatePreferredLocation(Widget widget, Point targetPreferredLocation) {
+		preferredLocationAnimator.setPreferredLocation(widget, targetPreferredLocation);
+	}
 
-    /**
-     * Returns whether a zoomFactor animator is running.
-     * @return true if running
-     */
-    public boolean isAnimatingZoomFactor () {
-        return isRunning (zoomAnimator);
-    }
+	/**
+	 * Returns whether a preferredBounds animator for a specified widget is
+	 * running.
+	 * 
+	 * @param widget
+	 *            the widget
+	 * @return true if running
+	 */
+	public boolean isAnimatingPreferredBounds(Widget widget) {
+		return isRunning(preferredBoundsAnimator);
+	}
 
-    /**
-     * Returns a target zoom factor.
-     * @return the target zoom factor
-     */
-    public double getTargetZoomFactor () {
-        return zoomAnimator.getTargetZoom ();
-    }
+	/**
+	 * Starts preferredBounds animation for a specified widget.
+	 * 
+	 * @param widget
+	 *            the widget
+	 * @param targetPreferredBounds
+	 *            the target preferred bounds
+	 */
+	public void animatePreferredBounds(Widget widget, Rectangle targetPreferredBounds) {
+		preferredBoundsAnimator.setPreferredBounds(widget, targetPreferredBounds);
+	}
 
-    /**
-     * Starts zoomFactor animation.
-     * @param targetZoomFactor the target zoom factor
-     */
-    public void animateZoomFactor (double targetZoomFactor) {
-        zoomAnimator.setZoomFactor (targetZoomFactor);
-    }
+	/**
+	 * Returns whether a zoomFactor animator is running.
+	 * 
+	 * @return true if running
+	 */
+	public boolean isAnimatingZoomFactor() {
+		return isRunning(zoomAnimator);
+	}
 
-    /**
-     * Returns whether a backgroundColor animator for a specified widget is running.
-     * @param widget the widget
-     * @return true if running
-     */
-    public boolean isAnimatingBackgroundColor (Widget widget) {
-        return isRunning (colorAnimator);
-    }
+	/**
+	 * Returns a target zoom factor.
+	 * 
+	 * @return the target zoom factor
+	 */
+	public double getTargetZoomFactor() {
+		return zoomAnimator.getTargetZoom();
+	}
 
-    /**
-     * Starts backgroundColor animation for a specified widget.
-     * @param widget the widget
-     * @param targetBackgroundColor the target background color
-     */
-    public void animateBackgroundColor (Widget widget, Color targetBackgroundColor) {
-        colorAnimator.setBackgroundColor (widget, targetBackgroundColor);
-    }
+	/**
+	 * Starts zoomFactor animation.
+	 * 
+	 * @param targetZoomFactor
+	 *            the target zoom factor
+	 */
+	public void animateZoomFactor(double targetZoomFactor) {
+		zoomAnimator.setZoomFactor(targetZoomFactor);
+	}
 
-    /**
-     * Returns whether a foregroundColor animator for a specified widget is running.
-     * @param widget the widget
-     * @return true if running
-     */
-    public boolean isAnimatingForegroundColor (Widget widget) {
-        return isRunning (colorAnimator);
-    }
+	/**
+	 * Returns whether a backgroundColor animator for a specified widget is
+	 * running.
+	 * 
+	 * @param widget
+	 *            the widget
+	 * @return true if running
+	 */
+	public boolean isAnimatingBackgroundColor(Widget widget) {
+		return isRunning(colorAnimator);
+	}
 
-    /**
-     * Starts foregroundColor animation for a specified widget.
-     * @param widget the widget
-     * @param targetForegroundColor the target foreground color
-     */
-    public void animateForegroundColor (Widget widget, Color targetForegroundColor) {
-        colorAnimator.setForegroundColor (widget, targetForegroundColor);
-    }
+	/**
+	 * Starts backgroundColor animation for a specified widget.
+	 * 
+	 * @param widget
+	 *            the widget
+	 * @param targetBackgroundColor
+	 *            the target background color
+	 */
+	public void animateBackgroundColor(Widget widget, Color targetBackgroundColor) {
+		colorAnimator.setBackgroundColor(widget, targetBackgroundColor);
+	}
 
-    /**
-     * Returns the preferred location animator which animates preferred location of all widgets in the scene.
-     * @return the preferred location animator
-     * @since 2.2
-     */
-    public Animator getPreferredLocationAnimator () {
-        return preferredLocationAnimator;
-    }
+	/**
+	 * Returns whether a foregroundColor animator for a specified widget is
+	 * running.
+	 * 
+	 * @param widget
+	 *            the widget
+	 * @return true if running
+	 */
+	public boolean isAnimatingForegroundColor(Widget widget) {
+		return isRunning(colorAnimator);
+	}
 
-    /**
-     * Returns the preferred bounds animator which animates preferred bounds of all widgets in the scene.
-     * @return the preferred bounds animator
-     * @since 2.2
-     */
-    public Animator getPreferredBoundsAnimator () {
-        return preferredBoundsAnimator;
-    }
+	/**
+	 * Starts foregroundColor animation for a specified widget.
+	 * 
+	 * @param widget
+	 *            the widget
+	 * @param targetForegroundColor
+	 *            the target foreground color
+	 */
+	public void animateForegroundColor(Widget widget, Color targetForegroundColor) {
+		colorAnimator.setForegroundColor(widget, targetForegroundColor);
+	}
 
-    /**
-     * Returns the zoom animator.
-     * @return the zoom animator
-     * @since 2.2
-     */
-    public Animator getZoomAnimator () {
-        return zoomAnimator;
-    }
+	/**
+	 * Returns the preferred location animator which animates preferred location
+	 * of all widgets in the scene.
+	 * 
+	 * @return the preferred location animator
+	 * @since 2.2
+	 */
+	public Animator getPreferredLocationAnimator() {
+		return preferredLocationAnimator;
+	}
 
-    /**
-     * Returns the color animator which animates background and foreground colors of all widgets in the scene.
-     * @return the preferred location animator
-     * @since 2.2
-     */
-    public Animator getColorAnimator () {
-        return colorAnimator;
-    }
+	/**
+	 * Returns the preferred bounds animator which animates preferred bounds of
+	 * all widgets in the scene.
+	 * 
+	 * @return the preferred bounds animator
+	 * @since 2.2
+	 */
+	public Animator getPreferredBoundsAnimator() {
+		return preferredBoundsAnimator;
+	}
 
-    private class UpdateTask implements Runnable {
+	/**
+	 * Returns the zoom animator.
+	 * 
+	 * @return the zoom animator
+	 * @since 2.2
+	 */
+	public Animator getZoomAnimator() {
+		return zoomAnimator;
+	}
 
-        public void run () {
-            synchronized (animators) {
-                long currentTime = System.currentTimeMillis ();
-                Set<Map.Entry<Animator, Long>> entries = animators.entrySet ();
-                cache = new HashMap<Animator, Double> ();
+	/**
+	 * Returns the color animator which animates background and foreground
+	 * colors of all widgets in the scene.
+	 * 
+	 * @return the preferred location animator
+	 * @since 2.2
+	 */
+	public Animator getColorAnimator() {
+		return colorAnimator;
+	}
 
-                for (Iterator<Map.Entry<Animator, Long>> iterator = entries.iterator (); iterator.hasNext ();) {
-                    Map.Entry<Animator, Long> entry = iterator.next ();
-                    long diff = currentTime - entry.getValue ();
-                    double progress;
-                    if (diff < 0  ||  diff > TIME_PERIOD) {
-                        iterator.remove ();
-                        progress = 1.0;
-                    } else
-                        progress = (double) diff / (double) TIME_PERIOD;
-                    cache.put (entry.getKey (), progress);
-                }
-            }
+	private class UpdateTask implements Runnable {
 
-            
-            
-            FutureTask<Boolean> task = new FutureTask<>(new Runnable() {
-      @Override
-      public void run() {
-        for (final Map.Entry<Animator, Double> entry : cache.entrySet ())
-                            entry.getKey ().performTick (entry.getValue ());
-                        scene.validate ();
-      }
-    }, true);
+		public void run() {
+			synchronized (animators) {
+				long currentTime = System.currentTimeMillis();
+				Set<Map.Entry<Animator, Long>> entries = animators.entrySet();
+				cache = new HashMap<Animator, Double>();
 
-    Platform.runLater(task);
+				for (Iterator<Map.Entry<Animator, Long>> iterator = entries.iterator(); iterator.hasNext();) {
+					Map.Entry<Animator, Long> entry = iterator.next();
+					long diff = currentTime - entry.getValue();
+					double progress;
+					if (diff < 0 || diff > TIME_PERIOD) {
+						iterator.remove();
+						progress = 1.0;
+					} else
+						progress = (double) diff / (double) TIME_PERIOD;
+					cache.put(entry.getKey(), progress);
+				}
+			}
 
-            try {
-                task.get(); // wait for completition, blocking the thread if needed
-            } catch (InterruptedException e) {
-               ErrorManager.getDefault ().notify (e);
-            } catch (ExecutionException ex) {
-               ErrorManager.getDefault ().notify (ex);
-            }
-            
-          
+			FutureTask<Boolean> task = new FutureTask<>(new Runnable() {
+				@Override
+				public void run() {
+					for (final Map.Entry<Animator, Double> entry : cache.entrySet())
+						entry.getKey().performTick(entry.getValue());
+					scene.validate();
+				}
+			}, true);
 
-            synchronized (animators) {
-                cache = null;
-                taskAlive = animators.size () > 0;
-                if (taskAlive)
-                    RP.post (task, SLEEP);
-            }
-        }
+			Platform.runLater(task);
 
-    }
+			try {
+				task.get(); // wait for completition, blocking the thread if
+							// needed
+			} catch (InterruptedException e) {
+				ErrorManager.getDefault().notify(e);
+			} catch (ExecutionException ex) {
+				ErrorManager.getDefault().notify(ex);
+			}
+
+			synchronized (animators) {
+				cache = null;
+				taskAlive = animators.size() > 0;
+				if (taskAlive)
+					RP.post(task, SLEEP);
+			}
+		}
+
+	}
 
 }

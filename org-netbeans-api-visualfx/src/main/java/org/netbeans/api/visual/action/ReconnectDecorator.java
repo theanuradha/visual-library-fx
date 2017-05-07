@@ -43,10 +43,10 @@
  */
 package org.netbeans.api.visual.action;
 
+import java.awt.Point;
+
 import org.netbeans.api.visual.anchor.Anchor;
 import org.netbeans.api.visual.widget.Widget;
-
-import java.awt.*;
 
 /**
  * This interface decorates a reconnect action.
@@ -55,18 +55,24 @@ import java.awt.*;
  */
 public interface ReconnectDecorator {
 
-    /**
-     * Creates an anchor for a specified replacement widget (of a connection source or target which is going to be reconnected).
-     * @param replacementWidget the replacement widget
-     * @return the anchor
-     */
-    Anchor createReplacementWidgetAnchor (Widget replacementWidget);
+	/**
+	 * Creates an anchor for a specified replacement widget (of a connection
+	 * source or target which is going to be reconnected).
+	 * 
+	 * @param replacementWidget
+	 *            the replacement widget
+	 * @return the anchor
+	 */
+	Anchor createReplacementWidgetAnchor(Widget replacementWidget);
 
-    /**
-     * Creates a floating anchor for a specified location when there is no replacement a widget
-     * @param location the scene location
-     * @return the floating anchor; usually FixedAnchor
-     */
-    Anchor createFloatAnchor (Point location);
+	/**
+	 * Creates a floating anchor for a specified location when there is no
+	 * replacement a widget
+	 * 
+	 * @param location
+	 *            the scene location
+	 * @return the floating anchor; usually FixedAnchor
+	 */
+	Anchor createFloatAnchor(Point location);
 
 }

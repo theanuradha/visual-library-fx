@@ -25,42 +25,42 @@ import org.netbeans.api.visual.model.ObjectScene;
  */
 public class FindStoredObjectTest {
 
-    public static void main (String[] args) {
-        ObjectScene scene = new ObjectScene ();
+	public static void main(String[] args) {
+		ObjectScene scene = new ObjectScene();
 
-        scene.addObject (new Obj (1));
-        scene.addObject (new Obj (2));
-        scene.addObject (new Obj (3));
-        scene.addObject (new Obj (4));
-        scene.addObject (new Obj (5));
+		scene.addObject(new Obj(1));
+		scene.addObject(new Obj(2));
+		scene.addObject(new Obj(3));
+		scene.addObject(new Obj(4));
+		scene.addObject(new Obj(5));
 
-        System.out.println ("Searching for stored obj 5:");
-        System.out.println ("found: " + scene.findStoredObject (new Obj (5)));
-        System.out.println ("Searching for stored obj 99999:");
-        System.out.println ("found: " + scene.findStoredObject (new Obj (99999)));
-    }
+		System.out.println("Searching for stored obj 5:");
+		System.out.println("found: " + scene.findStoredObject(new Obj(5)));
+		System.out.println("Searching for stored obj 99999:");
+		System.out.println("found: " + scene.findStoredObject(new Obj(99999)));
+	}
 
-    private static class Obj {
+	private static class Obj {
 
-        private int value;
+		private int value;
 
-        public Obj (int value) {
-            this.value = value;
-        }
+		public Obj(int value) {
+			this.value = value;
+		}
 
-        public int hashCode () {
-            return value;
-        }
+		public int hashCode() {
+			return value;
+		}
 
-        public boolean equals (Object obj) {
-            System.out.println ("Comparing: " + this + " with " + obj);
-            return obj instanceof Obj  &&  this.value == ((Obj) obj).value;
-        }
+		public boolean equals(Object obj) {
+			System.out.println("Comparing: " + this + " with " + obj);
+			return obj instanceof Obj && this.value == ((Obj) obj).value;
+		}
 
-        public String toString () {
-            return "Obj[" + System.identityHashCode (this) + "|" + value + "]"; // NOI18N
-        }
+		public String toString() {
+			return "Obj[" + System.identityHashCode(this) + "|" + value + "]"; // NOI18N
+		}
 
-    }
+	}
 
 }
