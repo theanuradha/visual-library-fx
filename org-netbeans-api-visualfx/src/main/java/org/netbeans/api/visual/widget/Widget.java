@@ -61,6 +61,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.accessibility.AccessibleContext;
 
@@ -1138,15 +1139,14 @@ public class Widget implements Lookup.Provider {
 	 *            if true, then the clipping is used
 	 */
 	public final void setCheckClipping(boolean checkClipping) {
-		if(warnClippingNotSupport)
+		if(warnClippingNotSupport.getAndSet(false))
 		{
-			warnClippingNotSupport = false;
 		System.err.println("Clipping not support yet,see issue at https://github.com/theanuradha/visual-library-fx/issues/1");
 		}
 		// this.checkClipping = checkClipping;
 		// repaint ();
 	}
-	boolean warnClippingNotSupport = true;
+	static AtomicBoolean  warnClippingNotSupport = new AtomicBoolean(true);
 
 	/**
 	 * Returns a mouse cursor for a specified local location in the widget.
