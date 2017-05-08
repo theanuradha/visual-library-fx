@@ -18,7 +18,10 @@
  */
 package test;
 
+import java.awt.Dimension;
+
 import org.netbeans.api.visual.widget.Scene;
+import org.netbeans.api.visual.widget.SceneNode;
 import org.openide.util.RequestProcessor;
 
 import javafx.application.Application;
@@ -67,17 +70,33 @@ public class SceneSupport extends javafx.application.Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
-		final Node sceneView = provider != null ? provider.createScene().createView() : scene.createView();
+            if(provider != null)
+	    scene = provider.createScene();
+            
+            
+		final SceneNode sceneView =  scene.createView();
 
 		javafx.scene.control.ScrollPane scrollPane = new javafx.scene.control.ScrollPane(sceneView);
-		scrollPane.setPrefSize(300, 300);
+		//scrollPane.setPrefSize(300, 300);
 		scrollPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		scrollPane.setFitToWidth(true);
 		scrollPane.setFitToHeight(true);
 		scrollPane.setStyle("-fx-focus-color: transparent;");
 		BorderPane pane = new BorderPane(scrollPane);
+		scrollPane.widthProperty().addListener(e->{
+		    sceneView.setWidth(scrollPane.getWidth());
+		    sceneView.draw();
+		});
+		scrollPane.heightProperty().addListener(e->{
+		    sceneView.setHeight(scrollPane.getHeight());
+		    sceneView.draw();
+		});
+		
 		javafx.scene.Scene scene = new javafx.scene.Scene(pane, 1000, 1000);
+		
+		
+                
+		
 
 		primaryStage.setScene(scene);
 		primaryStage.show();

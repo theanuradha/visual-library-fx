@@ -43,6 +43,7 @@
  */
 package org.netbeans.api.visual.widget;
 
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -86,8 +87,7 @@ public final class SceneNode extends Canvas {
 		canvas.addEventFilter(MouseEvent.ANY, (e) -> canvas.requestFocus());
 		this.scene = scene;
 
-		canvas.widthProperty().addListener(evt -> draw());
-		canvas.heightProperty().addListener(evt -> draw());
+		
 		tp = new Tooltip();
 		canvas.setOnMouseReleased(e -> {
 
@@ -252,6 +252,13 @@ public final class SceneNode extends Canvas {
 	public void draw() {
 
 		canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		
+		Parent parent = canvas.getParent();
+		if(parent!=null)
+		{
+		    scene.setMinimumSize(new Dimension((int)parent.getBoundsInLocal().getWidth(),(int) parent.getBoundsInLocal().getHeight()));
+		}
+		
 		Graphics2D gr = g2;
 		Object props = Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints"); // NOI18N
 		if (props instanceof Map) {
@@ -270,11 +277,19 @@ public final class SceneNode extends Canvas {
 
 		int width = scene.getClientArea().width;
 		int height = scene.getClientArea().height;
+		
+		if(width<scene.getMinimumSize().width)
+		    width = scene.getMinimumSize().width;
+		if(height<scene.getMinimumSize().height)
+		    height = scene.getMinimumSize().height;
+		
+		
 
-		// if(width>getWidth())
+		if(width>getWidth())
 		canvas.setWidth(width);
-		// if(height>getHeight())
+		 if(height>getHeight())
 		canvas.setHeight(height);
+		
 	}
 
 	private final Canvas canvas;

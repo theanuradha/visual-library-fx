@@ -49,6 +49,7 @@ public class IconNodeWidget extends Widget {
 
 	public static void main(String[] args) {
 		Scene scene = new Scene(); // create a scene
+		
 
 		IconNodeWidget iconNode = new IconNodeWidget(scene, "javaone/resources/netbeans_logo.gif", "Visual Library"); // create
 																														// our
