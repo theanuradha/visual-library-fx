@@ -93,7 +93,7 @@ public class ToolTest extends Scene {
 	}
 
 	public static void main(String[] args) {
-		SceneSupport.show(new ToolTest());
+		SceneSupport.show(()->new ToolTest());
 	}
 
 }

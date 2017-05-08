@@ -1138,10 +1138,15 @@ public class Widget implements Lookup.Provider {
 	 *            if true, then the clipping is used
 	 */
 	public final void setCheckClipping(boolean checkClipping) {
-		System.err.println(toString() + ":Clipping not support yet");
+		if(warnClippingNotSupport)
+		{
+			warnClippingNotSupport = false;
+		System.err.println("Clipping not support yet,see issue at https://github.com/theanuradha/visual-library-fx/issues/1");
+		}
 		// this.checkClipping = checkClipping;
 		// repaint ();
 	}
+	boolean warnClippingNotSupport = true;
 
 	/**
 	 * Returns a mouse cursor for a specified local location in the widget.
