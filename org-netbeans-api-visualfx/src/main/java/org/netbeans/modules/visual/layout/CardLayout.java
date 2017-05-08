@@ -63,7 +63,7 @@ public final class CardLayout implements Layout {
 	public CardLayout(Widget cardLayoutWidget) {
 		assert cardLayoutWidget != null;
 		this.cardLayoutWidget = cardLayoutWidget;
-		cardLayoutWidget.setCheckClipping(true);
+		cardLayoutWidget._setCheckClippingInternal(true);
 	}
 
 	public Widget getActiveChildWidget() {

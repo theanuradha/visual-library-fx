@@ -1146,6 +1146,11 @@ public class Widget implements Lookup.Provider {
 		// this.checkClipping = checkClipping;
 		// repaint ();
 	}
+	
+	public final void _setCheckClippingInternal(boolean checkClipping) { 
+		 this.checkClipping = checkClipping;
+				 repaint ();
+	}
 	static AtomicBoolean  warnClippingNotSupport = new AtomicBoolean(true);
 
 	/**
