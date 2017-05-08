@@ -54,6 +54,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jfree.fx.FXGraphics2D;
+import org.jfree.fx.FXHints;
 import org.netbeans.api.visual.action.WidgetAction;
 
 import javafx.geometry.Bounds;
@@ -263,9 +264,11 @@ public final class SceneNode extends Canvas {
 		
 		Graphics2D gr = g2;
 		Object props = Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints"); // NOI18N
+	
 		if (props instanceof Map) {
 			gr.addRenderingHints((Map) props);
 		}
+		gr.setRenderingHint(FXHints.KEY_USE_FX_FONT_METRICS, true);
 		gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		scene.setGraphics(gr);
