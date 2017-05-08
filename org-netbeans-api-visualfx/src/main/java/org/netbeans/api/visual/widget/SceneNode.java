@@ -58,8 +58,10 @@ import org.netbeans.api.visual.action.WidgetAction;
 
 import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -639,16 +641,28 @@ public final class SceneNode extends Canvas {
 	}
 
 	public void scrollRectToVisible(Rectangle rectangle) {
-		throw new UnsupportedOperationException("Not supported yet."); // To
-																		// change
-																		// body
-																		// of
-																		// generated
-																		// methods,
-																		// choose
-																		// Tools
-																		// |
-																		// Templates.
+		
+		ScrollPane scrollPane = findScrollPane(canvas);
+		if(scrollPane!=null)
+		{
+			// scrolling values range from 0 to 1
+	        scrollPane.setVvalue(rectangle.y/rectangle.height);
+	        scrollPane.setHvalue(rectangle.x/rectangle.width);
+		}
+	}
+	
+	
+	private javafx.scene.control.ScrollPane findScrollPane(Node component) {
+		for (;;) {
+			if (component == null)
+				return null;
+			if (component instanceof javafx.scene.control.ScrollPane)
+				return ((javafx.scene.control.ScrollPane) component);
+			Node parent = component.getParent();
+			if (!(parent instanceof Node))
+				return null;
+			component = (Node) parent;
+		}
 	}
 
 	public Rectangle getVisibleRect() {
