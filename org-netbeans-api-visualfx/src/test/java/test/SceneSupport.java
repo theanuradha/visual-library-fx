@@ -84,12 +84,20 @@ public class SceneSupport extends javafx.application.Application {
 		scrollPane.setStyle("-fx-focus-color: transparent;");
 		BorderPane pane = new BorderPane(scrollPane);
 		scrollPane.widthProperty().addListener(e->{
-		    sceneView.setWidth(scrollPane.getWidth());
-		    sceneView.draw();
+		   
+		    Platform.runLater(()->{
+		    	 sceneView.setWidth(scrollPane.getWidth());
+				    sceneView.draw();
+				
+			});
 		});
 		scrollPane.heightProperty().addListener(e->{
-		    sceneView.setHeight(scrollPane.getHeight());
-		    sceneView.draw();
+			Platform.runLater(()->{
+				sceneView.setHeight(scrollPane.getHeight());
+			    sceneView.draw();
+				
+			});
+		    
 		});
 		
 		javafx.scene.Scene scene = new javafx.scene.Scene(pane, 1000, 1000);

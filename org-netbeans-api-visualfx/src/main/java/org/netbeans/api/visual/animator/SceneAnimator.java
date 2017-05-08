@@ -319,32 +319,32 @@ public final class SceneAnimator {
 				}
 			}
 
-			FutureTask<Boolean> task = new FutureTask<>(new Runnable() {
-				@Override
-				public void run() {
-					for (final Map.Entry<Animator, Double> entry : cache.entrySet())
-						entry.getKey().performTick(entry.getValue());
-					scene.validate();
-				}
-			}, true);
+			
 
-			Platform.runLater(task);
-
-			try {
-				task.get(); // wait for completition, blocking the thread if
-							// needed
-			} catch (InterruptedException e) {
-				ErrorManager.getDefault().notify(e);
-			} catch (ExecutionException ex) {
-				ErrorManager.getDefault().notify(ex);
-			}
-
+			for (final Map.Entry<Animator, Double> entry : cache.entrySet())
+				entry.getKey().performTick(entry.getValue());
+			Platform.runLater(()->{
+				
+			scene.validate();
 			synchronized (animators) {
 				cache = null;
 				taskAlive = animators.size() > 0;
 				if (taskAlive)
 					RP.post(task, SLEEP);
 			}
+			
+			});
+//
+//			try {
+//				task.get(); // wait for completition, blocking the thread if
+//							// needed
+//			} catch (InterruptedException e) {
+//				ErrorManager.getDefault().notify(e);
+//			} catch (ExecutionException ex) {
+//				ErrorManager.getDefault().notify(ex);
+//			}
+
+			
 		}
 
 	}
