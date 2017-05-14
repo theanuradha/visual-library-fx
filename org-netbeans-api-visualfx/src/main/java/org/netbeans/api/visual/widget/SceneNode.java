@@ -180,17 +180,21 @@ public final class SceneNode extends Canvas {
 
 			e.consume();
 		});
-		canvas.setOnDragDropped(e -> {
-
-			WidgetAction.State state = processLocationOperator(Operator.DROP_ACTION_CHANGED,
-					new WidgetAction.WidgetDropTargetDragEvent(++eventIDcounter, e));
-
-			if (!state.isConsumed()) {
-				e.acceptTransferModes(TransferMode.NONE);
-			}
-
-			e.consume();
-		});
+//		canvas.setOnZoom(e->{
+//			System.out.println(e.getTotalZoomFactor());
+//			
+//		});
+//		canvas.setOnDragDetected(value);(e -> {
+//
+//			WidgetAction.State state = processLocationOperator(Operator.DROP_ACTION_CHANGED,
+//					new WidgetAction.WidgetDropTargetDragEvent(++eventIDcounter, e));
+//
+//			if (!state.isConsumed()) {
+//				e.acceptTransferModes(TransferMode.NONE);
+//			}
+//
+//			e.consume();
+//		});
 
 		canvas.setOnDragOver(e -> {
 
@@ -211,7 +215,7 @@ public final class SceneNode extends Canvas {
 
 		});
 
-		canvas.setOnDragDone(e -> {
+		canvas.setOnDragDropped(e -> {
 
 			WidgetAction.State state = processLocationOperator(Operator.DROP,
 					new WidgetAction.WidgetDropTargetDropEvent(++eventIDcounter, e));

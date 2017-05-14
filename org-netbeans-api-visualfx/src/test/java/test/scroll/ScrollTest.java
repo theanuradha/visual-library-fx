@@ -47,6 +47,7 @@ public class ScrollTest extends Scene {
 		addChild(layer);
 
 		ScrollWidget scroll = new ScrollWidget(this);
+		
 		scroll.setBorder(BorderFactory.createResizeBorder(8, Color.BLUE, false));
 		scroll.setPreferredLocation(new Point(50, 50));
 		scroll.setMinimumSize(new Dimension(100, 200));

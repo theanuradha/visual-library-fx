@@ -82,7 +82,7 @@ public class SceneSupport extends javafx.application.Application {
 		scrollPane.setFitToWidth(true);
 		scrollPane.setFitToHeight(true);
 		scrollPane.setStyle("-fx-focus-color: transparent;");
-		BorderPane pane = new BorderPane(scrollPane);
+		
 		scrollPane.widthProperty().addListener(e->{
 		   
 		    Platform.runLater(()->{
@@ -99,7 +99,7 @@ public class SceneSupport extends javafx.application.Application {
 			});
 		    
 		});
-		
+		BorderPane pane = new BorderPane(scrollPane);
 		javafx.scene.Scene scene = new javafx.scene.Scene(pane, 1000, 1000);
 		
 		
