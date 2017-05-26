@@ -1143,8 +1143,8 @@ public class Widget implements Lookup.Provider {
 		{
 		System.err.println("Clipping not support yet,see issue at https://github.com/theanuradha/visual-library-fx/issues/1");
 		}
-		// this.checkClipping = checkClipping;
-		// repaint ();
+		 this.checkClipping = checkClipping;
+		 repaint ();
 	}
 	
 	public final void _setCheckClippingInternal(boolean checkClipping) { 
@@ -1567,9 +1567,10 @@ public class Widget implements Lookup.Provider {
 			paintBorder();
 
 			if (checkClipping) {
-				Insets insets = border.getInsets();
-				gr.clipRect(bounds.x + insets.left, bounds.y + insets.top, bounds.width - insets.left - insets.right,
-						bounds.height - insets.top - insets.bottom);
+			    
+//				Insets insets = border.getInsets();
+//				gr.clipRect(bounds.x + insets.left, bounds.y + insets.top, bounds.width - insets.left - insets.right,
+//						bounds.height - insets.top - insets.bottom);
 			}
 
 			paintWidget();
