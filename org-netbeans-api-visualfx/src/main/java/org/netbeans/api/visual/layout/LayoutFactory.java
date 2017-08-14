@@ -48,6 +48,7 @@ import org.netbeans.api.visual.graph.GraphScene;
 import org.netbeans.api.visual.graph.layout.GraphLayout;
 import org.netbeans.api.visual.widget.Widget;
 import org.netbeans.modules.visual.layout.AbsoluteLayout;
+import org.netbeans.modules.visual.layout.BorderLayout;
 import org.netbeans.modules.visual.layout.CardLayout;
 import org.netbeans.modules.visual.layout.DevolveWidgetLayout;
 import org.netbeans.modules.visual.layout.FlowLayout;
@@ -65,8 +66,8 @@ public final class LayoutFactory {
 	private static final OverlayLayout LAYOUT_OVERLAY = new OverlayLayout();
 
 	/**
-	 * Alignment of children widgets within a calculated widget used by
-	 * FlowLayout (vertical and horizontal flow layout).
+	 * Alignment of children widgets within a calculated widget used by FlowLayout
+	 * (vertical and horizontal flow layout).
 	 */
 	public static enum SerialAlignment {
 
@@ -74,8 +75,8 @@ public final class LayoutFactory {
 	}
 
 	/**
-	 * Alignment of children widgets within a calculated connection widgets used
-	 * by default layout used in a connection widget.
+	 * Alignment of children widgets within a calculated connection widgets used by
+	 * default layout used in a connection widget.
 	 */
 	public enum ConnectionWidgetLayoutAlignment {
 
@@ -96,11 +97,11 @@ public final class LayoutFactory {
 	}
 
 	/**
-	 * Creates a vertical flow layout with default style where widgets are
-	 * placed vertically one to the bottom from another. The instance can be
-	 * shared by multiple widgets. If child widget constraint is an Number
-	 * value, then its integer value is takes as a weight in which the remaining
-	 * height of the parent widget is split.
+	 * Creates a vertical flow layout with default style where widgets are placed
+	 * vertically one to the bottom from another. The instance can be shared by
+	 * multiple widgets. If child widget constraint is an Number value, then its
+	 * integer value is takes as a weight in which the remaining height of the
+	 * parent widget is split.
 	 * 
 	 * @return the vertical flow layout
 	 * @deprecated use createVerticalFlowLayout method instead
@@ -112,11 +113,11 @@ public final class LayoutFactory {
 	}
 
 	/**
-	 * Creates a vertical flow layout with a specific style where widgets are
-	 * placed vertically one to the bottom from another. The instance can be
-	 * shared by multiple widgets. If child widget constraint is an Number
-	 * value, then its integer value is takes as a weight in which the remaining
-	 * height of the parent widget is split.
+	 * Creates a vertical flow layout with a specific style where widgets are placed
+	 * vertically one to the bottom from another. The instance can be shared by
+	 * multiple widgets. If child widget constraint is an Number value, then its
+	 * integer value is takes as a weight in which the remaining height of the
+	 * parent widget is split.
 	 * 
 	 * @param alignment
 	 *            the alignment
@@ -132,11 +133,11 @@ public final class LayoutFactory {
 	}
 
 	/**
-	 * Creates a vertical flow layout with default style where widgets are
-	 * placed vertically one to the bottom from another. The instance can be
-	 * shared by multiple widgets. If child widget constraint is an Number
-	 * value, then its integer value is takes as a weight in which the remaining
-	 * height of the parent widget is split.
+	 * Creates a vertical flow layout with default style where widgets are placed
+	 * vertically one to the bottom from another. The instance can be shared by
+	 * multiple widgets. If child widget constraint is an Number value, then its
+	 * integer value is takes as a weight in which the remaining height of the
+	 * parent widget is split.
 	 * 
 	 * @return the vertical flow layout
 	 */
@@ -145,11 +146,11 @@ public final class LayoutFactory {
 	}
 
 	/**
-	 * Creates a vertical flow layout with a specific style where widgets are
-	 * placed vertically one to the bottom from another. The instance can be
-	 * shared by multiple widgets. If child widget constraint is an Number
-	 * value, then its integer value is takes as a weight in which the remaining
-	 * height of the parent widget is split.
+	 * Creates a vertical flow layout with a specific style where widgets are placed
+	 * vertically one to the bottom from another. The instance can be shared by
+	 * multiple widgets. If child widget constraint is an Number value, then its
+	 * integer value is takes as a weight in which the remaining height of the
+	 * parent widget is split.
 	 * 
 	 * @param alignment
 	 *            the alignment
@@ -162,11 +163,26 @@ public final class LayoutFactory {
 	}
 
 	/**
-	 * Creates a horizontal flow layout with default style where widgets are
-	 * placed horizontally one to the right from another. The instance can be
-	 * shared by multiple widgets. If child widget constraint is an Number
-	 * value, then its integer value is takes as a weight in which the remaining
-	 * width of the parent widget is split.
+	 * Creates a border layout with a specific style where widgets are placed A
+	 * border layout lays out a container, arranging and resizing its components to
+	 * fit in five regions: east, west, and center. Each region may contain no more
+	 * than one component, and is identified by a corresponding constant:
+	 * <code>EAST</code>, <code>WEST</code>, and <code>CENTER</code>. When adding a
+	 * component to a container with a border layout, use one of these five
+	 * constants
+	 * 
+	 * @return the border layout
+	 */
+	public static Layout createBorderLayout() {
+		return new BorderLayout();
+	}
+
+	/**
+	 * Creates a horizontal flow layout with default style where widgets are placed
+	 * horizontally one to the right from another. The instance can be shared by
+	 * multiple widgets. If child widget constraint is an Number value, then its
+	 * integer value is takes as a weight in which the remaining width of the parent
+	 * widget is split.
 	 * 
 	 * @return the horizontal flow layout
 	 * @deprecated use createHorizontalFlowLayout method instead
@@ -179,18 +195,17 @@ public final class LayoutFactory {
 
 	/**
 	 * Creates a horizontal flow layout with a specific style where widgets are
-	 * placed horizontally one to the right from another. The instance can be
-	 * shared by multiple widgets. If child widget constraint is an Number
-	 * value, then its integer value is takes as a weight in which the remaining
-	 * width of the parent widget is split.
+	 * placed horizontally one to the right from another. The instance can be shared
+	 * by multiple widgets. If child widget constraint is an Number value, then its
+	 * integer value is takes as a weight in which the remaining width of the parent
+	 * widget is split.
 	 * 
 	 * @param alignment
 	 *            the alignment
 	 * @param gap
 	 *            the gap between widgets
 	 * @return the horizontal flow layout
-	 * @deprecated use createHorizontalFlowLayout (alignment, gap) method
-	 *             instead
+	 * @deprecated use createHorizontalFlowLayout (alignment, gap) method instead
 	 */
 	public static Layout createHorizontalLayout(SerialAlignment alignment, int gap) {
 		GeomUtil.LOG.warning(
@@ -199,11 +214,11 @@ public final class LayoutFactory {
 	}
 
 	/**
-	 * Creates a horizontal flow layout with default style where widgets are
-	 * placed horizontally one to the right from another. The instance can be
-	 * shared by multiple widgets. If child widget constraint is an Number
-	 * value, then its integer value is takes as a weight in which the remaining
-	 * width of the parent widget is split.
+	 * Creates a horizontal flow layout with default style where widgets are placed
+	 * horizontally one to the right from another. The instance can be shared by
+	 * multiple widgets. If child widget constraint is an Number value, then its
+	 * integer value is takes as a weight in which the remaining width of the parent
+	 * widget is split.
 	 * 
 	 * @return the horizontal flow layout
 	 */
@@ -213,10 +228,10 @@ public final class LayoutFactory {
 
 	/**
 	 * Creates a horizontal flow layout with a specific style where widgets are
-	 * placed horizontally one to the right from another. The instance can be
-	 * shared by multiple widgets. If child widget constraint is an Number
-	 * value, then its integer value is takes as a weight in which the remaining
-	 * width of the parent widget is split.
+	 * placed horizontally one to the right from another. The instance can be shared
+	 * by multiple widgets. If child widget constraint is an Number value, then its
+	 * integer value is takes as a weight in which the remaining width of the parent
+	 * widget is split.
 	 * 
 	 * @param alignment
 	 *            the alignment
@@ -229,10 +244,10 @@ public final class LayoutFactory {
 	}
 
 	/**
-	 * Creates a card layout where all children widgets except the active one
-	 * are hidden. The active one is the only shown. The active widget could be
-	 * managed using LayoutFactory.getActiveCard and LayoutFactory.setActiveCard
-	 * methods. The instance cannot be shared.
+	 * Creates a card layout where all children widgets except the active one are
+	 * hidden. The active one is the only shown. The active widget could be managed
+	 * using LayoutFactory.getActiveCard and LayoutFactory.setActiveCard methods.
+	 * The instance cannot be shared.
 	 * 
 	 * @param cardLayoutWidget
 	 *            the widget where the card layout is going to be used
@@ -284,10 +299,9 @@ public final class LayoutFactory {
 	}
 
 	/**
-	 * Returns a overlay layout where all children widgets has the boundary at
-	 * the biggest one of them or they are expanded to the parent widget
-	 * boundaries during justification. The instance can be shared by multiple
-	 * widgets.
+	 * Returns a overlay layout where all children widgets has the boundary at the
+	 * biggest one of them or they are expanded to the parent widget boundaries
+	 * during justification. The instance can be shared by multiple widgets.
 	 * 
 	 * @return the overlay layout
 	 */
@@ -312,8 +326,8 @@ public final class LayoutFactory {
 	}
 
 	/**
-	 * Creates a scene layout which performs a specified graph-oriented layout
-	 * on a specified GraphScene.
+	 * Creates a scene layout which performs a specified graph-oriented layout on a
+	 * specified GraphScene.
 	 * 
 	 * @param graphScene
 	 *            the graph scene
@@ -332,8 +346,8 @@ public final class LayoutFactory {
 	}
 
 	/**
-	 * Creates a scene layout which performs a specified graph-oriented layout
-	 * on a specified GraphPinScene.
+	 * Creates a scene layout which performs a specified graph-oriented layout on a
+	 * specified GraphPinScene.
 	 * 
 	 * @param graphPinScene
 	 *            the graph pin scene

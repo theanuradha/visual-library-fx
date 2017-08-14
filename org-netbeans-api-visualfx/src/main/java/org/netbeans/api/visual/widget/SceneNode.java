@@ -97,6 +97,8 @@ public final class SceneNode extends Canvas {
 			processLocationOperator(Operator.MOUSE_RELEASED, new WidgetAction.WidgetMouseEvent(++eventIDcounter, e));
 
 		});
+		
+		
 		canvas.setOnMouseMoved(e -> {
 			MouseContext context = new MouseContext();
 			Point point = scene.convertViewToScene(new Point((int) e.getX(), (int) e.getY()));

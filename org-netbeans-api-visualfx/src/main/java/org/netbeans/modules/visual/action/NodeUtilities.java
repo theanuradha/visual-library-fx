@@ -9,6 +9,7 @@ import java.awt.Point;
 
 import org.netbeans.api.visual.widget.SceneNode;
 
+import javafx.geometry.Point2D;
 import javafx.stage.Window;
 
 /**
@@ -21,14 +22,12 @@ class NodeUtilities {
 
 		// TODO: Dummy IMPL
 
-		int x, y;
-		final Window window = view.getScene().getWindow();
+		
+		Point2D localToScreen = view.localToScreen(p.x, p.y);
+		
 
-		x = (int) window.getX();
-		y = (int) window.getY();
-
-		p.x += x;
-		p.y += y;
+		p.x = (int) localToScreen.getX();
+		p.y = (int) localToScreen.getY();
 
 	}
 
