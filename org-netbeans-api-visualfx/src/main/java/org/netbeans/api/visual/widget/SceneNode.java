@@ -98,7 +98,7 @@ public final class SceneNode extends Canvas {
 			processLocationOperator(Operator.MOUSE_RELEASED, new WidgetAction.WidgetMouseEvent(++eventIDcounter, e));
 
 		});
-		
+		 
 		
 		canvas.setOnMouseMoved(e -> {
 			MouseContext context = new MouseContext();
