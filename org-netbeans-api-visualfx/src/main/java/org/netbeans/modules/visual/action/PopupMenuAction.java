@@ -45,6 +45,8 @@ package org.netbeans.modules.visual.action;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.lang.ref.WeakReference;
+import java.time.temporal.WeekFields;
 
 import javax.swing.JPopupMenu;
 
@@ -63,6 +65,15 @@ import javafx.scene.input.KeyCode;
 public final class PopupMenuAction extends WidgetAction.Adapter {
 
 	private PopupMenuProvider provider;
+	private static WeakReference<ContextMenu> reference = new WeakReference<ContextMenu>(null);
+	
+	public static void hide() {
+		ContextMenu contextMenu = reference.get();
+		if(contextMenu!=null)
+		{
+			contextMenu.hide();
+		}
+	}
 
 	public PopupMenuAction(PopupMenuProvider provider) {
 		this.provider = provider;
@@ -115,17 +126,22 @@ public final class PopupMenuAction extends WidgetAction.Adapter {
 	 * @see #mouseReleased(Widget, WidgetMouseEvent)
 	 */
 	protected State handleMouseEvent(Widget widget, WidgetMouseEvent event) {
+		hide();
 		// Different OSes use different MouseEvents (Pressed/Released) to
 		// signal that an event is a PopupTrigger. So, the mousePressed(...)
 		// and mouseReleased(...) methods delegate to this method to
 		// handle the MouseEvent.
 		if (event.isPopupTrigger()) {
+			
 			ContextMenu popupMenu = provider.getPopupMenu(widget, event.getPoint());
+			reference = new WeakReference<ContextMenu>(popupMenu);
 			if (popupMenu != null) {
 				Scene scene = widget.getScene();
 				Point point = scene.convertSceneToView(widget.convertLocalToScene(event.getPoint()));
 				NodeUtilities.convertPointToScreen(point, scene.getView());
+
 				popupMenu.show(scene.getView(), point.x, point.y);
+				
 			}
 			return State.CONSUMED;
 		}
@@ -133,8 +149,10 @@ public final class PopupMenuAction extends WidgetAction.Adapter {
 	}
 
 	public State keyPressed(Widget widget, WidgetKeyEvent event) {
+		hide();
 		if (event.getKeyCode() == KeyCode.CONTEXT_MENU || (event.isShiftDown() && event.getKeyCode() == KeyCode.F10)) {
 			ContextMenu popupMenu = provider.getPopupMenu(widget, null);
+			reference = new WeakReference<ContextMenu>(popupMenu);
 			if (popupMenu != null) {
 				Node view = widget.getScene().getView();
 				if (view != null) {

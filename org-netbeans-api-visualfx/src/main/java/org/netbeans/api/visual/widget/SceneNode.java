@@ -56,6 +56,7 @@ import java.util.Map;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.FXHints;
 import org.netbeans.api.visual.action.WidgetAction;
+import org.netbeans.modules.visual.action.PopupMenuAction;
 
 import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
@@ -107,9 +108,12 @@ public final class SceneNode extends Canvas {
 			processLocationOperator(Operator.MOUSE_MOVED, new WidgetAction.WidgetMouseEvent(++eventIDcounter, e));
 		});
 		canvas.setOnMouseClicked(e -> {
+			
 			processLocationOperator(Operator.MOUSE_CLICKED, new WidgetAction.WidgetMouseEvent(++eventIDcounter, e));
+			
 		});
 		canvas.setOnMousePressed(e -> {
+			PopupMenuAction.hide();
 			processLocationOperator(Operator.MOUSE_PRESSED, new WidgetAction.WidgetMouseEvent(++eventIDcounter, e));
 		});
 		canvas.setOnMouseEntered(e -> {
